@@ -44,13 +44,14 @@ public class bullet_controller : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            /*
-            Enemy enemy = other.GetComponent<Enemy>();
+            Enemy_Controller enemy = other.GetComponent<Enemy_Controller>();
             if (enemy != null)
             {
-                enemy.TakeDamage(damage);
-            }*/
-            Destroy(gameObject);
+                enemy.TakeDamage(damage); // Передаем урон и позицию попадания
+            }
+            Destroy(gameObject); // Убираем пулю из игры
         }
     }
+
+
 }
