@@ -5,14 +5,14 @@ using UnityEngine;
 public class bullet_controller : MonoBehaviour
 { 
      private float speed;
-    private int damage;
+    private float damage;
     private Vector3 direction;
     private float maxDistance; // Максимальная дистанция
     private Vector3 startPosition;
     private Vector3 targetPosition; // Конечная позиция пули
 
     // Инициализация пули
-   public void Initialize(float bulletSpeed, int bulletDamage, Vector3 shootDirection, float distance)
+   public void Initialize(float bulletSpeed, float bulletDamage, Vector3 shootDirection, float distance)
     {
         speed = bulletSpeed;
         damage = bulletDamage;
@@ -42,16 +42,17 @@ public class bullet_controller : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Проверяем, является ли объект врагом
         if (other.CompareTag("Enemy"))
         {
+            // Получаем компонент врага
             Enemy_Controller enemy = other.GetComponent<Enemy_Controller>();
             if (enemy != null)
             {
-                enemy.TakeDamage(damage); // Передаем урон и позицию попадания
+                // Наносим урон врагу
+                enemy.TakeDamage(damage);
             }
-            Destroy(gameObject); // Убираем пулю из игры
+            Destroy(gameObject); // Уничтожаем пулю после попадания
         }
     }
-
-
 }

@@ -80,7 +80,7 @@ public class Weapon_Controller : MonoBehaviour
 
         GameObject bullet = Instantiate(weaponConfig.bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
         bullet_controller bulletScript = bullet.GetComponent<bullet_controller>();
-        bulletScript.Initialize(weaponConfig.bulletSpeed, (int)weaponConfig.bulletDamage, direction, weaponConfig.bulletDistance);
+        bulletScript.Initialize(weaponConfig.bulletSpeed, weaponConfig.bulletDamage, direction, weaponConfig.bulletDistance);
 
         // Вылет гильзы
         EjectShell();
@@ -115,7 +115,7 @@ public class Weapon_Controller : MonoBehaviour
         isReloading = false;
     }
 
-    private void EjectShell() //Вылет гильз из точки
+   private void EjectShell() // Вылет гильз из точки
     {
         if (weaponConfig.shellPrefab != null && ejectPoint != null)
         {
@@ -124,13 +124,26 @@ public class Weapon_Controller : MonoBehaviour
 
             if (shellRb != null)
             {
-                Vector3 shellDirection = -firePoint.forward + Vector3.up * 0.5f;
-                shellRb.AddForce(shellDirection.normalized * weaponConfig.shellEjectForce, ForceMode.Impulse);
+                // Рассчитываем направление вылета вбок
+                Vector3 randomOffset = new Vector3(
+                    UnityEngine.Random.Range(-0.4f, 0.4f), // случайное смещение по X
+                    UnityEngine.Random.Range(0.5f, 0.10f), // случайное смещение по Y (немного вверх)
+                    UnityEngine.Random.Range(-0.2f, 0.2f)  // случайное смещение по Z
+                );
+
+                // Основное направление вбок
+                Vector3 shellDirection = (firePoint.right + randomOffset).normalized; // Используем firePoint.right для направления вбок
+
+                // Применяем силу к Rigidbody
+                shellRb.AddForce(shellDirection * weaponConfig.shellEjectForce, ForceMode.Impulse);
             }
 
             Destroy(shell, weaponConfig.shellLifeTime);
         }
     }
+
+
+
 
     
     public void AddAmmo(int amount)

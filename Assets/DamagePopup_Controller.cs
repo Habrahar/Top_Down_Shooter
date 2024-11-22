@@ -1,29 +1,24 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;  // Для использования UI Text
-
 
 public class DamagePopup_Controller : MonoBehaviour
 {
-   public float moveSpeed = 1f;  // Скорость движения текста
-    public float lifeTime = 1f;   // Время жизни попапа
-    private Text damageText;
+    public TextMeshPro damageText;
+    private float moveSpeed;
+    public float lifetime;
 
-    private void Start()
+    public void Setup(float damage, Vector3 position, float speed, float time)
     {
-        damageText = GetComponent<Text>();  // Получаем ссылку на компонент текста
-    }
+        moveSpeed = speed;
+        lifetime = time;
+        transform.position = position;
+        damageText.text = damage.ToString();
 
-    public void Initialize(int damageAmount, Vector3 spawnPosition)
-    {
-        damageText.text = damageAmount.ToString();  // Устанавливаем значение урона
-        transform.position = spawnPosition;  // Устанавливаем позицию начала движения
-        Destroy(gameObject, lifeTime);  // Уничтожаем попап через время жизни
+        Destroy(gameObject, lifetime);
     }
 
     private void Update()
     {
-        // Перемещаем попап вверх
-        transform.position += Vector3.up * moveSpeed * Time.deltaTime;
+        transform.Translate(Vector3.up * moveSpeed * Time.deltaTime);
     }
 }

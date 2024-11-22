@@ -19,8 +19,8 @@ MonoBehaviour:
   bulletSpeed: 15
   bulletDamage: 10
   bulletDistance: 10
-  shellEjectForce: 3
-  shellLifeTime: 3
+  shellEjectForce: 2
+  shellLifeTime: 2
   magazineSize: 30
   maxTotalAmmo: 90
   reloadTime: 2
