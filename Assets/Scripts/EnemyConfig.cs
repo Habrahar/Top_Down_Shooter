@@ -3,14 +3,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEnemyConfig", menuName = "Enemy/EnemyConfig")]
 public class EnemyConfig : ScriptableObject
 {
+    public GameObject enemyPrefab; // Добавляем ссылку на префаб врага
     public int baseHealth = 100;
+    public float damage = 2f; // Урон врага
     public float moveSpeed = 3f;
     public float detectionRadius = 10f; // Радиус обнаружения игрока
     public float attackRange = 2f; // Расстояние до игрока для атаки
-    public float healthMultiplier = 1f; // Множитель для здоровья
-    public float speedMultiplier = 1f; // Множитель для скорости
+    
 
     // Этот метод будет использоваться для вычисления окончательных характеристик
-    public int GetHealth() => Mathf.RoundToInt(baseHealth * healthMultiplier);
-    public float GetMoveSpeed() => moveSpeed * speedMultiplier;
+    public int GetHealth() => baseHealth;
+    public float GetMoveSpeed() => moveSpeed;
+    public float GetDamage() => damage;
 }

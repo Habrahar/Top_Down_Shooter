@@ -4,72 +4,30 @@ using System;
 
 public class Enemy_Controller : MonoBehaviour
 {
-    public EnemyConfig enemyConfig; // Ссылка на конфиг врага
-    private float currentHealth;
-    private float maxHealth;
-    private Transform playerTransform; // Ссылка на игрока
+    private float currentHealth = 1f;
+    private float maxHealth = 1f;
+    private float damage = 1f;
+    private float speed = 1f;
+    
     private Transform damagePoint;
-    private bool isPlayerInSight = false; // Флаг, что игрок в зоне видимости
-    private NavMeshAgent agent; // Для движения врага
+    
+    
     public static event Action<float, Vector3> OnDamageTaken;
+    public static event Action OnDeath;
 
     [SerializeField]
     public EnemyHealthBar _hpBar;
 
+    [SerializeField]
+    public EnemyNavigation _navigation;
+
+    [SerializeField]
+    public EnemyParameters _parameters;
+
+
+    private void Start(){
     
-
-
-    private void Start()
-    {
-        
-        // Получаем ссылку на игрока
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-
-        //Точка спавна урона
-        damagePoint = gameObject.transform.Find("DamagePoint");
-        
-        // Настройка характеристик врага из конфигурации
-        currentHealth = enemyConfig.GetHealth();
-
-        maxHealth = currentHealth;
-
-        //передаем значение ХП в слайдер
-        _hpBar.UpdateHealthBar(currentHealth, maxHealth);
-
-        // Инициализация NavMeshAgent для движения врага
-        agent = GetComponent<NavMeshAgent>();
-        agent.speed = enemyConfig.GetMoveSpeed();
-    }
-
-    private void Update()
-    {
-        // Проверка радиуса обнаружения
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
-        if (distanceToPlayer <= enemyConfig.detectionRadius)
-        {
-            isPlayerInSight = true;
-            MoveTowardsPlayer();
-        }
-        else
-        {
-            isPlayerInSight = false;
-        }
-
-        // Если игрок в радиусе атаки, можно добавить логику для атаки
-        if (distanceToPlayer <= enemyConfig.attackRange)
-        {
-            // Добавьте логику для атаки (удар или стрельба и т.д.)
-        }
-    }
-
-    // Двигаемся в сторону игрока
-    private void MoveTowardsPlayer()
-    {
-        if (isPlayerInSight)
-        {
-            agent.SetDestination(playerTransform.position);
-        }
-    }
+    }   
 
     public void TakeDamage(float damage)
     {
@@ -83,10 +41,40 @@ public class Enemy_Controller : MonoBehaviour
             Die();
         }
     }
+
+    // В классе Enemy_Controller
     
-    
+
+
+    public void SetParameters(EnemyConfig enemyConfig, float healthMul, float damageMul)
+    {
+        if (enemyConfig == null)
+        {
+            Debug.LogError("EnemyConfig is null! Please check the configuration.");
+            return;
+        }
+
+        // Настройка характеристик врага из конфигурации
+        // agent.speed = enemyConfig.GetMoveSpeed(); Добавить потом передачу скорости или сделать дефолтную
+
+        currentHealth = enemyConfig.GetHealth();
+        damage = enemyConfig.GetDamage();
+        _navigation.SetNavigation();
+
+        // Умножаем здоровье и урон на множители
+        maxHealth = currentHealth * healthMul;
+        currentHealth = maxHealth;  // Устанавливаем текущее здоровье
+        damage *= damageMul;
+
+        // Выводим информацию о параметрах врага
+        Debug.Log($"Enemy initialized with Health: {currentHealth}, Damage: {damage}");
+    }
+
+
     private void Die()
     {
+        // Когда враг умирает, вызываем событие OnDeath
+        OnDeath?.Invoke();
         Destroy(gameObject); // Уничтожаем врага
     }
 }
