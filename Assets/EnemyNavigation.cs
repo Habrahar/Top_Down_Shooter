@@ -1,50 +1,26 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.AI;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyNavigation : MonoBehaviour
 {
-    private bool isPlayerInSight = false; // Флаг, что игрок в зоне видимости
     private Transform playerTransform; // Ссылка на игрока
-    private NavMeshAgent agent; // Для движения врага
-    
-    private float speed = 1f;
-
+    private NavMeshAgent agent;        // Для движения врага
     private bool setNav = false;
 
-    // Update is called once per frame
-    public void Update()
+    private void Update()
     {
-        if(setNav == true)
+        if (setNav && playerTransform != null)
         {
-            // Проверка радиуса обнаружения
             float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
-            if (distanceToPlayer <= agent.stoppingDistance)
+            if (distanceToPlayer > agent.stoppingDistance)
             {
-                isPlayerInSight = true;
-                MoveTowardsPlayer();
-                
+                agent.SetDestination(playerTransform.position);
             }
             else
             {
-                isPlayerInSight = false;
+                agent.ResetPath();
             }
-
-            // Если игрок в радиусе атаки, можно добавить логику для атаки
-            if (distanceToPlayer <= agent.stoppingDistance)
-            {
-                // Добавьте логику для атаки (удар или стрельба и т.д.)
-            }
-        }
-        
-    }
-
-    private void MoveTowardsPlayer()
-    {
-        if (isPlayerInSight)
-        {
-            agent.SetDestination(playerTransform.position);
         }
     }
 
@@ -56,16 +32,17 @@ public class EnemyNavigation : MonoBehaviour
             if (playerTransform == null)
             {
                 Debug.LogError("Игрок не найден! Объект не может двигаться.");
-                return; // Выход из метода, если игрок не найден
+                return; 
             }
         }
 
-        // Инициализация NavMeshAgent для движения врага
-        agent = GetComponent<NavMeshAgent>(); 
+        agent = GetComponent<NavMeshAgent>();
         if (agent == null)
         {
             Debug.LogError("NavMeshAgent не найден на враге.");
+            return;
         }
+
         setNav = true;
     }
 }

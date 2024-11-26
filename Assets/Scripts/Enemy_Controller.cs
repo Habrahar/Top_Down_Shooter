@@ -56,6 +56,7 @@ public class Enemy_Controller : MonoBehaviour
 
         // Настройка характеристик врага из конфигурации
         // agent.speed = enemyConfig.GetMoveSpeed(); Добавить потом передачу скорости или сделать дефолтную
+        damagePoint = transform.Find("DamagePoint");
 
         currentHealth = enemyConfig.GetHealth();
         damage = enemyConfig.GetDamage();
