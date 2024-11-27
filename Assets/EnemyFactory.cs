@@ -6,8 +6,7 @@ public class EnemyFactory
     public static GameObject CreateEnemy(
         EnemyConfig enemyConfig,
         Vector3 spawnPoint,
-        float healthMultiplier,
-        float damageMultiplier)
+        EnemyWaveConfig currentWave)
     {
         if (enemyConfig == null || enemyConfig.enemyPrefab == null)
         {
@@ -22,8 +21,7 @@ public class EnemyFactory
         Enemy_Controller enemyController = enemy.GetComponent<Enemy_Controller>();
         if (enemyController != null)
         {
-            enemyController.SetParameters(enemyConfig, healthMultiplier, damageMultiplier);
-            //enemyController.SetComponents(); Сделать инициализацию движения
+            enemyController.SetParameters(enemyConfig, currentWave);
         }
         else
         {

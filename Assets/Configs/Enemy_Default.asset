@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 962923297037291449, guid: cb808daa9a8aa704aae2f788c4238fcd, type: 3}
   baseHealth: 500
+  damage: 2
   moveSpeed: 3
-  detectionRadius: 10
   attackRange: 2
-  healthMultiplier: 1
-  speedMultiplier: 1

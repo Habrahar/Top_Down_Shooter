@@ -59,8 +59,7 @@ private IEnumerator SpawnEnemies(EnemyWaveConfig currentWave)
         GameObject enemy = EnemyFactory.CreateEnemy(
             currentWave.enemyConfig,
             spawnPoint,
-            currentWave.healthMultiplier,
-            currentWave.damageMultiplier);
+            currentWave);
 
         if (enemy == null)
         {

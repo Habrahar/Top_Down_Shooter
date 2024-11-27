@@ -7,7 +7,6 @@ public class EnemyConfig : ScriptableObject
     public int baseHealth = 100;
     public float damage = 2f; // Урон врага
     public float moveSpeed = 3f;
-    public float detectionRadius = 10f; // Радиус обнаружения игрока
     public float attackRange = 2f; // Расстояние до игрока для атаки
     
 
@@ -15,4 +14,5 @@ public class EnemyConfig : ScriptableObject
     public int GetHealth() => baseHealth;
     public float GetMoveSpeed() => moveSpeed;
     public float GetDamage() => damage;
+    public float GetAttackRange() => attackRange;
 }

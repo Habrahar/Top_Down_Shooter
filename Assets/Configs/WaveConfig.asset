@@ -17,4 +17,4 @@ MonoBehaviour:
     enemyCount: 10
     healthMultiplier: 5
     damageMultiplier: 4
-    spawnPoint: {x: 2, y: 0, z: 0}
+    spawnPoint: {x: 4.11, y: 0, z: 0}

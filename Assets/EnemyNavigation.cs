@@ -24,7 +24,7 @@ public class EnemyNavigation : MonoBehaviour
         }
     }
 
-    public void SetNavigation()
+    public void SetNavigation(EnemyConfig enemyConfig)
     {
         if (playerTransform == null)
         {
@@ -42,7 +42,8 @@ public class EnemyNavigation : MonoBehaviour
             Debug.LogError("NavMeshAgent не найден на враге.");
             return;
         }
-
+        agent.speed = enemyConfig.GetMoveSpeed();
+        agent.stoppingDistance = enemyConfig.GetAttackRange();
         setNav = true;
     }
 }

@@ -21,14 +21,6 @@ public class Enemy_Controller : MonoBehaviour
     [SerializeField]
     public EnemyNavigation _navigation;
 
-    [SerializeField]
-    public EnemyParameters _parameters;
-
-
-    private void Start(){
-    
-    }   
-
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
@@ -42,11 +34,7 @@ public class Enemy_Controller : MonoBehaviour
         }
     }
 
-    // В классе Enemy_Controller
-    
-
-
-    public void SetParameters(EnemyConfig enemyConfig, float healthMul, float damageMul)
+    public void SetParameters(EnemyConfig enemyConfig, EnemyWaveConfig currentWave)
     {
         if (enemyConfig == null)
         {
@@ -54,23 +42,20 @@ public class Enemy_Controller : MonoBehaviour
             return;
         }
 
-        // Настройка характеристик врага из конфигурации
-        // agent.speed = enemyConfig.GetMoveSpeed(); Добавить потом передачу скорости или сделать дефолтную
-        damagePoint = transform.Find("DamagePoint");
+        damagePoint = transform.Find("DamagePoint");        
 
-        currentHealth = enemyConfig.GetHealth();
+        maxHealth = enemyConfig.GetHealth();
         damage = enemyConfig.GetDamage();
-        _navigation.SetNavigation();
+        _navigation.SetNavigation(enemyConfig);
 
         // Умножаем здоровье и урон на множители
-        maxHealth = currentHealth * healthMul;
+        maxHealth *= currentWave.healthMultiplier;
         currentHealth = maxHealth;  // Устанавливаем текущее здоровье
-        damage *= damageMul;
+        damage *= currentWave.damageMultiplier;
 
         // Выводим информацию о параметрах врага
         Debug.Log($"Enemy initialized with Health: {currentHealth}, Damage: {damage}");
     }
-
 
     private void Die()
     {
