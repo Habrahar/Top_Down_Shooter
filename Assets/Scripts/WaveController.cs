@@ -8,12 +8,14 @@ public class WaveController : MonoBehaviour
     public static event Action RoundComplete;
     public WaveConfig waveConfig; // Ссылка на конфиг волн
     private int enemiesRemainingInWave; // Сколько врагов осталось в текущей волне
+    public GameObject[] spawnPoint; // Точка спауна врагов
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            
         }
         else
         {
@@ -48,33 +50,37 @@ public class WaveController : MonoBehaviour
 
     // Корутин для спавна врагов
     // В методе SpawnEnemies
-private IEnumerator SpawnEnemies(EnemyWaveConfig currentWave)
-{
-    for (int i = 0; i < currentWave.enemyCount; i++)
+    private IEnumerator SpawnEnemies(EnemyWaveConfig currentWave)
     {
-        // Получаем точку спауна
-        Vector3 spawnPoint = currentWave.spawnPoint;
-
-        // Используем фабрику для создания врага
-        GameObject enemy = EnemyFactory.CreateEnemy(
-            currentWave.enemyConfig,
-            spawnPoint,
-            currentWave);
-
-        if (enemy == null)
+        System.Random myRandom = new System.Random();
+        
+        for (int i = 0; i < currentWave.enemyCount; i++)
         {
-            Debug.LogError("Enemy creation failed. Skipping...");
+            Vector3 spawnPoint = Instance.spawnPoint[0].transform.position;
+            
+            if (Instance.spawnPoint.Length > 1)
+            {
+                int randomInt = UnityEngine.Random.Range(1, Instance.spawnPoint.Length);
+                spawnPoint = Instance.spawnPoint[randomInt].transform.position;
+            }
+
+            // Используем фабрику для создания врага
+            GameObject enemy = EnemyFactory.CreateEnemy(
+                currentWave.enemyConfig,
+                spawnPoint,
+                currentWave);
+
+            if (enemy == null)
+            {
+                Debug.LogError("Enemy creation failed. Skipping...");
+            }
+
+            // Ждём перед созданием следующего врага
+            yield return new WaitForSeconds(1f);
         }
-
-        // Ждём перед созданием следующего врага
-        yield return new WaitForSeconds(1f);
     }
-}
-
-
-
-
-
+    
+    
 
     // Когда враг умирает, уменьшаем количество оставшихся врагов
     private void OnEnemyDeath()

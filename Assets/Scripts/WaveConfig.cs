@@ -7,7 +7,7 @@ public class EnemyWaveConfig
     public int enemyCount;
     public float healthMultiplier;
     public float damageMultiplier;
-    public Vector3 spawnPoint; // Точка спауна врагов
+    
 }
 
 

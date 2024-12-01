@@ -9,13 +9,9 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
         if (player == null) return;
-
-        // Целевая позиция камеры
+        
         Vector3 targetPosition = player.position + offset;
-
-        // Плавное перемещение камеры
+        
         transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed * Time.deltaTime);
-
-        // Камера не поворачивается за игроком (сохраняет текущую ориентацию)
     }
 }

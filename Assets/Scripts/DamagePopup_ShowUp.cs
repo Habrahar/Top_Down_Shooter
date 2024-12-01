@@ -9,7 +9,12 @@ public class DamagePopup_ShowUp : MonoBehaviour
     public GameObject DamagePopUp_Prefab;
     public float moveSpeed = 1f;
     public float lifetime = 1f;
+    public float arcAngle = 60f;            // Ширина дуги
+    public float initialVerticalSpeed = 2f; // Начальная вертикальная скорость
+    public float gravityForce = 5f;         // Сила гравитации
     private Transform damagePoint;
+    public float fadeDelay = 0.5f;          // Задержка перед началом фейда 
+
 
 
     private void OnEnable()
@@ -19,16 +24,17 @@ public class DamagePopup_ShowUp : MonoBehaviour
 
     private void OnDisable()
     {
-
         Enemy_Controller.OnDamageTaken -= Spawn;
     }   
 
     public void Spawn(float damage, Vector3 position)
     {
+
         Instantiate(DamagePopUp_Prefab, position, Quaternion.identity)
             .GetComponent<DamagePopup_Controller>()
-            .Setup(damage, position, moveSpeed, lifetime);
+            .Setup(damage, position, moveSpeed, lifetime, arcAngle, initialVerticalSpeed, gravityForce, fadeDelay);
     }
+
 
    
 }
