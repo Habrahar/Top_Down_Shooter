@@ -937,6 +937,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1549395284}
   - component: {fileID: 1549395285}
+  - component: {fileID: 1549395286}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -976,11 +977,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveConfig: {fileID: 11400000, guid: 52c80e7f53377ea4e91e366db869b19c, type: 2}
-  spawnPoint:
+  spawnPoints:
   - {fileID: 1306980396}
   - {fileID: 51847132}
   - {fileID: 1421442102}
   - {fileID: 703500436}
+--- !u!114 &1549395286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549395283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e0351fad6aac844d927e9bfbf5b55e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1614760708
 GameObject:
   m_ObjectHideFlags: 0

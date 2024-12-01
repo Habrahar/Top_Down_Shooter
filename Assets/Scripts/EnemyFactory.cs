@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class EnemyFactory
 {
-    // Метод создания врагов
     public static GameObject CreateEnemy(
         EnemyConfig enemyConfig,
         Vector3 spawnPoint,
@@ -14,10 +13,10 @@ public class EnemyFactory
             return null;
         }
 
-        // Создаём врага
-        GameObject enemy = Object.Instantiate(enemyConfig.enemyPrefab, spawnPoint, Quaternion.identity);
+        // Получаем врага из пула
+        GameObject enemy = EnemyPool.Instance.GetEnemy(enemyConfig, spawnPoint, Quaternion.identity);
 
-        // Настраиваем врага
+        // Настраиваем параметры врага
         Enemy_Controller enemyController = enemy.GetComponent<Enemy_Controller>();
         if (enemyController != null)
         {
@@ -31,3 +30,4 @@ public class EnemyFactory
         return enemy;
     }
 }
+

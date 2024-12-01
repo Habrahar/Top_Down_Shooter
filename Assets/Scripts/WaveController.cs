@@ -8,7 +8,7 @@ public class WaveController : MonoBehaviour
     public static event Action RoundComplete;
     public WaveConfig waveConfig; // Ссылка на конфиг волн
     private int enemiesRemainingInWave; // Сколько врагов осталось в текущей волне
-    public GameObject[] spawnPoint; // Точка спауна врагов
+    public GameObject[] spawnPoints; // Точка спауна врагов
 
     private void Awake()
     {
@@ -43,7 +43,9 @@ public class WaveController : MonoBehaviour
 
         EnemyWaveConfig currentWave = waveConfig.waves[level];
         enemiesRemainingInWave = currentWave.enemyCount;
-
+        
+        
+        
         // Спавним врагов
         StartCoroutine(SpawnEnemies(currentWave));
     }
@@ -52,19 +54,11 @@ public class WaveController : MonoBehaviour
     // В методе SpawnEnemies
     private IEnumerator SpawnEnemies(EnemyWaveConfig currentWave)
     {
-        System.Random myRandom = new System.Random();
-        
         for (int i = 0; i < currentWave.enemyCount; i++)
         {
-            Vector3 spawnPoint = Instance.spawnPoint[0].transform.position;
-            
-            if (Instance.spawnPoint.Length > 1)
-            {
-                int randomInt = UnityEngine.Random.Range(1, Instance.spawnPoint.Length);
-                spawnPoint = Instance.spawnPoint[randomInt].transform.position;
-            }
+            Vector3 spawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].transform.position;
 
-            // Используем фабрику для создания врага
+
             GameObject enemy = EnemyFactory.CreateEnemy(
                 currentWave.enemyConfig,
                 spawnPoint,
@@ -75,10 +69,10 @@ public class WaveController : MonoBehaviour
                 Debug.LogError("Enemy creation failed. Skipping...");
             }
 
-            // Ждём перед созданием следующего врага
             yield return new WaitForSeconds(1f);
         }
     }
+
     
     
 

@@ -52,6 +52,7 @@
             maxHealth *= currentWave.healthMultiplier;
             currentHealth = maxHealth;  // Устанавливаем текущее здоровье
             damage *= currentWave.damageMultiplier;
+            _hpBar.UpdateHealthBar(currentHealth, maxHealth);
 
             // Выводим информацию о параметрах врага
             Debug.Log($"Enemy initialized with Health: {currentHealth}, Damage: {damage}");

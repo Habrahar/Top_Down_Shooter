@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waves:
   - enemyConfig: {fileID: 11400000, guid: 30c793258d3d9774f9cb13a6e45644f8, type: 2}
-    enemyCount: 10
-    healthMultiplier: 5
-    damageMultiplier: 4
+    enemyCount: 20
+    healthMultiplier: 1
+    damageMultiplier: 1
