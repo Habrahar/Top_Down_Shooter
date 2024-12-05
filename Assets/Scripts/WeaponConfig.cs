@@ -5,16 +5,11 @@ public class WeaponConfig : ScriptableObject
 {
     public GameObject weaponPrefab;
     public GameObject bulletPrefab;
-    public GameObject shellPrefab;
 
     public float fireRate;
     public float bulletSpeed;
-    public float bulletDamage;
+    public int bulletDamage;
     public float bulletDistance;
-
-    [Header("Shell Settings")]
-    public float shellEjectForce = 2f;
-    public float shellLifeTime = 5f;
 
     [Header("Ammo Settings")]
     public int magazineSize = 30; // Размер магазина

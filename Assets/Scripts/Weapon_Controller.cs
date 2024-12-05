@@ -82,9 +82,6 @@ public class Weapon_Controller : MonoBehaviour
         bullet_controller bulletScript = bullet.GetComponent<bullet_controller>();
         bulletScript.Initialize(weaponConfig.bulletSpeed, weaponConfig.bulletDamage, direction, weaponConfig.bulletDistance);
 
-        // Вылет гильзы
-        EjectShell();
-
         currentMagazineAmmo--; // Уменьшаем количество патронов в магазине
         OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
 
@@ -114,37 +111,6 @@ public class Weapon_Controller : MonoBehaviour
 
         isReloading = false;
     }
-
-   private void EjectShell() // Вылет гильз из точки
-    {
-        if (weaponConfig.shellPrefab != null && ejectPoint != null)
-        {
-            GameObject shell = Instantiate(weaponConfig.shellPrefab, ejectPoint.position, ejectPoint.rotation);
-            Rigidbody shellRb = shell.GetComponent<Rigidbody>();
-
-            if (shellRb != null)
-            {
-                // Рассчитываем направление вылета вбок
-                Vector3 randomOffset = new Vector3(
-                    UnityEngine.Random.Range(-0.4f, 0.4f), // случайное смещение по X
-                    UnityEngine.Random.Range(0.5f, 0.10f), // случайное смещение по Y (немного вверх)
-                    UnityEngine.Random.Range(-0.2f, 0.2f)  // случайное смещение по Z
-                );
-
-                // Основное направление вбок
-                Vector3 shellDirection = (firePoint.right + randomOffset).normalized; // Используем firePoint.right для направления вбок
-
-                // Применяем силу к Rigidbody
-                shellRb.AddForce(shellDirection * weaponConfig.shellEjectForce, ForceMode.Impulse);
-            }
-
-            Destroy(shell, weaponConfig.shellLifeTime);
-        }
-    }
-
-
-
-
     
     public void AddAmmo(int amount)
     {

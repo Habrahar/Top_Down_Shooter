@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class bullet_controller : MonoBehaviour
 { 
-     private float speed;
-    private float damage;
+    private float speed;
+    private int damage;
     private Vector3 direction;
     private float maxDistance; // Максимальная дистанция
     private Vector3 startPosition;
     private Vector3 targetPosition; // Конечная позиция пули
 
     // Инициализация пули
-   public void Initialize(float bulletSpeed, float bulletDamage, Vector3 shootDirection, float distance)
+   public void Initialize(float bulletSpeed, int bulletDamage, Vector3 shootDirection, float distance)
     {
         speed = bulletSpeed;
         damage = bulletDamage;
@@ -30,10 +30,8 @@ public class bullet_controller : MonoBehaviour
 
     void Update()
     {
-        // Двигаем пулю в сторону конечной точки
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
-        // Если пуля достигла конечной точки, уничтожаем её
         if (transform.position == targetPosition)
         {
             Destroy(gameObject);
@@ -42,17 +40,10 @@ public class bullet_controller : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Проверяем, является ли объект врагом
-        if (other.CompareTag("Enemy"))
-        {
-            // Получаем компонент врага
-            Enemy_Controller enemy = other.GetComponent<Enemy_Controller>();
-            if (enemy != null)
-            {
-                // Наносим урон врагу
-                enemy.TakeDamage(damage);
-            }
-            Destroy(gameObject); // Уничтожаем пулю после попадания
+        var damageable = other.GetComponent<IDamageable>();
+        if(damageable != null){
+            damageable.TakeDamage(damage);
         }
+        Destroy(gameObject);
     }
 }

@@ -27,12 +27,12 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        WaveController.RoundComplete += OnWaveComplete;
+        
     }
 
     private void OnDisable()
     {
-        WaveController.RoundComplete -= OnWaveComplete;
+        
     }
     
     private void SpawnPlayer()
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     public void StartWave()
     {
         // Запуск волны для текущего уровня
-        WaveController.Instance.StartWave(currentLevel);
+        
     }
 
     private void OnWaveComplete()
