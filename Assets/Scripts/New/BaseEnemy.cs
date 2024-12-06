@@ -1,36 +1,19 @@
 using UnityEngine;
 
-public class BaseEnemy : IDamageable, IMovable
+public class BaseEnemy
 {
-    protected int health;
+    protected float health;
+    protected float damage;
     protected float speed;
-    public bool IsAlive => health > 0;
-    protected Vector3 currentTarget;
-
 
     public void Initialize(EnemyConfig data)
     {
         health = data.Health;
+        damage = data.Damage;
+        speed = data.Speed;
         Debug.Log("Enemy initialized with health: " + health);
+        Debug.Log("Enemy initialized with Damage: " + damage);
+        Debug.Log("Enemy initialized with Speed: " + speed);
     }
 
-    public void MoveTo(Vector3 target)
-    {
-        currentTarget = target;
-    }
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
-
-    public void Die()
-    {
-        Debug.Log("Enemy died!");
-        // Тут можно добавить вызов события
-    }
 }

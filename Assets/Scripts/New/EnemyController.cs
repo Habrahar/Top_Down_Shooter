@@ -1,62 +1,69 @@
 using UnityEngine;
-using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour, IDamageable
+public class EnemyController : MonoBehaviour, IDamageable, IMovable
 {
-    private BaseEnemy _enemy;
-    private NavMeshAgent _navMeshAgent;
-    private StateMachine _stateMachine;
-    private Transform _playerTarget;
+    public float MaxHealth {get; set;}
+    public float CurrentHealth {get; set;}
+    public int Damage {get; set;}
+    public float speed {get; set;}
+    public Transform player {get; set;}
 
+    #region State Machine Variables
+
+    public float RandomMovemnt = 5f;
+    public EnemyStateMachine StateMachine {get; set;}
+    public EnemyAttackState AttackState {get; set;}
+    public EnemyChaseState ChaseState {get; set;}
+    public EnemyIdleState IdleState {get; set;}
+
+    #endregion
+
+    private void Awake(){
+        StateMachine = new EnemyStateMachine();
+
+        IdleState = new EnemyIdleState(this, StateMachine);
+        AttackState = new EnemyAttackState(this, StateMachine);
+        ChaseState = new EnemyChaseState(this, StateMachine);
+    }
 
     public void Initialize(EnemyConfig config)
     {
-        _enemy = new BaseEnemy();
-        _enemy.Initialize(config);
-
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        if (_navMeshAgent != null)
-        {
-            _navMeshAgent.speed = config.Speed;
-        }
+        Damage = config.Damage;
+        MaxHealth = config.Health;
+        CurrentHealth = MaxHealth;
+        Debug.Log(CurrentHealth);
+        speed = config.Speed;
+        StateMachine.Initialize(IdleState);
         
-        _playerTarget = GameObject.FindGameObjectWithTag("Player")?.transform;
-
-        _stateMachine = new StateMachine();
-
-        _stateMachine.ChangeState(new MoveToTargetState(this, _playerTarget));
     }
-
-    void Update()
-    {
-        _stateMachine?.Update();    
+    void Update(){
+        StateMachine.currentState.FrameUpdate();
     }
-
     public void TakeDamage(int damage)
     {
-        if (_enemy != null)
+        CurrentHealth -= damage;
+        if (CurrentHealth <= 0)
         {
-            _enemy.TakeDamage(damage);
-
-            if (!_enemy.IsAlive)
-            {
-                HandleDeath();
-            }
+            Die();
         }
     }
 
-    public void MoveTo(Vector3 target)
+    public void Follow(Vector3 targetPosition)
     {
-        if (_enemy != null && _navMeshAgent != null)
-        {
-            _enemy.MoveTo(target);
-            _navMeshAgent.SetDestination(target);
-        }
+        transform.position = Vector3.MoveTowards(
+            transform.position, // Текущая позиция
+            targetPosition, // Целевая позиция
+            speed * Time.deltaTime // Расстояние за кадр
+        );
     }
 
-    private void HandleDeath()
+
+    public void Die()
     {
         Destroy(gameObject);
+        Debug.Log("Enemy died!");
     }
+
+
 }
 

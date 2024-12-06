@@ -15,5 +15,4 @@ MonoBehaviour:
   Health: 100
   Speed: 2
   Damage: 10
-  AttackRadius: 0
   Prefab: {fileID: 962923297037291449, guid: cb808daa9a8aa704aae2f788c4238fcd, type: 3}
