@@ -17,8 +17,6 @@ namespace Top_Down_Shooter.Assets.Scripts.New.StateMachine
 
         public override void UpdateState(StateManager stateManager)
         {
-            if (_playerTarget == null) return;
-
             // Проверка расстояния до игрока
             float distanceToTarget = Vector3.Distance(_enemyController.transform.position, _playerTarget.position);
             float attackRadius = _enemyController.GetNavMeshAgent().stoppingDistance;
@@ -26,8 +24,7 @@ namespace Top_Down_Shooter.Assets.Scripts.New.StateMachine
             if (distanceToTarget > attackRadius)
             {
                 Debug.Log("Player moved out of attack range. Switching to MoveState.");
-                stateManager.SwitchState(new MoveState());
-                return;
+                stateManager.SwitchState(stateManager.move);
             }
 
             // Выполнение атаки

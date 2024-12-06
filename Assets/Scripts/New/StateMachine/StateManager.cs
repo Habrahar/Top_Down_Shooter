@@ -6,7 +6,8 @@ namespace Top_Down_Shooter.Assets.Scripts.New.StateMachine
     {
         private BaseState _currentState;
         [SerializeField] private EnemyController _enemy; // Ссылка на EnemyController
-
+        public MoveState move = new MoveState();
+        public AttackState attack = new AttackState();
         private void Start()
         {
             // Устанавливаем начальное состояние при старте

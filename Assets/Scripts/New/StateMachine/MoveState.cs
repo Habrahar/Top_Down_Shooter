@@ -18,19 +18,6 @@ namespace Top_Down_Shooter.Assets.Scripts.New.StateMachine
             {
                 _navMeshAgent.SetDestination(_playerTarget.position);
 
-                // Проверка пути
-                if (_navMeshAgent.pathPending)
-                {
-                    Debug.Log("Path is pending...");
-                }
-                else if (_navMeshAgent.hasPath)
-                {
-                    Debug.Log("Path found!");
-                }
-                else
-                {
-                    Debug.LogWarning("No path to destination!");
-                }
             }
             else
             {
@@ -40,7 +27,7 @@ namespace Top_Down_Shooter.Assets.Scripts.New.StateMachine
 
         public override void UpdateState(StateManager stateManager)
         {
-            if (_playerTarget == null || _navMeshAgent == null) return;
+            //if (_playerTarget == null || _navMeshAgent == null) return;
 
             float distanceToTarget = Vector3.Distance(_navMeshAgent.transform.position, _playerTarget.position);
             float attackRadius = _navMeshAgent.stoppingDistance;
@@ -48,7 +35,7 @@ namespace Top_Down_Shooter.Assets.Scripts.New.StateMachine
             if (distanceToTarget <= attackRadius)
             {
                 Debug.Log("Switching to AttackState");
-                stateManager.SwitchState(new AttackState());
+                stateManager.SwitchState(stateManager.attack);
             }
             else
             {
@@ -64,7 +51,8 @@ namespace Top_Down_Shooter.Assets.Scripts.New.StateMachine
 
         public override void ExitState(StateManager stateManager)
         {
-            // Логика выхода из состояния, если нужно
+            _playerTarget = null;
+            _navMeshAgent = null;
         }
     }
 
