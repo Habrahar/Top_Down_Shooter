@@ -10,5 +10,15 @@ public class EnemyAttackState : EnemyState
 
     public override void EnterState(){ }
     public override void ExitState(){ }
-    public override void FrameUpdate(){ }
+
+    public override void FrameUpdate()
+    {
+        if(enemy.IsInAttackPosition)
+        {
+            
+        }else
+        {
+            enemy.StateMachine.ChangeState(enemy.ChaseState);
+        }
+    }
 }

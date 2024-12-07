@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyChaseState : EnemyState
 {
-    private Vector3 _playerPos;
     public EnemyChaseState(EnemyController enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
         
@@ -14,18 +13,20 @@ public class EnemyChaseState : EnemyState
     
     public override void ExitState(){ }
     public override void FrameUpdate(){
-
-        Vector3 _playerPos = PlayerLocator.PlayerTransform.position;
-
-        if (Vector3.Distance(enemy.transform.position, _playerPos) > 0.1f)
+        if(enemy.IsAggred)
         {
-            // Двигаемся к текущей точке
-            Debug.Log(_playerPos);
-            enemy.Follow(_playerPos);
-        }
-        if(enemy.IsInAttackPosition)
+            if (Vector3.Distance(enemy.transform.position, PlayerLocator.PlayerTransform.position) > 0.1f)
+            {
+                enemy.Follow(PlayerLocator.PlayerTransform.position);
+            }
+            if(enemy.IsInAttackPosition)
+            {
+                enemy.StateMachine.ChangeState(enemy.AttackState);
+            }
+        }else
         {
-            enemy.StateMachine.ChangeState(enemy.AttackState);
+            enemy.StateMachine.ChangeState(enemy.IdleState);
         }
+        
     }
 }

@@ -5,7 +5,19 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
-   public float moveSpeed = 5f;
+    public float moveSpeed = 5f;
+
+    private void Awake()
+    {
+        // Регистрируем игрока в локаторе
+        PlayerLocator.RegisterPlayer(transform);
+    }
+
+    private void OnDestroy()
+    {
+        // Отменяем регистрацию игрока при его удалении
+        PlayerLocator.UnregisterPlayer();
+    }
 
     void Update()
     {
@@ -19,7 +31,8 @@ public class Player_Movement : MonoBehaviour
         // Двигаем игрока в мировых координатах
         if (direction.magnitude >= 0.1f)
         {
-            transform.Translate(direction * moveSpeed * Time.deltaTime, Space.World);
+            transform.Translate(direction * (moveSpeed * Time.deltaTime), Space.World);
         }
     }
 }
+
