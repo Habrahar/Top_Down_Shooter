@@ -135,6 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3247c1305c0e84ba86bac0c6feeea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!54 &6900777533892273070
 Rigidbody:
   m_ObjectHideFlags: 0

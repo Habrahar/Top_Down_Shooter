@@ -5,12 +5,12 @@ using System;
 
 public class Player_shooting : MonoBehaviour
 {
-  
+    [SerializeField] private LayerMask groundLayer; 
     public static event Action<Vector3> OnShoot;
 
     void Update()
     {
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, groundLayer))
         {
             RotatePlayer(hit.point); // Поворачиваем игрока
 
