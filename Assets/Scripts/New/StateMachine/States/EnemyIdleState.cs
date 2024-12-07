@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyIdleState : EnemyState
 {
     private Vector3 _targetpos;
-    private Vector3 _direction;
     public EnemyIdleState(EnemyController enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
     }
@@ -15,7 +14,10 @@ public class EnemyIdleState : EnemyState
     }
     public override void ExitState(){ }
     public override void FrameUpdate(){ 
-        // Проверяем расстояние до цели
+        if(enemy.IsAggred)
+        {
+            enemy.StateMachine.ChangeState(enemy.ChaseState);
+        }
         if (Vector3.Distance(enemy.transform.position, _targetpos) > 0.1f)
         {
             // Двигаемся к текущей точке

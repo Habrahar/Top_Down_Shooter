@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
             if (_cam != null)
             {
                 _cam.player = player.transform; // Передаем ссылку на трансформ игрока
+                //PlayerLocator.Locate();
             }
         }
         else

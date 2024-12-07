@@ -43,7 +43,8 @@ public class bullet_controller : MonoBehaviour
         var damageable = other.GetComponent<IDamageable>();
         if(damageable != null){
             damageable.TakeDamage(damage);
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+        
     }
 }
