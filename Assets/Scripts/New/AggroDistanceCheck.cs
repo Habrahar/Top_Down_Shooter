@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using New;
 using UnityEngine;
 
 public class AggroDistanceCheck : MonoBehaviour
@@ -14,17 +15,14 @@ public class AggroDistanceCheck : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other) {
-        if(other.gameObject == PlayerTarget){
-            _enemy.SetAggroStatus(true);
-        }
+    private void OnTriggerEnter(Collider other) 
+    {
+        
     }
 
     
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject == PlayerTarget){
-            _enemy.SetAggroStatus(false);
-        }
+        
     }
 }

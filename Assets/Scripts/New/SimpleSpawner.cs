@@ -1,3 +1,4 @@
+using New;
 using UnityEngine;
 
 public class SimpleSpawner : MonoBehaviour
@@ -7,6 +8,13 @@ public class SimpleSpawner : MonoBehaviour
 
     private void Start()
     {
+        SpawnEnemy();
+        SpawnEnemy();
+        SpawnEnemy();
+        SpawnEnemy();
+        SpawnEnemy();
+        SpawnEnemy();
+        SpawnEnemy();
         SpawnEnemy();
     }
 
@@ -19,6 +27,12 @@ public class SimpleSpawner : MonoBehaviour
         if (enemyObject.TryGetComponent<EnemyController>(out var enemyController))
         {
             enemyController.Initialize(enemyConfig);
+            var player = FindObjectOfType<PlayerController>();
+            if (player != null)
+            {
+                enemyController.InitializeTarget(player.GetComponent<IDamageable>());
+            }
+
         }
         else
         {

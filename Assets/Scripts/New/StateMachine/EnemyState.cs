@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using New;
 using UnityEngine;
 
 public class EnemyState

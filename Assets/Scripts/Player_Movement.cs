@@ -1,23 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using New.Interface;
 using UnityEngine;
 
 
-public class Player_Movement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, ISpawnable
 {
     public float moveSpeed = 5f;
-
-    private void Awake()
-    {
-        // Регистрируем игрока в локаторе
-        PlayerLocator.RegisterPlayer(transform);
-    }
-
-    private void OnDestroy()
-    {
-        // Отменяем регистрацию игрока при его удалении
-        PlayerLocator.UnregisterPlayer();
-    }
 
     void Update()
     {

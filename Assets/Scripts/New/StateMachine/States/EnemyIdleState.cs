@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using New;
 using UnityEngine;
 
 public class EnemyIdleState : EnemyState
@@ -14,19 +15,13 @@ public class EnemyIdleState : EnemyState
         _targetpos = GetRandomPointInCircle();
     }
     public override void ExitState(){ }
-    public override void FrameUpdate(){ 
-        if(enemy.IsAggred)
-        {
-            enemy.StateMachine.ChangeState(enemy.ChaseState);
-        }
+    public override void FrameUpdate(){
         if (Vector3.Distance(enemy.transform.position, _targetpos) > 0.1f)
         {
-            // Двигаемся к текущей точке
             enemy.Follow(_targetpos);
         }
         else
         {
-            // Генерируем новую случайную точку, если цель достигнута
             _targetpos = GetRandomPointInCircle();
         }
         
@@ -34,16 +29,12 @@ public class EnemyIdleState : EnemyState
 
     private Vector3 GetRandomPointInCircle()
     {
-        // Генерируем случайную точку в радиусе RandomMovemnt вокруг текущей позиции врага
         Vector2 randomPoint2D = UnityEngine.Random.insideUnitCircle * enemy.RandomMovemnt;
-
-        // Преобразуем в X-Z плоскость
         Vector3 randomPoint = new Vector3(
-            enemy.transform.position.x + randomPoint2D.x, // Случайная точка по X
-            enemy.transform.position.y,                  // Высота остаётся неизменной
-            enemy.transform.position.z + randomPoint2D.y // Случайная точка по Z
+            enemy.transform.position.x + randomPoint2D.x,
+            enemy.transform.position.y,
+            enemy.transform.position.z + randomPoint2D.y
         );
-
         return randomPoint;
     }
 
