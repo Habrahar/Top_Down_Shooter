@@ -5,6 +5,7 @@ public class WeaponConfig : ScriptableObject
 {
     public GameObject weaponPrefab;
     public GameObject bulletPrefab;
+    public string weaponName;
 
     public float fireRate;
     public float bulletSpeed;

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -68,4 +69,5 @@ public class GameManager : MonoBehaviour
         currentLevel++;
         StartWave(); // Запускаем следующую волну
     }
+    
 }
