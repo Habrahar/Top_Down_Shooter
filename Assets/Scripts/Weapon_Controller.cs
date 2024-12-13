@@ -1,4 +1,5 @@
 using System;
+using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,11 +20,13 @@ public class Weapon_Controller : MonoBehaviour
     private void OnEnable()
     {
         Player_shooting.OnShoot += HandleShoot;
+        WeaponSelectionWindow.ApplyWeapon += ChangeWeapon;
     }
 
     private void OnDisable()
     {
         Player_shooting.OnShoot -= HandleShoot;
+        WeaponSelectionWindow.ApplyWeapon -= ChangeWeapon;
     }
 
     private void Start()
@@ -33,18 +36,15 @@ public class Weapon_Controller : MonoBehaviour
             Debug.LogError("WeaponConfig не назначен в Weapon_Controller!");
             return;
         }
-
         InitializeWeapon();
-        InitializeAmmo();
     }
 
     private void InitializeWeapon()
     {
-        if (currentWeaponInstance != null)
+        if (weaponConfig != null)
         {
             Destroy(currentWeaponInstance);
         }
-
         currentWeaponInstance = Instantiate(weaponConfig.weaponPrefab, transform);
         BulletPool.Instance.bulletPrefab = weaponConfig.bulletPrefab;
         firePoint = currentWeaponInstance.transform.Find("FirePoint");
@@ -52,6 +52,7 @@ public class Weapon_Controller : MonoBehaviour
 
         if (firePoint == null) Debug.LogError("FirePoint не найден в префабе оружия!");
         if (ejectPoint == null) Debug.LogError("EjectPoint не найден в префабе оружия!");
+        InitializeAmmo();
     }
 
     private void InitializeAmmo()
@@ -140,6 +141,13 @@ public class Weapon_Controller : MonoBehaviour
 
         bullet_controller bulletScript = bullet.GetComponent<bullet_controller>();
         bulletScript.Initialize(weaponConfig.bulletSpeed, weaponConfig.bulletDamage, spreadDirection, weaponConfig.bulletDistance);
+    }
+
+    private void ChangeWeapon(WeaponConfig weapon)
+    {
+        weaponConfig = weapon;
+        InitializeWeapon();
+        InitializeAmmo();
     }
 
 

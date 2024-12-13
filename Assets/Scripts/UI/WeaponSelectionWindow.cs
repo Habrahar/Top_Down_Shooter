@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,17 +9,18 @@ namespace UI
     {
         public WeaponConfig[] availableWeapons; // Список доступных оружий
         private int selectedWeaponIndex = 0; // Индекс выбранного оружия
+        public static event Action<WeaponConfig> ApplyWeapon; // Событие обновления патронов
 
         public void SelectWeapon(int index)
         {
             selectedWeaponIndex = index;
+            ApplyWeapon?.Invoke(availableWeapons[selectedWeaponIndex]);
             UpdateWindow();
         }
 
         public override void UpdateWindow()
         {
-            // Обновляем отображение доступных оружий
-            // Например, обновляем UI элементы для отображения выбранного оружия
+            
             Debug.Log("Weapon Selected: " + availableWeapons[selectedWeaponIndex].weaponName);
         }
 
