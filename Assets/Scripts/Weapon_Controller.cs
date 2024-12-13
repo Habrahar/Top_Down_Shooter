@@ -78,9 +78,7 @@ public class Weapon_Controller : MonoBehaviour
         Vector3 direction = (targetPosition - firePoint.position).normalized;
         direction.y = 0f;
 
-        GameObject bullet = Instantiate(weaponConfig.bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
-        bullet_controller bulletScript = bullet.GetComponent<bullet_controller>();
-        bulletScript.Initialize(weaponConfig.bulletSpeed, weaponConfig.bulletDamage, direction, weaponConfig.bulletDistance);
+        SpawnBullet(direction);
 
         currentMagazineAmmo--; // Уменьшаем количество патронов в магазине
         OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
@@ -117,5 +115,18 @@ public class Weapon_Controller : MonoBehaviour
         totalAmmo += amount;
         OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
     }
+    
+    void SpawnBullet(Vector3 direction)
+    {
+        if (firePoint == null) return;
+
+        Vector3 startPosition = firePoint.position;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        GameObject bullet = BulletPool.Instance.GetBullet(startPosition, rotation);
+        
+        bullet_controller bulletScript = bullet.GetComponent<bullet_controller>();
+        bulletScript.Initialize(weaponConfig.bulletSpeed, weaponConfig.bulletDamage, direction, weaponConfig.bulletDistance);
+    }
+
 
 }

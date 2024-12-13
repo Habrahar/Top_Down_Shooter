@@ -10,7 +10,6 @@ public class AttackDistanceCheck : MonoBehaviour
 
     private void Awake(){
         PlayerTarget = GameObject.FindGameObjectWithTag("Player");
-
         _enemy = GetComponentInParent<EnemyController>();
     }
 

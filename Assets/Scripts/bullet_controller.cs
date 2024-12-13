@@ -7,26 +7,20 @@ public class bullet_controller : MonoBehaviour
     private float speed;
     private int damage;
     private Vector3 direction;
-    private float maxDistance; // Максимальная дистанция
+    private float maxDistance;
     private Vector3 startPosition;
-    private Vector3 targetPosition; // Конечная позиция пули
-
-    // Инициализация пули
-   public void Initialize(float bulletSpeed, int bulletDamage, Vector3 shootDirection, float distance)
+    private Vector3 targetPosition; 
+    
+    public void Initialize(float bulletSpeed, int bulletDamage, Vector3 shootDirection, float distance)
     {
         speed = bulletSpeed;
         damage = bulletDamage;
-        direction = shootDirection.normalized; // Нормализуем направление, чтобы пуля не ускорялась
+        direction = shootDirection.normalized; 
         maxDistance = distance;
         startPosition = transform.position;
-
-        // Устанавливаем конечную точку пули, которая ограничена maxDistance
         targetPosition = startPosition + direction * maxDistance;
-
-        // Принудительно делаем компонент Y равным нулю, чтобы пуля не отклонялась по оси Y
         targetPosition.y = startPosition.y;
     }
-
 
     void Update()
     {
@@ -34,7 +28,7 @@ public class bullet_controller : MonoBehaviour
 
         if (transform.position == targetPosition)
         {
-            Destroy(gameObject);
+            ReturnBulletToPool(); 
         }
     }
 
@@ -43,8 +37,14 @@ public class bullet_controller : MonoBehaviour
         var damageable = other.GetComponent<IDamageable>();
         if(damageable != null){
             damageable.TakeDamage(damage);
-            Destroy(gameObject);
+            ReturnBulletToPool();
         }
-        
     }
+
+    // Возвращаем пулю в пул
+    private void ReturnBulletToPool()
+    {
+        BulletPool.Instance.ReturnBullet(gameObject);
+    }
+    
 }
