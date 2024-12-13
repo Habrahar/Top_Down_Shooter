@@ -10,6 +10,7 @@ public class WeaponConfig : ScriptableObject
     public float bulletSpeed;
     public int bulletDamage;
     public float bulletDistance;
+    public float bulletSpread;
 
     [Header("Ammo Settings")]
     public int magazineSize = 30; // Размер магазина

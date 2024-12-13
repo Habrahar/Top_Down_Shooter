@@ -1192,7 +1192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b63e861ce90c88428b0928869b570cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3917862706517869292, guid: 1a7fd1e3b035b4645a02540942d2c260, type: 3}
+  bulletPrefab: {fileID: 0}
   poolSize: 20
 --- !u!1 &1939241553
 GameObject:

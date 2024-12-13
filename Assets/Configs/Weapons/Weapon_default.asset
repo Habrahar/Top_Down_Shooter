@@ -14,13 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 4812217308782969647, guid: f9ea0d214b3f3944b8a175ebb50601eb, type: 3}
   bulletPrefab: {fileID: 3917862706517869292, guid: 1a7fd1e3b035b4645a02540942d2c260, type: 3}
-  shellPrefab: {fileID: 3917862706517869292, guid: fc9dd3bef4d491f4b92a194515adb56f, type: 3}
   fireRate: 0.1
-  bulletSpeed: 15
+  bulletSpeed: 20
   bulletDamage: 10
-  bulletDistance: 10
-  shellEjectForce: 3
-  shellLifeTime: 2.5
+  bulletDistance: 12
+  bulletSpread: 0.05
   magazineSize: 30
-  maxTotalAmmo: 99999
-  reloadTime: 2
+  maxTotalAmmo: 1000
+  reloadTime: 1.5
