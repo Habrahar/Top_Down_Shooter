@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6070346176836286353}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TriggerAreas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,8 +44,7 @@ GameObject:
   - component: {fileID: 4965185693569106071}
   - component: {fileID: 987538428398318425}
   - component: {fileID: 1240208813140769937}
-  - component: {fileID: 1444952878146046303}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,27 +116,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1444952878146046303
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 692491357040718643}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &783604062318918272
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,13 +142,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 783604062318918272}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.14072841, z: 0, w: 0.9900482}
+  m_LocalRotation: {x: 0, y: 0.008726558, z: 0, w: 0.999962}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6070346176836286353}
-  m_LocalEulerAnglesHint: {x: 0, y: 16.18, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 1, z: 0}
 --- !u!135 &248508427537763725
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -190,7 +168,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 8
+  m_Radius: 13
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &26771210322925038
 MonoBehaviour:
@@ -218,7 +196,7 @@ GameObject:
   - component: {fileID: 5610344326081340033}
   - component: {fileID: 4371438730241207889}
   - component: {fileID: 1263087503055936290}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy_default
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -334,8 +312,8 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
+  m_ImplicitCom: 0
+  m_ImplicitTensor: 0
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -353,6 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41a619a8ddbc4814682dd44d099bc568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActive: 0
   RandomMovemnt: 5
   rotationSpeed: 5
 --- !u!1 &3813942496499871387
@@ -364,7 +343,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5556608788913472426}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +376,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7637730464728865666}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +408,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3120288637201241862}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DamagePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -529,7 +508,7 @@ GameObject:
   - component: {fileID: 5123005852715987897}
   - component: {fileID: 1769050211054814763}
   - component: {fileID: 5210348244684631380}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

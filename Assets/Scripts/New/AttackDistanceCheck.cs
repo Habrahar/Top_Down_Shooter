@@ -16,12 +16,18 @@ public class AttackDistanceCheck : MonoBehaviour
 
 
     private void OnTriggerEnter(Collider other) {
-       
+        if (other.CompareTag("Player"))
+        {
+            _enemy.SetAttackState();
+        }
     }
 
     
     private void OnTriggerExit(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            _enemy.SetIdleState();
+        }
     }
 }

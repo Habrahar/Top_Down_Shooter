@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace New
 {
-    public class EnemyController : MonoBehaviour, IDamageable, IMovable, ITriggerCheck, ISpawnable
+    public class EnemyController : MonoBehaviour, IDamageable, IMovable, ITriggerCheck, IActivatable
     {
         #region Parameters
         public float MaxHealth {get; set;}
@@ -12,6 +12,7 @@ namespace New
         public float AttackRange {get; set;}
         public float speed {get; set;}
         public float ChaseRange {get; set;}
+        public bool isActive = false;
 
         #endregion
     
@@ -40,15 +41,14 @@ namespace New
     
         public void Initialize(EnemyConfig config)
         {
+            Activate();
             Damage = config.Damage;
             MaxHealth = config.Health;
             CurrentHealth = MaxHealth;
             AttackRange = config.AttackRange;
-            Debug.Log(CurrentHealth);
             speed = config.Speed;
             ChaseRange = config.ChaseRange;
             StateMachine.Initialize(IdleState);
-            OnSpawned();
         }
         void Update(){
             StateMachine.currentState.FrameUpdate();
@@ -65,6 +65,7 @@ namespace New
 
         public void Follow(Vector3 targetPosition)
         {
+            if (isActive == false) return;
             Vector3 direction = (targetPosition - transform.position).normalized;
 
             Quaternion targetRotation = Quaternion.LookRotation(direction);
@@ -80,13 +81,14 @@ namespace New
                 targetPosition,
                 speed * Time.deltaTime
             );
+
         }
     
         public void Die()
         {
-            Destroy(gameObject);
+            Deactivate();
+            //Destroy(gameObject);
             Debug.Log("Enemy died!");
-            OnDespawned();
         }
 
         public IDamageable Target { get; set; }
@@ -105,16 +107,6 @@ namespace New
         {
             StateMachine.ChangeState(IdleState);
         }
-        
-        public void OnSpawned()
-        {
-            LocationObserver.RegisterEnemy(this);
-        }
-
-        public void OnDespawned()
-        {
-            LocationObserver.UnregisterEnemy(this);
-        }
         public void InitializeTarget(IDamageable target)
         {
             Target = target;
@@ -131,6 +123,29 @@ namespace New
                 return transform.position;
             }
         }
+
+        private void OnEnable()
+        {
+            LocationObserver.RegisterEnemy(this);
+        }
+
+        private void OnDisable()
+        {
+            LocationObserver.UnregisterEnemy(this);
+        }
+
+        public void Activate()
+        {
+            isActive = true;
+            gameObject.SetActive(true);
+        }
+
+        public void Deactivate()
+        {
+            isActive = false;
+            gameObject.SetActive(false);
+        }
+
     }
 }
 

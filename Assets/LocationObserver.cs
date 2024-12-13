@@ -3,37 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using New;
-
+using New.Interface;
+using Unity.VisualScripting;
 
 public class LocationObserver : MonoBehaviour
 {
     private static List<EnemyController> enemies = new List<EnemyController>();
     private static Transform playerTransform;
-    private float timer = 0f;
 
-    [SerializeField] private float checkInterval = 0.05f; // Интервал проверки.
-    
-    private void Start()
-    {
-        timer = checkInterval;
-    }
+    [SerializeField] private float checkInterval = 0.1f; // Интервал проверки.
+    [SerializeField] private float viseableArea = 35f;   // Радиус видимости.
 
-    void Update()
+    private float nextCheckTime;
+
+    private void Update()
     {
-        if (playerTransform != null)
-        {
-            if (timer <= 0)
-            {
-                CheckEnemiesInRange();
-                timer = checkInterval;
-            }
-            else
-            {
-                timer -= Time.deltaTime;
-            }    
-        }
+        if (playerTransform == null) 
+            return;
         
+        if (Time.time >= nextCheckTime + checkInterval)
+        {
+            CheckEnemies();
+            nextCheckTime = Time.time;
+        }
     }
+
+    public static void RegisterPlayer(Transform player)
+    {
+        playerTransform = player;
+    }
+
     public static void RegisterEnemy(EnemyController enemy)
     {
         if (!enemies.Contains(enemy))
@@ -42,41 +41,27 @@ public class LocationObserver : MonoBehaviour
 
     public static void UnregisterEnemy(EnemyController enemy)
     {
-        if (enemies.Contains(enemy))
-            enemies.Remove(enemy);
-    }
-    public static void RegisterPlayer(Transform player)
-    {
-        playerTransform = player;
+        enemies.Remove(enemy);
     }
 
-    // ReSharper disable Unity.PerformanceAnalysis
-    private void CheckEnemiesInRange()
+    private void CheckEnemies()
     {
-        foreach (var enemy in enemies)
+        
+        var enemiesSnapshot = new List<EnemyController>(enemies);
+
+        foreach (var enemy in enemiesSnapshot)
         {
-            if (Vector3.Distance(enemy.transform.position, playerTransform.position) >= enemy.AttackRange &&
-                Vector3.Distance(enemy.transform.position, playerTransform.position) <= enemy.ChaseRange)
+            if (Vector3.Distance(enemy.transform.position, playerTransform.position) <= viseableArea)
             {
-                if (!Physics.Linecast(enemy.transform.position, playerTransform.position))
-                {
-                    enemy.SetChaseState();
-                }
+                enemy.Activate();
             }
             else
             {
-                if (Vector3.Distance(enemy.transform.position, playerTransform.position) <= enemy.AttackRange)
-                {
-                    if (!Physics.Linecast(enemy.transform.position, playerTransform.position))
-                    {
-                        enemy.InitializeTarget(playerTransform.GetComponent<IDamageable>());
-                        enemy.SetAttackState();
-                    }
-                }
-
+                enemy.Deactivate();
             }
         }
 
+        enemies = enemiesSnapshot;
+
     }
 }
-

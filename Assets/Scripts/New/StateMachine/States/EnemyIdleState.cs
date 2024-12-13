@@ -11,7 +11,7 @@ public class EnemyIdleState : EnemyState
     }
 
     public override void EnterState(){ 
-        Debug.Log("Enter Idle State");
+        
         _targetpos = GetRandomPointInCircle();
     }
     public override void ExitState(){ }
