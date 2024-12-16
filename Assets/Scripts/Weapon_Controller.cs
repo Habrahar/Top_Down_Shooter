@@ -53,6 +53,8 @@ public class Weapon_Controller : MonoBehaviour
         if (firePoint == null) Debug.LogError("FirePoint не найден в префабе оружия!");
         if (ejectPoint == null) Debug.LogError("EjectPoint не найден в префабе оружия!");
         InitializeAmmo();
+        var player = GetComponentInParent<Player_shooting>();
+        player.firePoint = firePoint;
     }
 
     private void InitializeAmmo()

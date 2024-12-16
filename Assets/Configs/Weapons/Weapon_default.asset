@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fe3adb702f98f4f89cf6fa92e7b33e, type: 3}
   m_Name: Weapon_default
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 4812217308782969647, guid: f9ea0d214b3f3944b8a175ebb50601eb, type: 3}
-  bulletPrefab: {fileID: 3917862706517869292, guid: 1a7fd1e3b035b4645a02540942d2c260, type: 3}
+  weaponPrefab: {fileID: 1898818643655030, guid: 566d96333dd309445943b52901918262, type: 3}
+  bulletPrefab: {fileID: 6681766636307311056, guid: d86ac54c80bc64d4da120230a87a4110, type: 3}
   weaponName: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442"
   fireRate: 0.6
   bulletSpeed: 20
