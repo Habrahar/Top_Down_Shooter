@@ -7,8 +7,9 @@ public class Weapon_Controller : MonoBehaviour
 {
     [SerializeField] private WeaponConfig weaponConfig; // Конфигурация оружия
     private GameObject currentWeaponInstance; // Текущий экземпляр оружия
-    private Transform firePoint;
+    public Transform firePoint;
     private Transform ejectPoint;
+    private Player_shooting player;
 
     private float nextFireTime;
     private int currentMagazineAmmo; // Текущий боезапас в магазине
@@ -53,7 +54,7 @@ public class Weapon_Controller : MonoBehaviour
         if (firePoint == null) Debug.LogError("FirePoint не найден в префабе оружия!");
         if (ejectPoint == null) Debug.LogError("EjectPoint не найден в префабе оружия!");
         InitializeAmmo();
-        var player = GetComponentInParent<Player_shooting>();
+        player = GetComponentInParent<Player_shooting>();
         player.firePoint = firePoint;
     }
 
@@ -66,9 +67,9 @@ public class Weapon_Controller : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading) // Ручная перезарядка
+        if (player.CanShoot)
         {
-            TryReload();
+            HandleShoot(player.currentTarget.position);
         }
     }
 

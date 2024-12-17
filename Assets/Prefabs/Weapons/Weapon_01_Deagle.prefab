@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 33978303818577998}
   - component: {fileID: 23053136523382008}
   m_Layer: 0
-  m_Name: Deagle
+  m_Name: Weapon_01_Deagle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

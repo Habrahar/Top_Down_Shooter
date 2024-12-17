@@ -5,25 +5,34 @@ using System;
 
 public class Player_shooting : MonoBehaviour
 {
-    [SerializeField] private LayerMask groundLayer; 
+    private LayerMask groundLayer; 
     public static event Action<Vector3> OnShoot;
-    [SerializeField] private float detectionRadius = 10f; // Радиус обнаружения врагов
-    [SerializeField] private LayerMask enemyLayer; // Слой врагов
+    private float detectionRadius; // Радиус обнаружения врагов
+    private LayerMask enemyLayer; // Слой врагов
 
     public Transform currentTarget; // Текущий враг, на которого смотрит игрок
 
-    public Transform firePoint; 
-    
+    public Transform firePoint;
+    public bool CanShoot;
 
+    public void SetParameters(float detection, LayerMask layerEnemy, LayerMask layerGround)
+    {
+        detectionRadius = detection;
+        groundLayer = layerGround;
+        enemyLayer = layerEnemy;
+    }
     void Update()
     {
-        // Находим ближайшего врага
         currentTarget = GetClosestEnemy();
         if (currentTarget != null && Vector3.Distance(transform.position, currentTarget.position) <= detectionRadius)
         {
+            CanShoot = true;
             RotatePlayerToEnemy(currentTarget.position);
             RotateWeaponToEnemy(currentTarget.position);
-            HandleShooting(currentTarget.position);
+        }
+        else
+        {
+            CanShoot = false;
         }
     }
 
@@ -44,14 +53,13 @@ public class Player_shooting : MonoBehaviour
         if (firePoint == null) return;
 
         Vector3 direction = (targetPosition - firePoint.position).normalized;
-        direction.y = 0f; // Убираем наклон по оси Y
-
+        direction.y = 0f;
         firePoint.rotation = Quaternion.LookRotation(direction);
     }
     private void HandleShooting(Vector3 targetPosition)
     {
-        Debug.Log("Shooting at target: " + targetPosition);
-        Player_shooting.OnShoot?.Invoke(targetPosition);
+        //Player_shooting.OnShoot?.Invoke(targetPosition);
+        
     }
 
 

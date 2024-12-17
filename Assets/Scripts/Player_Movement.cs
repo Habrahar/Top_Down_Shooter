@@ -6,59 +6,47 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour, ISpawnable
 {
-    public float moveSpeed = 5f;
-    public Animator animator; // Ссылка на Animator
+    private float moveSpeed;
+    private Animator animator; // Ссылка на Animator
     public Player_shooting shooting;
-    
+    private Vector3 direction;
+    private bool setParam = false;
 
-    private void Start()
+    public Vector3 GetDirection()
     {
+        return direction;
+    } 
+    public void SetParam(float movespeed, Animator anim)
+    {
+        animator = anim;
+        moveSpeed = movespeed;
+        setParam = true;
     }
 
     void Update()
     {
-        // Получаем ввод по осям X и Z
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        // Направление в мировом пространстве
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
-
-        // Двигаем игрока в мировых координатах
-        if (direction.magnitude >= 0.1f)
+        if (setParam == true)
         {
-            transform.Translate(direction * (moveSpeed * Time.deltaTime), Space.World);
-        }
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
 
-        // Если врага нет в радиусе, поворачиваем игрока в направлении его движения
-        if (shooting.currentTarget == null && direction.magnitude > 0f)
-        {
-            RotatePlayer(direction);
-        }
-
-        // Управляем анимациями
-        HandleAnimations(direction);
-    }
-
-    private void HandleAnimations(Vector3 direction)
-    {
-        float moveSpeedValue = direction.magnitude * moveSpeed;
         
-        animator.SetFloat("MoveSpeed", moveSpeedValue);
+            direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-        if (direction.magnitude > 0)
-        {
-            float angle = Vector3.Angle(transform.forward, direction);
-            
-            animator.SetBool("IsMovingBackward", angle > 90f);
+        
+            if (direction.magnitude >= 0.1f)
+            {
+                transform.Translate(direction * (moveSpeed * Time.deltaTime), Space.World);
+            }
+        
+            if (shooting.currentTarget == null && direction.magnitude > 0f)
+            {
+                RotatePlayer(direction);
+            }
         }
-        else
-        {
-            animator.SetBool("IsMovingBackward", false);
-        }
+        
     }
 
-    // Поворот игрока в сторону движения
     private void RotatePlayer(Vector3 direction)
     {
         // Поворот игрока в направлении движения

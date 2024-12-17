@@ -1247,8 +1247,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b7854e1633719b4c9d8240d04f9b939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  animator: {fileID: 7321528159587984556}
   shooting: {fileID: 1031669819212265702}
 --- !u!114 &1031669819212265702
 MonoBehaviour:
@@ -1262,15 +1260,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3247c1305c0e84ba86bac0c6feeea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  detectionRadius: 10
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 256
   currentTarget: {fileID: 0}
   firePoint: {fileID: 0}
+  CanShoot: 0
 --- !u!54 &6900777533892273070
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1295,9 +1287,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 126
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &4760801726486951009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1310,6 +1302,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1242f8d7b7fd7bc4ea07a8b8118120bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 5
+  detectionRadius: 10
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  shooting: {fileID: 1031669819212265702}
+  movement: {fileID: 4756582130277539659}
+  animator: {fileID: 7321528159587984556}
 --- !u!1 &3102301295084770892
 GameObject:
   m_ObjectHideFlags: 0
@@ -3342,7 +3345,7 @@ Transform:
   m_GameObject: {fileID: 7647786154923021590}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.3, y: 0.16, z: 0}
+  m_LocalPosition: {x: 0.224, y: 0.16, z: 0.197}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3361,6 +3364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponConfig: {fileID: 11400000, guid: dc4f2fc2ac13c44498e11661b2cdf7a9, type: 2}
+  firePoint: {fileID: 0}
 --- !u!1 &7684728398569774431
 GameObject:
   m_ObjectHideFlags: 0
