@@ -26,7 +26,7 @@ public class AttackDistanceCheck : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            _enemy.SetIdleState();
+            _enemy.SetChaseState();
         }
     }
 }

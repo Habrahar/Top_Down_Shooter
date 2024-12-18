@@ -1140,6 +1140,7 @@ GameObject:
   - component: {fileID: 1031669819212265702}
   - component: {fileID: 6900777533892273070}
   - component: {fileID: 4760801726486951009}
+  - component: {fileID: 665204983319743655}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1286,10 +1287,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
   m_Constraints: 126
-  m_CollisionDetection: 2
+  m_CollisionDetection: 0
 --- !u!114 &4760801726486951009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1310,9 +1311,30 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  Collision:
+    serializedVersion: 2
+    m_Bits: 512
+  checkDistance: 0.5
   shooting: {fileID: 1031669819212265702}
   movement: {fileID: 4756582130277539659}
-  animator: {fileID: 7321528159587984556}
+  _animator: {fileID: 7321528159587984556}
+  attackEffectPoint: {fileID: 0}
+  impactEffectPoint: {fileID: 0}
+--- !u!114 &665204983319743655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2779707500573682730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f11947a68c43e7bc34820716073b04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  impactEffectPrefab: {fileID: 1336195145445708, guid: 680cf5ea6c1d41e4f9cce6ab07ce0200, type: 3}
+  attackEffectPrefab: {fileID: 1336195145445708, guid: 680cf5ea6c1d41e4f9cce6ab07ce0200, type: 3}
+  deathEffectPrefab: {fileID: 1431530912211830, guid: 585a1ef8c48a0cf4f97332139e4344de, type: 3}
 --- !u!1 &3102301295084770892
 GameObject:
   m_ObjectHideFlags: 0

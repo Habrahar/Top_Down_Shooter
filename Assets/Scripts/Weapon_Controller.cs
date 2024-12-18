@@ -10,6 +10,7 @@ public class Weapon_Controller : MonoBehaviour
     public Transform firePoint;
     private Transform ejectPoint;
     private Player_shooting player;
+    private PlayerController player_controller;
 
     private float nextFireTime;
     private int currentMagazineAmmo; // Текущий боезапас в магазине
@@ -55,6 +56,8 @@ public class Weapon_Controller : MonoBehaviour
         if (ejectPoint == null) Debug.LogError("EjectPoint не найден в префабе оружия!");
         InitializeAmmo();
         player = GetComponentInParent<Player_shooting>();
+        player_controller = GetComponentInParent<PlayerController>();
+        player_controller.attackEffectPoint = firePoint;
         player.firePoint = firePoint;
     }
 
@@ -69,6 +72,7 @@ public class Weapon_Controller : MonoBehaviour
     {
         if (player.CanShoot)
         {
+            
             HandleShoot(player.currentTarget.position);
         }
     }
@@ -81,6 +85,7 @@ public class Weapon_Controller : MonoBehaviour
 
         // Стреляем пулей
         Vector3 direction = (targetPosition - firePoint.position).normalized;
+        player_controller.PlayAttackEffect();
         direction.y = 0f;
 
         SpawnBullet(direction);

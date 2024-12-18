@@ -9,6 +9,9 @@ using UnityEngine;
         public float Speed;
         public int Damage;
         public float AttackRange;
+        public float AttackInterval;
+        public float AttackDelay;
+
         public float ChaseRange;
         public GameObject Prefab; // Префаб врага
     }

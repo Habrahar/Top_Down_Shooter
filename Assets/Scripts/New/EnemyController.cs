@@ -3,10 +3,12 @@ using UnityEngine;
 
 namespace New
 {
-    public class EnemyController : MonoBehaviour, IDamageable, IMovable, ITriggerCheck, IActivatable
+    public class EnemyController : MovableEntity, IDamageable, IMovable, ITriggerCheck, IActivatable
     {
         #region Parameters
         public float MaxHealth {get; set;}
+        public float AttackInterval {get; set;}
+        public float AttackDelay {get; set;}
         public float CurrentHealth {get; set;}
         public int Damage {get; set;}
         public float AttackRange {get; set;}
@@ -29,6 +31,9 @@ namespace New
         public EnemyAttackState AttackState {get; set;}
         public EnemyChaseState ChaseState {get; set;}
         public EnemyIdleState IdleState {get; set;}
+        private AnimationController animationController;
+        [SerializeField] private Animator _animation;
+        private Vector3 movementDirection;
 
         private void Awake(){
             StateMachine = new EnemyStateMachine();
@@ -43,20 +48,30 @@ namespace New
         {
             Activate();
             Damage = config.Damage;
-            MaxHealth = config.Health;
+            MaxHealth = config.Health;  
             CurrentHealth = MaxHealth;
             AttackRange = config.AttackRange;
             speed = config.Speed;
             ChaseRange = config.ChaseRange;
+            AttackInterval = config.AttackInterval;
+            AttackDelay = config.AttackDelay;
+
+            // Инициализация базового движения
+            Initialize(config.Speed, 0.5f, LayerMask.GetMask("Obstacle"));
+
             StateMachine.Initialize(IdleState);
+            animationController = gameObject.AddComponent<AnimationController>();
+            animationController.Initialize(_animation);
         }
         void Update(){
             StateMachine.currentState.FrameUpdate();
+
+            // Обновление анимаций
+            animationController.UpdateAnimation(movementDirection, speed);
         }
         public void TakeDamage(int damage)
         {
             CurrentHealth -= damage;
-            Debug.Log(CurrentHealth);
             if (CurrentHealth <= 0)
             {
                 Die();
@@ -65,23 +80,24 @@ namespace New
 
         public void Follow(Vector3 targetPosition)
         {
-            if (isActive == false) return;
+            if (!isActive) return;
+
             Vector3 direction = (targetPosition - transform.position).normalized;
+            HandleRotation(direction);
 
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            // Используем метод Move из MovableEntity
+            Move(direction);
 
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                rotationSpeed * Time.deltaTime
-            );
-
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                targetPosition,
-                speed * Time.deltaTime
-            );
-
+            // Обновляем направление для анимаций
+            movementDirection = direction;
+        }
+        protected override void HandleRotation(Vector3 moveDirection)
+        {
+            if (moveDirection.magnitude > 0.1f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
         }
     
         public void Die()
@@ -144,6 +160,21 @@ namespace New
         {
             isActive = false;
             gameObject.SetActive(false);
+        }
+        public void PlayAttackAnimation()
+        {
+            if (_animation != null)
+            {
+                _animation.SetTrigger("IsPunching");
+            }
+        }
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Player")) // Проверяем, что столкнулись с врагом
+            {
+                Vector3 pushDirection = (transform.position - collision.transform.position).normalized;
+                transform.position += pushDirection * 0.5f; // Смещаем врага назад
+            }
         }
 
     }
