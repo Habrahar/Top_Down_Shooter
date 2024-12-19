@@ -80,7 +80,9 @@ public class Weapon_Controller : MonoBehaviour
 
         Vector3 direction = (targetPosition - firePoint.position).normalized;
         shootingBehaviour.Shoot(firePoint, direction, weaponConfig);
-
+        
+        EffectPool.Instance.GetEffect(weaponConfig.fireEffect, firePoint.position, Quaternion.identity);
+        
         currentMagazineAmmo--;
         OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo);
 

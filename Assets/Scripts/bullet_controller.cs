@@ -51,9 +51,7 @@ public class bullet_controller : MonoBehaviour
     private void TriggerEffect(GameObject effectPrefab, Vector3 position = default)
     {
         if (effectPrefab == null) return;
-
-        GameObject effect = Instantiate(effectPrefab, position == default ? transform.position : position, Quaternion.identity);
-        Destroy(effect, 2f); // Уничтожаем эффект через 2 секунды
+        EffectPool.Instance.GetEffect(effectPrefab, transform.position, Quaternion.identity);
     }
 
     private void ReturnBulletToPool()

@@ -1140,7 +1140,6 @@ GameObject:
   - component: {fileID: 1031669819212265702}
   - component: {fileID: 6900777533892273070}
   - component: {fileID: 4760801726486951009}
-  - component: {fileID: 665204983319743655}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1322,21 +1321,6 @@ MonoBehaviour:
   currentWeapon: {fileID: 11400000, guid: dc4f2fc2ac13c44498e11661b2cdf7a9, type: 2}
   attackEffectPoint: {fileID: 0}
   impactEffectPoint: {fileID: 0}
---- !u!114 &665204983319743655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2779707500573682730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8f11947a68c43e7bc34820716073b04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  impactEffectPrefab: {fileID: 166404, guid: 78e1c8c5b281b8b439229473779ac9aa, type: 3}
-  attackEffectPrefab: {fileID: 157586, guid: 2574ca206a571a342a7fab69fdfb87aa, type: 3}
-  deathEffectPrefab: {fileID: 163066, guid: 53777b8572d1e7242bc90044f62667ce, type: 3}
 --- !u!1 &3102301295084770892
 GameObject:
   m_ObjectHideFlags: 0

@@ -1841,6 +1841,7 @@ GameObject:
   - component: {fileID: 1869800339}
   - component: {fileID: 1869800340}
   - component: {fileID: 1869800341}
+  - component: {fileID: 1869800342}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1909,6 +1910,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelQuests:
   - {fileID: 11400000, guid: d0a39836c2c07fd4ca83c280626b9a6c, type: 2}
+--- !u!114 &1869800342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869800337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14efdac790385b04ba3e65683d22ffcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1911375745
 GameObject:
   m_ObjectHideFlags: 0
