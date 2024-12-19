@@ -15,14 +15,14 @@ MonoBehaviour:
   weaponPrefab: {fileID: 4812217308782969647, guid: 479eba6bc6ac0914f9a1dee7f91f19ec, type: 3}
   bulletPrefab: {fileID: 6681766636307311056, guid: d86ac54c80bc64d4da120230a87a4110, type: 3}
   weaponName: "\u0421\u041C\u0413"
-  fireRate: 0.1
+  fireRate: 0.5
   bulletSpeed: 20
   bulletDamage: 10
   bulletDistance: 12
-  bulletSpread: 0.05
   magazineSize: 30
   maxTotalAmmo: 600
   reloadTime: 1.5
   hitEffect: {fileID: 166404, guid: 78e1c8c5b281b8b439229473779ac9aa, type: 3}
-  vanishEffect: {fileID: 157586, guid: 2574ca206a571a342a7fab69fdfb87aa, type: 3}
+  fireEffect: {fileID: 157586, guid: 2574ca206a571a342a7fab69fdfb87aa, type: 3}
   shootingBehaviourConfig: {fileID: 11400000, guid: ceedd1b017f91504f86f7ebf98ca3158, type: 2}
+  bulletSpread: 30

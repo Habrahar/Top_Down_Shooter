@@ -117,30 +117,7 @@ public class Weapon_Controller : MonoBehaviour
         OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
     }
     
-    void SpawnBullet(Vector3 direction)
-    {
-        if (firePoint == null) return;
-
-        Vector3 startPosition = firePoint.position;
-
-        // Добавляем случайный разброс по осям X и Z
-        float spreadAmount = weaponConfig.bulletSpread; // Это значение мы берем из конфигурации оружия
-        float spreadX = Random.Range(-spreadAmount, spreadAmount);  // Случайное отклонение по оси X
-        float spreadZ = Random.Range(-spreadAmount, spreadAmount);  // Случайное отклонение по оси Z
-
-        // Применяем разброс к основному направлению
-        Vector3 spreadDirection = direction + new Vector3(spreadX, 0f, spreadZ); 
-
-        // Нормализуем новое направление, чтобы пуля не ускорялась
-        spreadDirection = spreadDirection.normalized;
-
-        // Создаем пулю с учетом нового направления
-        Quaternion rotation = Quaternion.LookRotation(spreadDirection);
-        GameObject bullet = BulletPool.Instance.GetBullet(startPosition, rotation);
-
-        bullet_controller bulletScript = bullet.GetComponent<bullet_controller>();
-        //bulletScript.Initialize(weaponConfig.bulletSpeed, weaponConfig.bulletDamage, spreadDirection, weaponConfig.bulletDistance);
-    }
+    
 
     private void ChangeWeapon(WeaponConfig weapon)
     {

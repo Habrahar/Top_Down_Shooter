@@ -12,7 +12,6 @@ public class WeaponConfig : ScriptableObject
     public float bulletSpeed;
     public int bulletDamage;
     public float bulletDistance;
-    public float bulletSpread;
 
     [Header("Ammo Settings")]
     public int magazineSize = 30; 
@@ -25,4 +24,5 @@ public class WeaponConfig : ScriptableObject
 
     [Header("Shooting Behaviour")]
     public ShootingBehaviourConfig shootingBehaviourConfig;
+    public float bulletSpread;
 }
