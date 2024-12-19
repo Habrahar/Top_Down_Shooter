@@ -24,11 +24,13 @@ public class Weapon_Controller : MonoBehaviour
     private void OnEnable()
     {
         Player_shooting.OnShoot += HandleShoot;
+        WeaponSelectionWindow.ApplyWeapon += InitializeWeapon;
     }
 
     private void OnDisable()
     {
         Player_shooting.OnShoot -= HandleShoot;
+        WeaponSelectionWindow.ApplyWeapon -= InitializeWeapon;
     }
     
 
@@ -38,6 +40,8 @@ public class Weapon_Controller : MonoBehaviour
         {
             Destroy(currentWeaponInstance);
         }
+
+        weaponConfig = config;
         currentWeaponInstance = Instantiate(config.weaponPrefab, transform);
         InitializeAmmo(config);
         firePoint = currentWeaponInstance.transform.Find("FirePoint");
@@ -53,8 +57,8 @@ public class Weapon_Controller : MonoBehaviour
     {
         totalAmmo = config.maxTotalAmmo; // Устанавливаем общее количество патронов
         currentMagazineAmmo = config.magazineSize; // Полный магазин
-        OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
         BulletPool.Instance.InitializePool(config.bulletPrefab, 20);
+        OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
     }
 
     private void Update()

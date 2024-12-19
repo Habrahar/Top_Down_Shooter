@@ -15,8 +15,7 @@ namespace New
                 config.bulletDamage, 
                 direction, 
                 config.bulletDistance, 
-                config.hitEffect, 
-                config.vanishEffect
+                config.hitEffect
             );
         }
 

@@ -13,7 +13,7 @@ public class bullet_controller : MonoBehaviour
     private GameObject hitEffect;
     private GameObject vanishEffect;
 
-    public void Initialize(float bulletSpeed, int bulletDamage, Vector3 shootDirection, float distance, GameObject hitEffectPrefab, GameObject vanishEffectPrefab)
+    public void Initialize(float bulletSpeed, int bulletDamage, Vector3 shootDirection, float distance, GameObject hitEffectPrefab)
     {
         speed = bulletSpeed;
         damage = bulletDamage;
@@ -24,7 +24,6 @@ public class bullet_controller : MonoBehaviour
         targetPosition.y = startPosition.y;
 
         hitEffect = hitEffectPrefab;
-        vanishEffect = vanishEffectPrefab;
     }
 
     void Update()

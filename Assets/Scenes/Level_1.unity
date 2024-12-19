@@ -1894,7 +1894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 0}
-  poolSize: 20
+  poolSize: 10
 --- !u!114 &1869800341
 MonoBehaviour:
   m_ObjectHideFlags: 0

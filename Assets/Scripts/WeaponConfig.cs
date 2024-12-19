@@ -21,7 +21,7 @@ public class WeaponConfig : ScriptableObject
 
     [Header("Effects")]
     public GameObject hitEffect;
-    public GameObject vanishEffect;
+    public GameObject fireEffect;
 
     [Header("Shooting Behaviour")]
     public ShootingBehaviourConfig shootingBehaviourConfig;

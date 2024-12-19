@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 964942d9a3be4c6c9643187eda36bd46, type: 3}
   m_Name: Spread_ShootBehaviour
   m_EditorClassIdentifier: 
-  shootingType: 0
+  shootingType: 1
