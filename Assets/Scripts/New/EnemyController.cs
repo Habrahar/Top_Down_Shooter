@@ -1,3 +1,4 @@
+using System;
 using New.Interface;
 using UnityEngine;
 
@@ -23,6 +24,7 @@ namespace New
         public float RandomMovemnt = 5f;
         [SerializeField] private float rotationSpeed = 5f; // Скорость поворота врага
         public Transform player {get; set;}
+        private EnemyConfig _enemy;
 
         #endregion
 
@@ -34,6 +36,8 @@ namespace New
         private AnimationController animationController;
         [SerializeField] private Animator _animation;
         private Vector3 movementDirection;
+        public static event Action<EnemyConfig> OnDieTrigger; // Событие обновления патронов
+
 
         private void Awake(){
             StateMachine = new EnemyStateMachine();
@@ -55,6 +59,7 @@ namespace New
             ChaseRange = config.ChaseRange;
             AttackInterval = config.AttackInterval;
             AttackDelay = config.AttackDelay;
+            _enemy = config;
 
             // Инициализация базового движения
             Initialize(config.Speed, 0.5f, LayerMask.GetMask("Obstacle"));
@@ -103,7 +108,7 @@ namespace New
         public void Die()
         {
             Deactivate();
-            //Destroy(gameObject);
+            OnDieTrigger?.Invoke(_enemy); // Обновляем квест
             Debug.Log("Enemy died!");
         }
 

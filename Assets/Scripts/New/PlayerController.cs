@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
-
+        Debug.Log(CurrentHealth);
         // Вызов эффекта попадания
         if (TryGetComponent<IEffectHandler>(out var effectHandler))
         {
@@ -66,6 +66,10 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void Die()
     {
         animationController.SetTrigger("Die");
+        if (attackEffectPoint != null && TryGetComponent<IEffectHandler>(out var effectHandler))
+        {
+            effectHandler.PlayDeathEffect(transform.position, attackEffectPoint.rotation);
+        }
         Destroy(gameObject);
     }
     public void PlayAttackEffect()

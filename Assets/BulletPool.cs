@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BulletPool : MonoBehaviour
@@ -20,13 +21,16 @@ public class BulletPool : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-        for (int i = 0; i < poolSize; i++)
+        if(bulletPrefab != null)
         {
-            GameObject bullet = Instantiate(bulletPrefab);
-            bullet.SetActive(false); 
-            bulletPool.Enqueue(bullet);
+            for (int i = 0; i < poolSize; i++)
+            {
+                GameObject bullet = Instantiate(bulletPrefab);
+                bullet.SetActive(false); 
+                bulletPool.Enqueue(bullet);
+            }    
         }
+        
     }
 
     public GameObject GetBullet(Vector3 position, Quaternion rotation)

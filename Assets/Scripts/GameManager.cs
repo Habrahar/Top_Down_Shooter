@@ -10,6 +10,12 @@ public class GameManager : MonoBehaviour
     [Header("Игрок")]
     public GameObject playerPrefab;
     public Transform playerSpawnPoint;
+    [SerializeField] private QuestHandler questHandler;
+
+    public void EnemyKilled(EnemyConfig enemyType)
+    {
+        questHandler.OnEnemyKilled(enemyType);
+    }
 
     private void Awake()
     {
@@ -19,6 +25,7 @@ public class GameManager : MonoBehaviour
             // Спавн игрока в стартовой точке
             SpawnPlayer();
             StartWave();
+            questHandler.Initialize(currentLevel);
         }
         else
         {

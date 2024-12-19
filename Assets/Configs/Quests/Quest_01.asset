@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 173e368078704d208a36bfb9cb0b5c38, type: 3}
+  m_Name: Quest_01
+  m_EditorClassIdentifier: 
+  questName: 0
+  questDescription: 
+  goals:
+  - targetEnemyType: {fileID: 11400000, guid: 8f435750223c9a444840198654595037, type: 2}
+    requiredCount: 3
+  reward:
+    gold: 100
+    experience: 0
+    rewardItem: {fileID: 100000, guid: a9b07e6f756b15d44adbd5408ba36b37, type: 3}

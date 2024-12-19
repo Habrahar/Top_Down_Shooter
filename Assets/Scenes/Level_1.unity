@@ -1840,6 +1840,7 @@ GameObject:
   - component: {fileID: 1869800338}
   - component: {fileID: 1869800339}
   - component: {fileID: 1869800340}
+  - component: {fileID: 1869800341}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1879,6 +1880,7 @@ MonoBehaviour:
   _cam: {fileID: 963194229}
   playerPrefab: {fileID: 2779707500573682730, guid: 23f46650836872a4389161aebe6d8de4, type: 3}
   playerSpawnPoint: {fileID: 1764486107}
+  questHandler: {fileID: 1869800341}
 --- !u!114 &1869800340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1893,6 +1895,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 0}
   poolSize: 20
+--- !u!114 &1869800341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869800337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913b9faa0f90adb499e8e8017e9bb5bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelQuests:
+  - {fileID: 11400000, guid: d0a39836c2c07fd4ca83c280626b9a6c, type: 2}
 --- !u!1 &1911375745
 GameObject:
   m_ObjectHideFlags: 0
