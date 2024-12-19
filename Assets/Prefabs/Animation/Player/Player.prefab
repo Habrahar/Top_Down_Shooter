@@ -1316,8 +1316,10 @@ MonoBehaviour:
     m_Bits: 512
   checkDistance: 0.5
   shooting: {fileID: 1031669819212265702}
+  weapon: {fileID: 4290439923514521826}
   movement: {fileID: 4756582130277539659}
   _animator: {fileID: 7321528159587984556}
+  currentWeapon: {fileID: 11400000, guid: dc4f2fc2ac13c44498e11661b2cdf7a9, type: 2}
   attackEffectPoint: {fileID: 0}
   impactEffectPoint: {fileID: 0}
 --- !u!114 &665204983319743655

@@ -1,3 +1,4 @@
+using New;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponConfig", menuName = "ScriptableObjects/WeaponConfig")]
@@ -14,7 +15,14 @@ public class WeaponConfig : ScriptableObject
     public float bulletSpread;
 
     [Header("Ammo Settings")]
-    public int magazineSize = 30; // Размер магазина
-    public int maxTotalAmmo = 90; // Общее количество патронов
-    public float reloadTime = 2f; // Время перезарядки
+    public int magazineSize = 30; 
+    public int maxTotalAmmo = 90; 
+    public float reloadTime = 2f; 
+
+    [Header("Effects")]
+    public GameObject hitEffect;
+    public GameObject vanishEffect;
+
+    [Header("Shooting Behaviour")]
+    public ShootingBehaviourConfig shootingBehaviourConfig;
 }

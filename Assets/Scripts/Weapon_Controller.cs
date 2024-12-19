@@ -1,4 +1,5 @@
 using System;
+using New;
 using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,6 +12,7 @@ public class Weapon_Controller : MonoBehaviour
     private Transform ejectPoint;
     private Player_shooting player;
     private PlayerController player_controller;
+    private IShootingBehaviour shootingBehaviour;
 
     private float nextFireTime;
     private int currentMagazineAmmo; // Текущий боезапас в магазине
@@ -22,57 +24,46 @@ public class Weapon_Controller : MonoBehaviour
     private void OnEnable()
     {
         Player_shooting.OnShoot += HandleShoot;
-        WeaponSelectionWindow.ApplyWeapon += ChangeWeapon;
     }
 
     private void OnDisable()
     {
         Player_shooting.OnShoot -= HandleShoot;
-        WeaponSelectionWindow.ApplyWeapon -= ChangeWeapon;
     }
+    
 
-    private void Start()
+    public void InitializeWeapon(WeaponConfig config)
     {
-        if (weaponConfig == null)
-        {
-            Debug.LogError("WeaponConfig не назначен в Weapon_Controller!");
-            return;
-        }
-        InitializeWeapon();
-    }
-
-    private void InitializeWeapon()
-    {
-        if (weaponConfig != null)
+        if (config != null)
         {
             Destroy(currentWeaponInstance);
         }
-        currentWeaponInstance = Instantiate(weaponConfig.weaponPrefab, transform);
-        BulletPool.Instance.bulletPrefab = weaponConfig.bulletPrefab;
+        currentWeaponInstance = Instantiate(config.weaponPrefab, transform);
+        InitializeAmmo(config);
         firePoint = currentWeaponInstance.transform.Find("FirePoint");
-        ejectPoint = currentWeaponInstance.transform.Find("EjectPoint");
-
-        if (firePoint == null) Debug.LogError("FirePoint не найден в префабе оружия!");
-        if (ejectPoint == null) Debug.LogError("EjectPoint не найден в префабе оружия!");
-        InitializeAmmo();
-        player = GetComponentInParent<Player_shooting>();
-        player_controller = GetComponentInParent<PlayerController>();
-        player_controller.attackEffectPoint = firePoint;
-        player.firePoint = firePoint;
+        shootingBehaviour = config.shootingBehaviourConfig.GetShootingBehaviour(); // Инициализация поведения стрельбы
+        if (player == null)
+        {
+            player = FindObjectOfType<Player_shooting>();
+        }
     }
 
-    private void InitializeAmmo()
+
+    private void InitializeAmmo(WeaponConfig config)
     {
-        totalAmmo = weaponConfig.maxTotalAmmo; // Устанавливаем общее количество патронов
-        currentMagazineAmmo = weaponConfig.magazineSize; // Полный магазин
+        totalAmmo = config.maxTotalAmmo; // Устанавливаем общее количество патронов
+        currentMagazineAmmo = config.magazineSize; // Полный магазин
         OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
+        BulletPool.Instance.InitializePool(config.bulletPrefab, 20);
     }
 
     private void Update()
     {
+        if (player == null || player.currentTarget == null) return;
+
         if (player.CanShoot)
         {
-            
+            Debug.Log("Shooting");
             HandleShoot(player.currentTarget.position);
         }
     }
@@ -83,19 +74,15 @@ public class Weapon_Controller : MonoBehaviour
 
         nextFireTime = Time.time + weaponConfig.fireRate;
 
-        // Стреляем пулей
         Vector3 direction = (targetPosition - firePoint.position).normalized;
-        player_controller.PlayAttackEffect();
-        direction.y = 0f;
+        shootingBehaviour.Shoot(firePoint, direction, weaponConfig);
 
-        SpawnBullet(direction);
-
-        currentMagazineAmmo--; // Уменьшаем количество патронов в магазине
-        OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
+        currentMagazineAmmo--;
+        OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo);
 
         if (currentMagazineAmmo <= 0)
         {
-            TryReload(); // Автоматическая перезарядка
+            TryReload();
         }
     }
 
@@ -148,14 +135,13 @@ public class Weapon_Controller : MonoBehaviour
         GameObject bullet = BulletPool.Instance.GetBullet(startPosition, rotation);
 
         bullet_controller bulletScript = bullet.GetComponent<bullet_controller>();
-        bulletScript.Initialize(weaponConfig.bulletSpeed, weaponConfig.bulletDamage, spreadDirection, weaponConfig.bulletDistance);
+        //bulletScript.Initialize(weaponConfig.bulletSpeed, weaponConfig.bulletDamage, spreadDirection, weaponConfig.bulletDistance);
     }
 
     private void ChangeWeapon(WeaponConfig weapon)
     {
         weaponConfig = weapon;
-        InitializeWeapon();
-        InitializeAmmo();
+        InitializeWeapon(weapon);
     }
 
 

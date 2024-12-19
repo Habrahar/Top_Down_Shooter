@@ -21,16 +21,28 @@ public class BulletPool : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if(bulletPrefab != null)
+    }
+
+    public void InitializePool(GameObject newBulletPrefab, int newPoolSize)
+    {
+        // Очистка текущего пула
+        foreach (var bullet in bulletPool)
         {
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject bullet = Instantiate(bulletPrefab);
-                bullet.SetActive(false); 
-                bulletPool.Enqueue(bullet);
-            }    
+            Destroy(bullet);
         }
-        
+        bulletPool.Clear();
+
+        // Установка новых параметров
+        bulletPrefab = newBulletPrefab;
+        poolSize = newPoolSize;
+
+        // Создание нового пула
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject bullet = Instantiate(bulletPrefab);
+            bullet.SetActive(false); 
+            bulletPool.Enqueue(bullet);
+        }
     }
 
     public GameObject GetBullet(Vector3 position, Quaternion rotation)
@@ -56,3 +68,4 @@ public class BulletPool : MonoBehaviour
         bulletPool.Enqueue(bullet);
     }
 }
+

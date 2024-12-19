@@ -9,9 +9,11 @@ public class bullet_controller : MonoBehaviour
     private Vector3 direction;
     private float maxDistance;
     private Vector3 startPosition;
-    private Vector3 targetPosition; 
-    
-    public void Initialize(float bulletSpeed, int bulletDamage, Vector3 shootDirection, float distance)
+    private Vector3 targetPosition;
+    private GameObject hitEffect;
+    private GameObject vanishEffect;
+
+    public void Initialize(float bulletSpeed, int bulletDamage, Vector3 shootDirection, float distance, GameObject hitEffectPrefab, GameObject vanishEffectPrefab)
     {
         speed = bulletSpeed;
         damage = bulletDamage;
@@ -20,6 +22,9 @@ public class bullet_controller : MonoBehaviour
         startPosition = transform.position;
         targetPosition = startPosition + direction * maxDistance;
         targetPosition.y = startPosition.y;
+
+        hitEffect = hitEffectPrefab;
+        vanishEffect = vanishEffectPrefab;
     }
 
     void Update()
@@ -28,6 +33,7 @@ public class bullet_controller : MonoBehaviour
 
         if (transform.position == targetPosition)
         {
+            TriggerEffect(vanishEffect);
             ReturnBulletToPool(); 
         }
     }
@@ -35,16 +41,24 @@ public class bullet_controller : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         var damageable = other.GetComponent<IDamageable>();
-        if(damageable != null){
+        if (damageable != null)
+        {
             damageable.TakeDamage(damage);
+            TriggerEffect(hitEffect, transform.position);
             ReturnBulletToPool();
         }
     }
 
-    // Возвращаем пулю в пул
+    private void TriggerEffect(GameObject effectPrefab, Vector3 position = default)
+    {
+        if (effectPrefab == null) return;
+
+        GameObject effect = Instantiate(effectPrefab, position == default ? transform.position : position, Quaternion.identity);
+        Destroy(effect, 2f); // Уничтожаем эффект через 2 секунды
+    }
+
     private void ReturnBulletToPool()
     {
         BulletPool.Instance.ReturnBullet(gameObject);
     }
-    
 }

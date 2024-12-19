@@ -23,3 +23,6 @@ MonoBehaviour:
   magazineSize: 30
   maxTotalAmmo: 600
   reloadTime: 1.5
+  hitEffect: {fileID: 166404, guid: 78e1c8c5b281b8b439229473779ac9aa, type: 3}
+  vanishEffect: {fileID: 157586, guid: 2574ca206a571a342a7fab69fdfb87aa, type: 3}
+  shootingBehaviourConfig: {fileID: 11400000, guid: ceedd1b017f91504f86f7ebf98ca3158, type: 2}

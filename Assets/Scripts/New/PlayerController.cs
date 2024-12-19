@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using New;
 using New.Interface;
+using UI;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IDamageable
@@ -20,26 +21,42 @@ public class PlayerController : MonoBehaviour, IDamageable
     public float CurrentHealth { get; set; }
 
     [SerializeField] private Player_shooting shooting;
+    [SerializeField] private Weapon_Controller weapon;
     [SerializeField] private PlayerMovement movement;
     [SerializeField] private Animator _animator;
+
+    [SerializeField] private WeaponConfig currentWeapon;
     private AnimationController animationController;
     [SerializeField] public Transform attackEffectPoint;
     [SerializeField] public Transform impactEffectPoint;
 
-    
-    
+
+    private void OnEnable()
+    {
+        WeaponSelectionWindow.ApplyWeapon += EquipWeapon;
+    }
+
+    private void OnDisable()
+    {
+        WeaponSelectionWindow.ApplyWeapon -= EquipWeapon;
+    }
 
     public void Start()
     {
         MaxHealth = 100;
         CurrentHealth = MaxHealth;
         LocationObserver.RegisterPlayer(transform);
+        EquipWeapon(currentWeapon);
+        
+    }
 
-        movement.SetParameters(moveSpeed, null, checkDistance, Collision);
-        shooting.SetParameters(detectionRadius, enemyLayer, groundLayer);
-
+    public void EquipWeapon(WeaponConfig config)
+    {
+        weapon.InitializeWeapon(currentWeapon);
         animationController = gameObject.AddComponent<AnimationController>();
         animationController.Initialize(_animator);
+        movement.SetParameters(moveSpeed, null, checkDistance, Collision);
+        shooting.SetParameters(detectionRadius, enemyLayer, groundLayer);
     }
 
     public void Update()
