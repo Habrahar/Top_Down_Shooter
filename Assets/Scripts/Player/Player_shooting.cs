@@ -5,8 +5,6 @@ using System;
 
 public class Player_shooting : MonoBehaviour
 {
-    private LayerMask groundLayer; 
-    public static event Action<Vector3> OnShoot;
     private float detectionRadius; // Радиус обнаружения врагов
     private LayerMask enemyLayer; // Слой врагов
 
@@ -15,10 +13,9 @@ public class Player_shooting : MonoBehaviour
     public Transform firePoint;
     public bool CanShoot;
 
-    public void SetParameters(float detection, LayerMask layerEnemy, LayerMask layerGround)
+    public void SetParameters(float detection, LayerMask layerEnemy)
     {
         detectionRadius = detection;
-        groundLayer = layerGround;
         enemyLayer = layerEnemy;
     }
     void Update()
@@ -56,13 +53,6 @@ public class Player_shooting : MonoBehaviour
         direction.y = 0f;
         firePoint.rotation = Quaternion.LookRotation(direction);
     }
-    private void HandleShooting(Vector3 targetPosition)
-    {
-        //Player_shooting.OnShoot?.Invoke(targetPosition);
-        
-    }
-
-
 
 
     private Transform GetClosestEnemy()

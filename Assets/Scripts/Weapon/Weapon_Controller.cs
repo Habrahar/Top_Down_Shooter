@@ -23,13 +23,11 @@ public class Weapon_Controller : MonoBehaviour
 
     private void OnEnable()
     {
-        Player_shooting.OnShoot += HandleShoot;
         WeaponSelectionWindow.ApplyWeapon += InitializeWeapon;
     }
 
     private void OnDisable()
     {
-        Player_shooting.OnShoot -= HandleShoot;
         WeaponSelectionWindow.ApplyWeapon -= InitializeWeapon;
     }
     
@@ -118,15 +116,6 @@ public class Weapon_Controller : MonoBehaviour
         totalAmmo += amount;
         OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
     }
-    
-    
-
-    private void ChangeWeapon(WeaponConfig weapon)
-    {
-        weaponConfig = weapon;
-        InitializeWeapon(weapon);
-    }
-
 
 
 }

@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         animationController = gameObject.AddComponent<AnimationController>();
         animationController.Initialize(_animator);
         movement.SetParameters(moveSpeed, null, checkDistance, Collision);
-        shooting.SetParameters(detectionRadius, enemyLayer, groundLayer);
+        shooting.SetParameters(detectionRadius, enemyLayer);
     }
 
     public void Update()
@@ -67,13 +67,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
-        Debug.Log(CurrentHealth);
-        // Вызов эффекта попадания
-        if (TryGetComponent<IEffectHandler>(out var effectHandler))
-        {
-            effectHandler.PlayImpactEffect(transform.position, Quaternion.identity);
-        }
-
         if (CurrentHealth <= 0)
         {
             Die();
@@ -83,17 +76,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void Die()
     {
         animationController.SetTrigger("Die");
-        if (attackEffectPoint != null && TryGetComponent<IEffectHandler>(out var effectHandler))
-        {
-            effectHandler.PlayDeathEffect(transform.position, attackEffectPoint.rotation);
-        }
         Destroy(gameObject);
-    }
-    public void PlayAttackEffect()
-    {
-        if (attackEffectPoint != null && TryGetComponent<IEffectHandler>(out var effectHandler))
-        {
-            effectHandler.PlayAttackEffect(attackEffectPoint.position, attackEffectPoint.rotation);
-        }
     }
 }
