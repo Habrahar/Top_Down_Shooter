@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
 
     public void StartWave()
     {
-        // Запуск волны для текущего уровня
+        
         
     }
 

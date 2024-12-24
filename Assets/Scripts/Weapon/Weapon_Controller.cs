@@ -9,6 +9,7 @@ public class Weapon_Controller : MonoBehaviour
     [SerializeField] private WeaponConfig weaponConfig; // Конфигурация оружия
     private GameObject currentWeaponInstance; // Текущий экземпляр оружия
     public Transform firePoint;
+    public Transform spawnPoint;
     private Transform ejectPoint;
     private Player_shooting player;
     private PlayerController player_controller;
@@ -40,15 +41,34 @@ public class Weapon_Controller : MonoBehaviour
         }
 
         weaponConfig = config;
-        currentWeaponInstance = Instantiate(config.weaponPrefab, transform);
-        InitializeAmmo(config);
+        currentWeaponInstance = Instantiate(config.weaponPrefab);
+
+        Transform handlePoint = currentWeaponInstance.transform.Find("SpawnPoint");
+        if (handlePoint != null)
+        {
+            currentWeaponInstance.transform.SetParent(spawnPoint, false);
+            currentWeaponInstance.transform.position = spawnPoint.position;
+            currentWeaponInstance.transform.rotation = spawnPoint.rotation;
+
+            // Сместить объект оружия так, чтобы HandlePoint совпал с spawnPoint
+            Vector3 offset = spawnPoint.position - handlePoint.position;
+            currentWeaponInstance.transform.position += offset;
+        }
+        else
+        {
+            Debug.LogWarning("HandlePoint not found in weapon prefab.");
+        }
+        
         firePoint = currentWeaponInstance.transform.Find("FirePoint");
-        shootingBehaviour = config.shootingBehaviourConfig.GetShootingBehaviour(); // Инициализация поведения стрельбы
+        InitializeAmmo(config);
+
+        shootingBehaviour = config.shootingBehaviourConfig.GetShootingBehaviour();
         if (player == null)
         {
             player = FindObjectOfType<Player_shooting>();
         }
     }
+
 
 
     private void InitializeAmmo(WeaponConfig config)
