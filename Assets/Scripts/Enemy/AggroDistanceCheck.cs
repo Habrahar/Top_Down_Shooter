@@ -19,7 +19,14 @@ public class AggroDistanceCheck : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            _enemy.SetChaseState();
+            var player = other.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                _enemy.InitializeTarget(player.GetComponent<IDamageable>());
+                _enemy.SetChaseState();
+
+            }
+            
         }
     }
 

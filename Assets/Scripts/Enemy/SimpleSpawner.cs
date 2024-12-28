@@ -1,44 +1,40 @@
-    using New;
-    using UnityEngine;
+using New;
+using UnityEngine;
 
-    public class SimpleSpawner : MonoBehaviour
+public class SimpleSpawner : MonoBehaviour
+{
+    //Спавнеор на точку
+    [SerializeField] private EnemyConfig enemyConfig; // Конфиг
+    [SerializeField] private EnemyConfig spawnDelay; // задержка перед спавнов
+    [SerializeField] private EnemyConfig spawnInterval; // интервал спавна
+    [SerializeField] private Transform spawnPoint;    // Точка спавна
+    [SerializeField] private int count;
+
+    private void Start()
     {
-        //Спавнеор на точку
-        [SerializeField] private EnemyConfig enemyConfig; // Конфиг
-        [SerializeField] private EnemyConfig spawnDelay; // задержка перед спавнов
-        [SerializeField] private EnemyConfig spawnInterval; // интервал спавна
-        [SerializeField] private Transform spawnPoint;    // Точка спавна
-        [SerializeField] private int count;
+        
+    }
 
-        private void Start()
+    public void InitializeEnemies()
+    {
+        SpawnEnemy(spawnPoint.position);
+    }
+
+    public void SpawnEnemy(Vector3 point)
+    {
+        // Создаем объект врага
+        GameObject enemyObject = Instantiate(enemyConfig.Prefab,point, Quaternion.identity);
+
+        // Настраиваем EnemyController
+        if (enemyObject.TryGetComponent<EnemyController>(out var enemyController))
         {
+            enemyController.Initialize(enemyConfig);
             
+
         }
-
-        public void InitializeEnemies()
+        else
         {
-            SpawnEnemy(spawnPoint.position);
-        }
-
-        public void SpawnEnemy(Vector3 point)
-        {
-            // Создаем объект врага
-            GameObject enemyObject = Instantiate(enemyConfig.Prefab,point, Quaternion.identity);
-
-            // Настраиваем EnemyController
-            if (enemyObject.TryGetComponent<EnemyController>(out var enemyController))
-            {
-                enemyController.Initialize(enemyConfig);
-                var player = FindObjectOfType<PlayerController>();
-                if (player != null)
-                {
-                    enemyController.InitializeTarget(player.GetComponent<IDamageable>());
-                }
-
-            }
-            else
-            {
-                Debug.LogError("EnemyController not found on prefab!");
-            }
+            Debug.LogError("EnemyController not found on prefab!");
         }
     }
+}

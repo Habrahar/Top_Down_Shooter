@@ -1,4 +1,6 @@
 using System;
+using Level;
+using New;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,15 +8,14 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public int currentLevel = 0; // Начальный уровень
     public CameraController _cam;
+    [SerializeField] public LevelManager LevelManager;
 
     [Header("Игрок")]
     public GameObject playerPrefab;
-    public Transform playerSpawnPoint;
-    [SerializeField] private QuestHandler questHandler;
-
+    private Transform playerSpawnPoint;
     public void EnemyKilled(EnemyConfig enemyType)
     {
-        questHandler.OnEnemyKilled(enemyType);
+        
     }
 
     private void Awake()
@@ -22,10 +23,8 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            // Спавн игрока в стартовой точке
+            LevelManager.StartNextLevel(currentLevel);
             SpawnPlayer();
-            StartWave();
-            questHandler.Initialize(currentLevel);
         }
         else
         {
@@ -43,18 +42,18 @@ public class GameManager : MonoBehaviour
         
     }
     
-    private void SpawnPlayer()
+    public void SpawnPlayer()
     {
+        playerSpawnPoint = LevelManager.getPlayerPos();
         if (playerPrefab != null && playerSpawnPoint != null)
         {
-            // Спавним игрока в заданной точке
+            
+            
             GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
-
-            // Обновляем ссылку на игрока в CameraController
+            
             if (_cam != null)
             {
-                _cam.player = player.transform; // Передаем ссылку на трансформ игрока
-                //PlayerLocator.Locate();
+                _cam.player = player.transform;
             }
         }
         else

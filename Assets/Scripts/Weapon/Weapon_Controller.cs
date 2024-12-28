@@ -85,7 +85,7 @@ public class Weapon_Controller : MonoBehaviour
 
         if (player.CanShoot)
         {
-            Debug.Log("Shooting");
+           // Debug.Log("Shooting");
             HandleShoot(player.currentTarget.position);
         }
     }

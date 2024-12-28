@@ -16,7 +16,6 @@ public class EnemyChaseState : EnemyState
     {
         
     }
-    // ReSharper disable Unity.PerformanceAnalysis
     public override void FrameUpdate(){
         if (enemy.Target != null)
         {

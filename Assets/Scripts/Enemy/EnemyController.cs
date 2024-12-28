@@ -1,10 +1,11 @@
 using System;
+using Interface;
 using New.Interface;
 using UnityEngine;
 
 namespace New
 {
-    public class EnemyController : MovableEntity, IDamageable, IMovable, ITriggerCheck, IActivatable
+    public class EnemyController : MovableEntity, IDamageable, IMovable, ITriggerCheck, IActivatable, IPoolable
     {
         #region Parameters
         public float MaxHealth {get; set;}
@@ -16,6 +17,7 @@ namespace New
         public float speed {get; set;}
         public float ChaseRange {get; set;}
         public bool isActive = false;
+        private ObjectPool<EnemyController> pool;
 
         #endregion
     
@@ -47,7 +49,7 @@ namespace New
             ChaseState = new EnemyChaseState(this, StateMachine);
         }
         #endregion
-    
+        
         public void Initialize(EnemyConfig config)
         {
             Activate();
@@ -67,6 +69,12 @@ namespace New
             StateMachine.Initialize(IdleState);
             animationController = gameObject.AddComponent<AnimationController>();
             animationController.Initialize(_animation);
+        }
+        
+
+        public void SetPool(ObjectPool<EnemyController> pool)
+        {
+            this.pool = pool;
         }
         void Update(){
             StateMachine.currentState.FrameUpdate();
@@ -107,10 +115,11 @@ namespace New
     
         public void Die()
         {
-            Deactivate();
-            OnDieTrigger?.Invoke(_enemy); // Обновляем квест
+            
+            EnemySpawner.Instance.ReturnEnemy(this, _enemy);
             Debug.Log("Enemy died!");
         }
+
 
         public IDamageable Target { get; set; }
 
@@ -153,6 +162,15 @@ namespace New
         private void OnDisable()
         {
             LocationObserver.UnregisterEnemy(this);
+        }
+        public void OnSpawn()
+        {
+            // Здесь можно сбросить состояние врага
+        }
+
+        public void OnDespawn()
+        {
+            // Здесь можно очистить состояние врага
         }
 
         public void Activate()
