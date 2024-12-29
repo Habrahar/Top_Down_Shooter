@@ -22,13 +22,16 @@ public class AggroDistanceCheck : MonoBehaviour
             var player = other.GetComponent<PlayerController>();
             if (player != null)
             {
+                Debug.Log("Враг перешел в преследование");
                 _enemy.InitializeTarget(player.GetComponent<IDamageable>());
                 _enemy.SetChaseState();
 
             }
             
         }
+        
     }
+    
 
     
     private void OnTriggerExit(Collider other)

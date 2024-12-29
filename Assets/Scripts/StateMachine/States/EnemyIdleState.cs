@@ -12,18 +12,19 @@ public class EnemyIdleState : EnemyState
 
     public override void EnterState(){ 
         
-        _targetpos = GetRandomPointInCircle();
+        //_targetpos = GetRandomPointInCircle();
     }
     public override void ExitState(){ }
     public override void FrameUpdate(){
-        if (Vector3.Distance(enemy.transform.position, _targetpos) > 0.1f)
+        //Убрал случайное движение чтобы не создавать обработки
+       /* if (Vector3.Distance(enemy.transform.position, _targetpos) > 0.1f)
         {
             enemy.Follow(_targetpos);
         }
         else
         {
             _targetpos = GetRandomPointInCircle();
-        }
+        }*/
         
     }
 

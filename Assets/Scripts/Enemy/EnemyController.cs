@@ -64,7 +64,7 @@ namespace New
             _enemy = config;
 
             // Инициализация базового движения
-            Initialize(config.Speed, 0.5f, LayerMask.GetMask("Obstacle"));
+            Initialize(config.Speed, 0.5f, LayerMask.GetMask("Collision"));
 
             StateMachine.Initialize(IdleState);
             animationController = gameObject.AddComponent<AnimationController>();
@@ -91,19 +91,48 @@ namespace New
             }
         }
 
+        private void AvoidObstacles(ref Vector3 direction)
+        {
+            if (Physics.SphereCast(transform.position, 0.5f, direction, out RaycastHit hit, 1f, LayerMask.GetMask("Collision")))
+            {
+                Vector3 avoidDirection = Vector3.Reflect(direction, hit.normal);
+                direction = avoidDirection.normalized;
+            }
+        }
+
         public void Follow(Vector3 targetPosition)
         {
-            if (!isActive) return;
-
+            if (!isActive || !IsPlayerInLineOfSight(targetPosition)) return;
+            
+            
             Vector3 direction = (targetPosition - transform.position).normalized;
+
+            AvoidObstacles(ref direction);
+
             HandleRotation(direction);
-
-            // Используем метод Move из MovableEntity
             Move(direction);
-
-            // Обновляем направление для анимаций
             movementDirection = direction;
         }
+    
+        public bool IsPlayerInLineOfSight(Vector3 target)
+        {
+            Vector3 directionToTarget = (target - transform.position).normalized;
+            float distanceToTarget = Vector3.Distance(transform.position, target);
+            
+            if (Physics.Raycast(transform.position, directionToTarget, out RaycastHit hit, ChaseRange))
+            {
+                if (hit.transform.CompareTag("Player"))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false; // Есть преграда
+                }
+            }
+            return true;
+        }
+
         protected override void HandleRotation(Vector3 moveDirection)
         {
             if (moveDirection.magnitude > 0.1f)
@@ -199,6 +228,8 @@ namespace New
                 transform.position += pushDirection * 0.5f; // Смещаем врага назад
             }
         }
+        
+
 
     }
 }

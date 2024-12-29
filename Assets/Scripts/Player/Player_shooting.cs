@@ -23,15 +23,24 @@ public class Player_shooting : MonoBehaviour
         currentTarget = GetClosestEnemy();
         if (currentTarget != null && Vector3.Distance(transform.position, currentTarget.position) <= detectionRadius)
         {
-            CanShoot = true;
-            RotatePlayerToEnemy(currentTarget.position);
-            RotateWeaponToEnemy(currentTarget.position);
+            // Проверяем наличие препятствий
+            Vector3 directionToEnemy = (currentTarget.position - transform.position).normalized;
+            if (Physics.Raycast(transform.position, directionToEnemy, out RaycastHit hit, detectionRadius))
+            {
+                if (hit.transform == currentTarget) // Если преград нет
+                {
+                    CanShoot = true;
+                    RotatePlayerToEnemy(currentTarget.position);
+                    RotateWeaponToEnemy(currentTarget.position);
+                    return; // Завершаем выполнение, так как цель найдена
+                }
+            }
         }
-        else
-        {
-            CanShoot = false;
-        }
+
+        // Если враг недоступен или есть преграды
+        CanShoot = false;
     }
+
 
 
     private void RotatePlayerToEnemy(Vector3 targetPosition)
@@ -63,15 +72,25 @@ public class Player_shooting : MonoBehaviour
 
         foreach (var hitCollider in hitColliders)
         {
-            float distance = Vector3.Distance(transform.position, hitCollider.transform.position);
-            if (distance < closestDistance)
+            Vector3 directionToEnemy = (hitCollider.transform.position - transform.position).normalized;
+
+            if (Physics.Raycast(transform.position, directionToEnemy, out RaycastHit hit, detectionRadius))
             {
-                closestDistance = distance;
-                closestEnemy = hitCollider.transform;
+                if (hit.transform == hitCollider.transform) // Если враг доступен без препятствий
+                {
+                    float distance = Vector3.Distance(transform.position, hitCollider.transform.position);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestEnemy = hitCollider.transform;
+                    }
+                }
             }
         }
+
         return closestEnemy;
     }
+
 
 
 }
