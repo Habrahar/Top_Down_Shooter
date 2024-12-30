@@ -6,6 +6,7 @@ TagManager:
   tags:
   - AmmoBox
   - Enemy
+  - Obstacle
   layers:
   - Default
   - TransparentFX

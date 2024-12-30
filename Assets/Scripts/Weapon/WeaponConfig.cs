@@ -1,11 +1,14 @@
 using New;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "WeaponConfig", menuName = "ScriptableObjects/WeaponConfig")]
 public class WeaponConfig : ScriptableObject
 {
     public GameObject weaponPrefab;
     public GameObject bulletPrefab;
+    public Sprite weaponImage;
+
     public string weaponName;
 
     public float fireRate;

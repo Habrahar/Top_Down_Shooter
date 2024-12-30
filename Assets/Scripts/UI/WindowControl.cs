@@ -6,13 +6,14 @@ namespace UI
     {
         private WindowManager windowManager;
 
-        private void Start()
+        public void Initialized()
         {
             windowManager = FindObjectOfType<WindowManager>();
         }
 
         private void Update()
         {
+            /*
             if (Input.GetKeyDown(KeyCode.Q)) // Открыть окно выбора оружия
             {
                 windowManager.OpenWeaponSelectionWindow();
@@ -21,7 +22,7 @@ namespace UI
             if (Input.GetKeyDown(KeyCode.T)) // Открыть окно задания
             {
                 windowManager.OpenQuestWindow();
-            }
+            }*/
         }
     }
 }

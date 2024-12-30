@@ -27,8 +27,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     [SerializeField] private WeaponConfig currentWeapon;
     private AnimationController animationController;
-    [SerializeField] public Transform attackEffectPoint;
-    [SerializeField] public Transform impactEffectPoint;
 
 
     private void OnEnable()
@@ -52,6 +50,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void EquipWeapon(WeaponConfig config)
     {
+        currentWeapon = config;
         weapon.InitializeWeapon(currentWeapon);
         animationController = gameObject.AddComponent<AnimationController>();
         animationController.Initialize(_animator);
@@ -75,7 +74,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void Die()
     {
-        animationController.SetTrigger("Die");
-        Destroy(gameObject);
+        //animationController.SetTrigger("Die");
+        gameObject.SetActive(false);
+        //Destroy(gameObject);
     }
 }

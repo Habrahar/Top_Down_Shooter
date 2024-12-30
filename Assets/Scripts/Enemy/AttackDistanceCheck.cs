@@ -18,6 +18,7 @@ public class AttackDistanceCheck : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             _enemy.SetAttackState();
+            _enemy.agent.ResetPath();
         }
     }
 

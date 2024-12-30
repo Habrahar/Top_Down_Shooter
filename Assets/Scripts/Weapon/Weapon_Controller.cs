@@ -24,12 +24,12 @@ public class Weapon_Controller : MonoBehaviour
 
     private void OnEnable()
     {
-        WeaponSelectionWindow.ApplyWeapon += InitializeWeapon;
+        //WeaponSelectionWindow.ApplyWeapon += InitializeWeapon;
     }
 
     private void OnDisable()
     {
-        WeaponSelectionWindow.ApplyWeapon -= InitializeWeapon;
+       // WeaponSelectionWindow.ApplyWeapon -= InitializeWeapon;
     }
     
 
@@ -76,7 +76,7 @@ public class Weapon_Controller : MonoBehaviour
         totalAmmo = config.maxTotalAmmo; // Устанавливаем общее количество патронов
         currentMagazineAmmo = config.magazineSize; // Полный магазин
         BulletPool.Instance.InitializePool(config.bulletPrefab, 20);
-        OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
+        //OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
     }
 
     private void Update()
@@ -96,19 +96,25 @@ public class Weapon_Controller : MonoBehaviour
 
         nextFireTime = Time.time + weaponConfig.fireRate;
 
+        // Рассчитываем направление к цели
         Vector3 direction = (targetPosition - firePoint.position).normalized;
+
+        // Стрельба 
         shootingBehaviour.Shoot(firePoint, direction, weaponConfig);
-        
-        EffectPool.Instance.GetEffect(weaponConfig.fireEffect, firePoint.position, Quaternion.identity);
-        
+
+        // Создание эффекта, направленного к цели
+        Quaternion effectRotation = Quaternion.LookRotation(direction);
+        EffectPool.Instance.GetEffect(weaponConfig.fireEffect, firePoint.position, effectRotation);
+
         currentMagazineAmmo--;
-        OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo);
+        //OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo);
 
         if (currentMagazineAmmo <= 0)
         {
             TryReload();
         }
     }
+
 
     private void TryReload()
     {
@@ -126,7 +132,7 @@ public class Weapon_Controller : MonoBehaviour
         totalAmmo -= ammoToReload;
         currentMagazineAmmo += ammoToReload;
 
-        OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
+        //OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
 
         isReloading = false;
     }
@@ -134,7 +140,7 @@ public class Weapon_Controller : MonoBehaviour
     public void AddAmmo(int amount)
     {
         totalAmmo += amount;
-        OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
+        //OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
     }
 
 

@@ -2,18 +2,21 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
 
 namespace UI
 {
     public class WeaponSelectionWindow : WindowBase
     {
-        public WeaponConfig[] availableWeapons; // Список доступных оружий
-        private int selectedWeaponIndex = 0; // Индекс выбранного оружия
+        public WeaponConfig[] availableWeapons;
+        private int selectedWeaponIndex = 0;
         public static event Action<WeaponConfig> ApplyWeapon; // Событие обновления патронов
+        [SerializeField] private TextMeshProUGUI weaponNameText;
+        [SerializeField] private Image weaponImage;
 
-        public void SelectWeapon(int index)
+        public void SelectWeapon()
         {
-            selectedWeaponIndex = index;
             ApplyWeapon?.Invoke(availableWeapons[selectedWeaponIndex]);
             UpdateWindow();
         }
@@ -27,13 +30,45 @@ namespace UI
         protected override void OnOpen()
         {
             base.OnOpen();
-            Debug.Log("Weapon Selection Window Opened");
+            SlotUpdate();
         }
 
         protected override void OnClose()
         {
             base.OnClose();
-            Debug.Log("Weapon Selection Window Closed");
+        }
+
+        public void NextWeapon()
+        {
+            if (selectedWeaponIndex == availableWeapons.Length - 1)
+            {
+                selectedWeaponIndex = 0;
+            }
+            else
+            {
+                selectedWeaponIndex++;    
+            };
+            SlotUpdate();
+        }
+
+        public void PreviousWeapon()
+        {
+            if (selectedWeaponIndex == 0)
+            {
+                selectedWeaponIndex = availableWeapons.Length - 1;
+            }
+            else
+            {
+                selectedWeaponIndex--;    
+            }
+            
+            SlotUpdate();
+        }
+        
+        public void SlotUpdate()
+        {
+            weaponImage.sprite = availableWeapons[selectedWeaponIndex].weaponImage;
+            weaponNameText.text = availableWeapons[selectedWeaponIndex].weaponName;
         }
     }
 

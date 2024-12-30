@@ -20,6 +20,8 @@ public class EnemyChaseState : EnemyState
         if (enemy.Target != null)
         {
             Vector3 targetPosition = enemy.GetTargetPosition();
+            StartChasingPlayer(targetPosition);
+
             enemy.Follow(targetPosition);
         }
         else
@@ -27,4 +29,18 @@ public class EnemyChaseState : EnemyState
             Debug.LogError("Цель не задана!");
         }
     }
+    
+    private void StartChasingPlayer(Vector3 target)
+    {
+        enemy.agent.SetDestination(target);
+    }
+
+    /*private void StopChasingPlayer()
+    {
+        if (isChasing)
+        {
+            isChasing = false;
+        }
+        agent.ResetPath(); // Остановить движение
+    }*/
 }

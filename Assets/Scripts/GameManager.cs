@@ -1,6 +1,7 @@
 using System;
 using Level;
 using New;
+using UI;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,6 +10,9 @@ public class GameManager : MonoBehaviour
     public int currentLevel = 0; // Начальный уровень
     public CameraController _cam;
     [SerializeField] public LevelManager LevelManager;
+    [SerializeField] public WindowManager windows;
+    [SerializeField] private WeaponConfig currentWeapon;
+    protected int Gold;
 
     [Header("Игрок")]
     public GameObject playerPrefab;
@@ -23,8 +27,9 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            LevelManager.StartNextLevel(currentLevel);
-            SpawnPlayer();
+            //LevelManager.StartNextLevel(currentLevel);
+            windows.startWindow.Open();
+            //SpawnPlayer();
         }
         else
         {
@@ -34,14 +39,31 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        StartMenuWindow.gameStart += StartGame;
+        StartMenuWindow.shopOpen += OpenShop;
+        WeaponSelectionWindow.ApplyWeapon += SaveWeapon;
     }
 
     private void OnDisable()
     {
+        StartMenuWindow.gameStart -= StartGame;
+        StartMenuWindow.shopOpen -= OpenShop;
+        WeaponSelectionWindow.ApplyWeapon -= SaveWeapon;
+    }
+
+    private void StartGame()
+    {
+        LevelManager.StartNextLevel(currentLevel);
+        SpawnPlayer();
+        windows.startWindow.Close();
         
     }
-    
+
+    private void OpenShop()
+    {
+        windows.startWindow.Close();
+        windows.weaponSelectionWindow.Open();
+    }
     public void SpawnPlayer()
     {
         playerSpawnPoint = LevelManager.getPlayerPos();
@@ -50,7 +72,8 @@ public class GameManager : MonoBehaviour
             
             
             GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
-            
+            var playerController = player.GetComponent<PlayerController>();
+            EquipCurrentWeapon(playerController);
             if (_cam != null)
             {
                 _cam.player = player.transform;
@@ -62,18 +85,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SaveWeapon(WeaponConfig config)
+    {
+        currentWeapon = config;
+    }
 
-    public void StartWave()
+    public void EquipCurrentWeapon(PlayerController controller)
+    {
+        controller.EquipWeapon(currentWeapon);
+    }
+
+    public void StartLevel()
     {
         
         
     }
 
-    private void OnWaveComplete()
+    private void OnLevelComplete()
     {
-        // Если волна завершена, увеличиваем уровень и запускаем следующую волну
+        
         currentLevel++;
-        StartWave(); // Запускаем следующую волну
+        
     }
     
 }

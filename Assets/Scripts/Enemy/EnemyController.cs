@@ -2,6 +2,7 @@ using System;
 using Interface;
 using New.Interface;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace New
 {
@@ -18,6 +19,7 @@ namespace New
         public float ChaseRange {get; set;}
         public bool isActive = false;
         private ObjectPool<EnemyController> pool;
+        public NavMeshAgent agent;
 
         #endregion
     
@@ -62,6 +64,8 @@ namespace New
             AttackInterval = config.AttackInterval;
             AttackDelay = config.AttackDelay;
             _enemy = config;
+            agent = GetComponent<NavMeshAgent>();
+            agent.speed = speed;
 
             // Инициализация базового движения
             Initialize(config.Speed, 0.5f, LayerMask.GetMask("Collision"));
@@ -107,9 +111,9 @@ namespace New
             
             Vector3 direction = (targetPosition - transform.position).normalized;
 
-            AvoidObstacles(ref direction);
+            //AvoidObstacles(ref direction);
 
-            HandleRotation(direction);
+            //HandleRotation(direction);
             Move(direction);
             movementDirection = direction;
         }
@@ -125,9 +129,13 @@ namespace New
                 {
                     return true;
                 }
+                else if(hit.transform.CompareTag("Enemy"))
+                {
+                    return true; // Есть преграда
+                }
                 else
                 {
-                    return false; // Есть преграда
+                    return false;
                 }
             }
             return true;
@@ -172,16 +180,28 @@ namespace New
         }
         public Vector3 GetTargetPosition()
         {
-            if (Target is MonoBehaviour targetMono)
+            // Проверяем, не равен ли Target null
+            if (Target == null)
             {
-                return targetMono.transform.position;
-            }
-            else
-            {
-                Debug.LogError("Target не содержит Transform!");
+               // Debug.LogWarning("Target отсутствует! Возвращаем текущую позицию.");
                 return transform.position;
             }
+
+            // Проверяем, является ли Target MonoBehaviour и имеет Transform
+            if (Target is MonoBehaviour targetMono)
+            {
+                // Убеждаемся, что Transform не удален
+                if (targetMono != null && targetMono.transform != null)
+                {
+                    return targetMono.transform.position;
+                }
+            }
+
+            // Если что-то пошло не так, возвращаем текущую позицию врага
+            //Debug.LogError("Target не содержит Transform или недоступен!");
+            return transform.position;
         }
+
 
         private void OnEnable()
         {
@@ -220,14 +240,14 @@ namespace New
                 _animation.SetTrigger("IsPunching");
             }
         }
-        private void OnCollisionEnter(Collision collision)
+        /*private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Player")) // Проверяем, что столкнулись с врагом
+            if (collision.gameObject.CompareTag("Obstacle") || collision.gameObject.CompareTag("Player")) // Проверяем, что столкнулись с врагом
             {
                 Vector3 pushDirection = (transform.position - collision.transform.position).normalized;
                 transform.position += pushDirection * 0.5f; // Смещаем врага назад
             }
-        }
+        }*/
         
 
 

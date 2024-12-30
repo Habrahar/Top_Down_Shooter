@@ -38,7 +38,8 @@ public class AggroDistanceCheck : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            _enemy.SetChaseState();
+            _enemy.SetIdleState();
+            _enemy.agent.ResetPath();
         }
     }
 }

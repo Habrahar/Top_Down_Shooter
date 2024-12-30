@@ -31,7 +31,7 @@ public class EnemyAttackState : EnemyState
 
     private IEnumerator DelayedAttack()
     {
-        yield return new WaitForSeconds(enemy.AttackDelay);
+        //yield return new WaitForSeconds(enemy.AttackDelay);
 
         if (enemy.Target != null && Vector3.Distance(enemy.transform.position, enemy.GetTargetPosition()) <= enemy.AttackRange)
         {

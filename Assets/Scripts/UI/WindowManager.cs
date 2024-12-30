@@ -5,6 +5,7 @@ namespace UI
     public class WindowManager : MonoBehaviour
     {
         public WeaponSelectionWindow weaponSelectionWindow;
+        public StartMenuWindow startWindow;
         //public IWindow questWindow;
 
         private void Start()
@@ -23,20 +24,15 @@ namespace UI
             weaponSelectionWindow.Close();
         }
 
-        public void OpenQuestWindow()
+        public void OpenStartMenu()
         {
-            //questWindow.Open();
+            startWindow.Open();
         }
 
-        public void CloseQuestWindow()
+        public void CloseStartMenu()
         {
-            // questWindow.Close();
+            startWindow.Close();
         }
-
-        // Дополнительно, метод для обновления окна (например, по мере выполнения задания)
-        public void UpdateQuestWindowProgress(int killedEnemies)
-        {
-            //(questWindow as QuestWindow)?.UpdateProgress(killedEnemies);
-        }
+        
     }
 }
