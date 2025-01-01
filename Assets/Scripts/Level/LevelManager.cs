@@ -87,7 +87,7 @@ namespace Level
           }
 
           playerPos = levelComponent.playerSpawnPoint;
-      
+          DespawnEnemies();
           SpawnEnemies(levelComponent);
           
       }
@@ -95,6 +95,12 @@ namespace Level
       public Transform getPlayerPos()
       {
           return playerPos;
+      }
+
+      private void DespawnEnemies()
+      {
+          
+          EnemySpawner.Instance.ReturnAllEnemy();
       }
      
 
@@ -107,7 +113,7 @@ namespace Level
 
               // Получаем врага из спавнера
               var enemy = EnemySpawner.Instance.GetEnemy(config);
-
+                
               enemy.transform.position = spawnPoint.position;
               enemy.transform.rotation = spawnPoint.rotation;
               enemy.Initialize(config);

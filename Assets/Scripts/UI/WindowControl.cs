@@ -1,3 +1,4 @@
+using Level;
 using UnityEngine;
 
 namespace UI
@@ -5,6 +6,7 @@ namespace UI
     public class WindowControl : MonoBehaviour
     {
         private WindowManager windowManager;
+        public LevelManager gm;
 
         public void Initialized()
         {
@@ -13,13 +15,14 @@ namespace UI
 
         private void Update()
         {
-            /*
+            
             if (Input.GetKeyDown(KeyCode.Q)) // Открыть окно выбора оружия
             {
-                windowManager.OpenWeaponSelectionWindow();
+                gm.StartNextLevel(1);
+                
             }
 
-            if (Input.GetKeyDown(KeyCode.T)) // Открыть окно задания
+            /*if (Input.GetKeyDown(KeyCode.T)) // Открыть окно задания
             {
                 windowManager.OpenQuestWindow();
             }*/

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 
 namespace UI
@@ -11,15 +12,28 @@ namespace UI
     {
         public WeaponConfig[] availableWeapons;
         private int selectedWeaponIndex = 0;
-        public static event Action<WeaponConfig> ApplyWeapon; // Событие обновления патронов
+        public static event Action<WeaponConfig, int> ApplyWeapon; // Событие обновления патронов
         [SerializeField] private TextMeshProUGUI weaponNameText;
+        [SerializeField] private TextMeshProUGUI buyCost;
         [SerializeField] private Image weaponImage;
+        [SerializeField] private Button buyButton;
+        public GameManager gm;
 
         public void SelectWeapon()
         {
-            ApplyWeapon?.Invoke(availableWeapons[selectedWeaponIndex]);
-            UpdateWindow();
+            if (availableWeapons[selectedWeaponIndex].isBought)
+            {
+                ApplyWeapon?.Invoke(availableWeapons[selectedWeaponIndex], availableWeapons[selectedWeaponIndex].cost);    
+            }
+            else
+            {
+                gm.Gold -= availableWeapons[selectedWeaponIndex].cost;
+                availableWeapons[selectedWeaponIndex].isBought = true;    
+            }
+            SlotUpdate();
+            
         }
+        
 
         public override void UpdateWindow()
         {
@@ -67,6 +81,33 @@ namespace UI
         
         public void SlotUpdate()
         {
+            if (availableWeapons[selectedWeaponIndex].isBought)
+            {
+                if (gm.currentWeapon == availableWeapons[selectedWeaponIndex])
+                {
+                    buyButton.interactable = false;
+                    buyCost.text ="Экиперовано";
+                }
+                else
+                {
+                    buyButton.interactable = true;
+                    buyCost.text ="Экиперовать";
+                }
+                
+            }
+            else
+            {
+                buyCost.text = availableWeapons[selectedWeaponIndex].cost.ToString();    
+                
+                if (gm.Gold <= availableWeapons[selectedWeaponIndex].cost)
+                {
+                    buyButton.interactable = false;
+                }
+                else
+                {
+                    buyButton.interactable = true;
+                }
+            }
             weaponImage.sprite = availableWeapons[selectedWeaponIndex].weaponImage;
             weaponNameText.text = availableWeapons[selectedWeaponIndex].weaponName;
         }

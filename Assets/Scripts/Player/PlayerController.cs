@@ -31,12 +31,12 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void OnEnable()
     {
-        WeaponSelectionWindow.ApplyWeapon += EquipWeapon;
+        
     }
 
     private void OnDisable()
     {
-        WeaponSelectionWindow.ApplyWeapon -= EquipWeapon;
+        ;
     }
 
     public void Start()

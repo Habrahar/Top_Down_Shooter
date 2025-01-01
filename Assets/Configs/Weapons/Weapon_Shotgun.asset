@@ -16,6 +16,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 6681766636307311056, guid: d86ac54c80bc64d4da120230a87a4110, type: 3}
   weaponImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   weaponName: "\u0414\u0440\u043E\u0431\u043E\u0432\u0438\u043A"
+  cost: 500
+  isBought: 0
   fireRate: 0.5
   bulletSpeed: 20
   bulletDamage: 10

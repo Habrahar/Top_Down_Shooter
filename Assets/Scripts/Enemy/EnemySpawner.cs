@@ -53,5 +53,23 @@ namespace New
                 pool.Return(enemy);
             }
         }
+
+        public void ReturnAllEnemy()
+        {
+            foreach (var poolEntry in enemyPools)
+            {
+                var pool = poolEntry.Value;
+
+                foreach (var enemy in pool.Objects)
+                {
+                    if (enemy.gameObject.activeSelf) // Проверяем, активен ли враг
+                    {
+                        pool.Return(enemy); // Возвращаем в пул только активных
+                    }
+                }
+            }
+        }
+
+
     }
 }

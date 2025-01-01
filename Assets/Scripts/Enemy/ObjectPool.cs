@@ -6,6 +6,9 @@ namespace New
 {
     public class ObjectPool<T> where T : MonoBehaviour, IPoolable
     {
+        private List<T> allObjects = new List<T>();
+        public IEnumerable<T> Objects => allObjects; // Доступ ко всем объектам
+
         private Queue<T> pool = new Queue<T>();
         private T prefab;
         private Transform parent;
@@ -20,6 +23,7 @@ namespace New
                 T obj = GameObject.Instantiate(prefab, parent);
                 obj.gameObject.SetActive(false);
                 pool.Enqueue(obj);
+                allObjects.Add(obj); // Добавляем в список всех объектов
             }
         }
 
@@ -29,21 +33,27 @@ namespace New
             {
                 T obj = pool.Dequeue();
                 obj.gameObject.SetActive(true);
-                obj.OnSpawn(); // Вызываем OnSpawn
+                obj.OnSpawn();
                 return obj;
             }
 
             T newObj = GameObject.Instantiate(prefab, parent);
-            newObj.OnSpawn(); // Вызываем OnSpawn
+            allObjects.Add(newObj); // Добавляем новый объект в список всех
+            newObj.OnSpawn();
             return newObj;
         }
 
         public void Return(T obj)
         {
-            obj.OnDespawn(); // Вызываем OnDespawn
+            if (!allObjects.Contains(obj))
+            {
+                Debug.LogError($"ObjectPool<{typeof(T)}> - Попытка вернуть объект, который не принадлежит пулу!");
+                return;
+            }
+
+            obj.OnDespawn();
             obj.gameObject.SetActive(false);
             pool.Enqueue(obj);
         }
     }
-
 }

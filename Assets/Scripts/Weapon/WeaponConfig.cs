@@ -10,6 +10,8 @@ public class WeaponConfig : ScriptableObject
     public Sprite weaponImage;
 
     public string weaponName;
+    public int cost;
+    public bool isBought;
 
     public float fireRate;
     public float bulletSpeed;

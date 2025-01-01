@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
     public CameraController _cam;
     [SerializeField] public LevelManager LevelManager;
     [SerializeField] public WindowManager windows;
-    [SerializeField] private WeaponConfig currentWeapon;
-    protected int Gold;
+    [SerializeField] public WeaponConfig currentWeapon;
+    [SerializeField] public int Gold;
 
     [Header("Игрок")]
     public GameObject playerPrefab;
@@ -69,8 +69,6 @@ public class GameManager : MonoBehaviour
         playerSpawnPoint = LevelManager.getPlayerPos();
         if (playerPrefab != null && playerSpawnPoint != null)
         {
-            
-            
             GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
             var playerController = player.GetComponent<PlayerController>();
             EquipCurrentWeapon(playerController);
@@ -85,9 +83,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SaveWeapon(WeaponConfig config)
+    public void SaveWeapon(WeaponConfig config, int cost)
     {
-        currentWeapon = config;
+            currentWeapon = config;    
     }
 
     public void EquipCurrentWeapon(PlayerController controller)

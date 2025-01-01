@@ -118,7 +118,7 @@ public class Weapon_Controller : MonoBehaviour
 
     private void TryReload()
     {
-        if (currentMagazineAmmo == weaponConfig.magazineSize || totalAmmo <= 0) return; // Если магазин полон или патронов нет
+        if (currentMagazineAmmo == weaponConfig.magazineSize) return; // Если магазин полон или патронов нет
 
         isReloading = true;
         Invoke(nameof(Reload), weaponConfig.reloadTime);
@@ -126,11 +126,11 @@ public class Weapon_Controller : MonoBehaviour
 
     private void Reload()
     {
-        int neededAmmo = weaponConfig.magazineSize - currentMagazineAmmo; // Сколько нужно для полного магазина
-        int ammoToReload = Mathf.Min(neededAmmo, totalAmmo); // Сколько можем перезарядить
+        //int neededAmmo = weaponConfig.magazineSize; // Сколько нужно для полного магазина
+        //int ammoToReload = Mathf.Min(neededAmmo, totalAmmo); // Сколько можем перезарядить
 
-        totalAmmo -= ammoToReload;
-        currentMagazineAmmo += ammoToReload;
+        //totalAmmo -= ammoToReload;
+        currentMagazineAmmo += weaponConfig.magazineSize;
 
         //OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
 
