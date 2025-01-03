@@ -6,6 +6,7 @@ namespace UI
     {
         public WeaponSelectionWindow weaponSelectionWindow;
         public StartMenuWindow startWindow;
+        public LoseWindow loseWindow;
         //public IWindow questWindow;
 
         private void Start()
@@ -32,6 +33,15 @@ namespace UI
         public void CloseStartMenu()
         {
             startWindow.Close();
+        }
+        public void OpenLoseWindow()
+        {
+            loseWindow.Open();
+        }
+
+        public void CloseLoseWindow()
+        {
+            loseWindow.Close();
         }
         
     }

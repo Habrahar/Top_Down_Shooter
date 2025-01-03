@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Игрок")]
     public GameObject playerPrefab;
+
+    private PlayerController playerController;
     private Transform playerSpawnPoint;
     public void EnemyKilled(EnemyConfig enemyType)
     {
@@ -29,7 +31,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
             //LevelManager.StartNextLevel(currentLevel);
             windows.startWindow.Open();
-            //SpawnPlayer();
+            SpawnPlayer();
         }
         else
         {
@@ -42,6 +44,7 @@ public class GameManager : MonoBehaviour
         StartMenuWindow.gameStart += StartGame;
         StartMenuWindow.shopOpen += OpenShop;
         WeaponSelectionWindow.ApplyWeapon += SaveWeapon;
+        PlayerController.playerDead += openLoseWindow;
     }
 
     private void OnDisable()
@@ -49,14 +52,21 @@ public class GameManager : MonoBehaviour
         StartMenuWindow.gameStart -= StartGame;
         StartMenuWindow.shopOpen -= OpenShop;
         WeaponSelectionWindow.ApplyWeapon -= SaveWeapon;
+        PlayerController.playerDead -= openLoseWindow;
     }
 
-    private void StartGame()
+    public void StartGame()
     {
         LevelManager.StartNextLevel(currentLevel);
-        SpawnPlayer();
+        SetPlayer();
         windows.startWindow.Close();
         
+    }
+
+    private void openLoseWindow()
+    {
+        LevelManager.DespawnLevel();
+        windows.OpenLoseWindow();
     }
 
     private void OpenShop()
@@ -64,24 +74,46 @@ public class GameManager : MonoBehaviour
         windows.startWindow.Close();
         windows.weaponSelectionWindow.Open();
     }
+    
     public void SpawnPlayer()
     {
-        playerSpawnPoint = LevelManager.getPlayerPos();
-        if (playerPrefab != null && playerSpawnPoint != null)
+        if (playerPrefab != null)
         {
-            GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
-            var playerController = player.GetComponent<PlayerController>();
-            EquipCurrentWeapon(playerController);
-            if (_cam != null)
-            {
-                _cam.player = player.transform;
-            }
+            // Создаем игрока в нулевой позиции и с отключенным объектом
+            playerPrefab = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+            playerController = playerPrefab.GetComponent<PlayerController>();
+            playerPrefab.SetActive(false); // Отключаем игрока до загрузки уровня
         }
         else
         {
-            Debug.LogError("Не заданы prefab игрока или точка спавна!");
+            Debug.LogError("Не заданы prefab игрока!");
         }
     }
+
+    public void SetPlayer()
+    {
+        playerSpawnPoint = LevelManager.getPlayerPos();
+        // Проверяем, задана ли точка спавна
+        if (playerSpawnPoint == null)
+        {
+            Debug.LogError("Точка спавна игрока не задана!");
+            return;
+        }
+        
+        // Перемещаем игрока в точку спавна и активируем его
+        playerPrefab.transform.position = playerSpawnPoint.position;
+        playerPrefab.transform.rotation = playerSpawnPoint.rotation;
+        playerPrefab.SetActive(true);
+
+        // Устанавливаем камеру и экипировку
+        EquipCurrentWeapon(playerController);
+
+        if (_cam != null)
+        {
+            _cam.player = playerController.transform;
+        }
+    }
+
 
     public void SaveWeapon(WeaponConfig config, int cost)
     {

@@ -13,36 +13,6 @@ namespace Level
         private GameObject currentLevelInstance; // Текущий активный уровень
         public Transform playerPos;
 
-        public void StartGame(int currentLevelIndex)
-        {
-            if (levelPrefabs == null || levelPrefabs.Count == 0)
-            {
-                Debug.LogError("Список levelPrefabs пуст или не инициализирован!");
-                return;
-            }
-
-            if (currentLevelIndex < 0 || currentLevelIndex >= levelPrefabs.Count)
-            {
-                Debug.LogError($"Индекс {currentLevelIndex} выходит за пределы списка (размер списка: {levelPrefabs.Count})!");
-                return;
-            }
-
-            if (currentLevelInstance != null)
-            {
-                Destroy(currentLevelInstance);
-            }
-
-            var levelPrefab = levelPrefabs[currentLevelIndex];
-            if (levelPrefab == null)
-            {
-                Debug.LogError($"Префаб уровня с индексом {currentLevelIndex} равен NULL!");
-                return;
-            }
-
-            currentLevelInstance = Instantiate(levelPrefab);
-
-            InitializeLevel(currentLevelInstance);
-        }
         public void StartNextLevel(int currentLevelIndex)
         {
             if (levelPrefabs == null || levelPrefabs.Count == 0)
@@ -118,6 +88,12 @@ namespace Level
               enemy.transform.rotation = spawnPoint.rotation;
               enemy.Initialize(config);
           }
+      }
+
+      public void DespawnLevel()
+      {
+          DespawnEnemies();
+          Destroy(currentLevelInstance);
       }
         
     }

@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     public IDamageable Target { get; set; }
     public float MaxHealth { get; set; }
     public float moveSpeed = 5f;
+    public static event Action playerDead; // Событие обновления патронов
 
     [SerializeField] public float detectionRadius = 10f;
     [SerializeField] private LayerMask enemyLayer;
@@ -74,8 +75,9 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void Die()
     {
-        //animationController.SetTrigger("Die");
+        
         gameObject.SetActive(false);
-        //Destroy(gameObject);
+        playerDead?.Invoke();
+        
     }
 }
