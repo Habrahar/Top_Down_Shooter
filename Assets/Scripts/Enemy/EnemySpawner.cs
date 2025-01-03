@@ -1,12 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
-
+using System;
 namespace New
 {
     public class EnemySpawner : MonoBehaviour
     {
         public static EnemySpawner Instance { get; private set; }
-
         [System.Serializable]
         public class SpawnPoint
         {
@@ -15,8 +14,10 @@ namespace New
         }
 
         public int initialPoolSize = 5;
-
+        public int counter;
+        public int tmp_counter;
         private Dictionary<EnemyConfig, ObjectPool<EnemyController>> enemyPools;
+        public static event Action levelClear; // Событие обновления патронов
 
         private void Awake()
         {
@@ -29,6 +30,34 @@ namespace New
             {
                 Destroy(gameObject); // Убедимся, что существует только один экземпляр
             }
+        }
+        private void OnEnable()
+        {
+            EnemyController.dieTrigger += deadCount;
+        }
+
+        private void OnDisable()
+        {
+            EnemyController.dieTrigger -= deadCount;
+        }
+
+        public void setDeadCount(int levelCount)
+        {
+            counter = levelCount;
+        }
+        private void deadCount()
+        {
+            tmp_counter++;
+            if (tmp_counter == counter)
+            {
+                levelClear?.Invoke();
+            }
+                
+        }
+
+        public void resetDeadCount()
+        {
+            tmp_counter = 0;
         }
 
         public EnemyController GetEnemy(EnemyConfig config)

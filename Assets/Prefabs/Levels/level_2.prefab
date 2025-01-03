@@ -1899,6 +1899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawnPoint: {fileID: 1106275204067754690}
+  GoldReward: 600
   enemySpawnPoints:
   - spawnPoint: {fileID: 8040636666661473131}
     enemyConfig: {fileID: 11400000, guid: 8f435750223c9a444840198654595037, type: 2}
@@ -1909,6 +1910,10 @@ MonoBehaviour:
   - spawnPoint: {fileID: 1204554001345678216}
     enemyConfig: {fileID: 11400000, guid: 8f435750223c9a444840198654595037, type: 2}
   - spawnPoint: {fileID: 719741078878946129}
+    enemyConfig: {fileID: 11400000, guid: 8f435750223c9a444840198654595037, type: 2}
+  - spawnPoint: {fileID: 9127770591313003250}
+    enemyConfig: {fileID: 11400000, guid: 8f435750223c9a444840198654595037, type: 2}
+  - spawnPoint: {fileID: 8909800438256900702}
     enemyConfig: {fileID: 11400000, guid: 8f435750223c9a444840198654595037, type: 2}
 --- !u!1 &8064361054582572227
 GameObject:

@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
         StartMenuWindow.shopOpen += OpenShop;
         WeaponSelectionWindow.ApplyWeapon += SaveWeapon;
         PlayerController.playerDead += openLoseWindow;
+        EnemySpawner.levelClear += openWinWindow;
     }
 
     private void OnDisable()
@@ -53,6 +54,7 @@ public class GameManager : MonoBehaviour
         StartMenuWindow.shopOpen -= OpenShop;
         WeaponSelectionWindow.ApplyWeapon -= SaveWeapon;
         PlayerController.playerDead -= openLoseWindow;
+        EnemySpawner.levelClear += openWinWindow;
     }
 
     public void StartGame()
@@ -67,6 +69,13 @@ public class GameManager : MonoBehaviour
     {
         LevelManager.DespawnLevel();
         windows.OpenLoseWindow();
+    }
+    private void openWinWindow()
+    {
+        LevelManager.DespawnLevel();
+        Gold += LevelManager.GetReward();
+        windows.winWindow.Open();
+        currentLevel++;
     }
 
     private void OpenShop()

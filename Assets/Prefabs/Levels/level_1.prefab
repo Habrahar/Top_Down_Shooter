@@ -1899,6 +1899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawnPoint: {fileID: 1106275204067754690}
+  GoldReward: 150
   enemySpawnPoints:
   - spawnPoint: {fileID: 8040636666661473131}
     enemyConfig: {fileID: 11400000, guid: 8f435750223c9a444840198654595037, type: 2}

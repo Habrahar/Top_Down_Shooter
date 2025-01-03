@@ -20,7 +20,7 @@ MonoBehaviour:
   isBought: 1
   fireRate: 0.6
   bulletSpeed: 20
-  bulletDamage: 0
+  bulletDamage: 10
   bulletDistance: 12
   magazineSize: 7
   maxTotalAmmo: 2147483647

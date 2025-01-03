@@ -41,6 +41,7 @@ namespace New
         [SerializeField] private Animator _animation;
         private Vector3 movementDirection;
         public static event Action<EnemyConfig> OnDieTrigger; // Событие обновления патронов
+        public static event Action dieTrigger; // Событие обновления патронов
 
 
         private void Awake(){
@@ -154,7 +155,8 @@ namespace New
         {
             
             EnemySpawner.Instance.ReturnEnemy(this, _enemy);
-            Debug.Log("Enemy died!");
+            dieTrigger?.Invoke();
+            
         }
 
 

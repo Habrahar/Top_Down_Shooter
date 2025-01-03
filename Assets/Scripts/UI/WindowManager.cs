@@ -8,6 +8,7 @@ namespace UI
         public StartMenuWindow startWindow;
         public LoseWindow loseWindow;
         //public IWindow questWindow;
+        public WinWindow winWindow;
 
         private void Start()
         {
@@ -42,6 +43,15 @@ namespace UI
         public void CloseLoseWindow()
         {
             loseWindow.Close();
+        }
+        public void OpenWinWindow()
+        {
+            winWindow.Open();
+        }
+
+        public void CloseWinWindow()
+        {
+            winWindow.Close();
         }
         
     }

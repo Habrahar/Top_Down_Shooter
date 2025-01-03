@@ -13,6 +13,7 @@ namespace Level
     public class LevelComponent : MonoBehaviour
     {
         public Transform playerSpawnPoint; // Точка спавна игрока
+        public int GoldReward;
         public List<EnemySpawnPoint> enemySpawnPoints; // Точки спавна врагов
     }
 }

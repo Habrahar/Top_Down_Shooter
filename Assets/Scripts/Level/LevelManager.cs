@@ -12,6 +12,7 @@ namespace Level
         
         private GameObject currentLevelInstance; // Текущий активный уровень
         public Transform playerPos;
+        private int tmp_reward;
 
         public void StartNextLevel(int currentLevelIndex)
         {
@@ -38,7 +39,7 @@ namespace Level
                 Debug.LogError($"Префаб уровня с индексом {currentLevelIndex} равен NULL!");
                 return;
             }
-
+            
             currentLevelInstance = Instantiate(levelPrefab);
 
                 InitializeLevel(currentLevelInstance);
@@ -49,7 +50,7 @@ namespace Level
       private void InitializeLevel(GameObject level)
       {
           var levelComponent = level.GetComponent<LevelComponent>();
-      
+          tmp_reward = levelComponent.GoldReward;
           if (levelComponent == null)
           {
               Debug.LogError("На уровне отсутствует компонент LevelComponent!");
@@ -71,8 +72,13 @@ namespace Level
       {
           
           EnemySpawner.Instance.ReturnAllEnemy();
+          EnemySpawner.Instance.resetDeadCount();
       }
-     
+
+      public int GetReward()
+      {
+          return tmp_reward;
+      }
 
       private void SpawnEnemies(LevelComponent level)
       {
@@ -88,6 +94,7 @@ namespace Level
               enemy.transform.rotation = spawnPoint.rotation;
               enemy.Initialize(config);
           }
+          EnemySpawner.Instance.setDeadCount(level.enemySpawnPoints.Count);
       }
 
       public void DespawnLevel()
