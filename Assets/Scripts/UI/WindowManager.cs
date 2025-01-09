@@ -9,6 +9,7 @@ namespace UI
         public LoseWindow loseWindow;
         //public IWindow questWindow;
         public WinWindow winWindow;
+        public PlayerShop playerShop;
 
         private void Start()
         {
@@ -43,6 +44,15 @@ namespace UI
         public void CloseLoseWindow()
         {
             loseWindow.Close();
+        }
+        public void OpenplayerShop()
+        {
+            playerShop.Open();
+        }
+
+        public void CloseplayerShop()
+        {
+            playerShop.Close();
         }
         public void OpenWinWindow()
         {

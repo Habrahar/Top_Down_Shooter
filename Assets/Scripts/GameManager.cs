@@ -3,6 +3,7 @@ using Level;
 using New;
 using UI;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public WindowManager windows;
     [SerializeField] public WeaponConfig currentWeapon;
     [SerializeField] public int Gold;
+    [SerializeField] public TextMeshProUGUI GoldCount;
 
     [Header("Игрок")]
     public GameObject playerPrefab;
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour
             //LevelManager.StartNextLevel(currentLevel);
             windows.startWindow.Open();
             SpawnPlayer();
+            UpdateGold();
         }
         else
         {
@@ -43,6 +46,7 @@ public class GameManager : MonoBehaviour
     {
         StartMenuWindow.gameStart += StartGame;
         StartMenuWindow.shopOpen += OpenShop;
+        StartMenuWindow.playershopOpen += OpenCharachterShop;
         WeaponSelectionWindow.ApplyWeapon += SaveWeapon;
         PlayerController.playerDead += openLoseWindow;
         EnemySpawner.levelClear += openWinWindow;
@@ -50,6 +54,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDisable()
     {
+        StartMenuWindow.playershopOpen += OpenCharachterShop;
         StartMenuWindow.gameStart -= StartGame;
         StartMenuWindow.shopOpen -= OpenShop;
         WeaponSelectionWindow.ApplyWeapon -= SaveWeapon;
@@ -74,6 +79,7 @@ public class GameManager : MonoBehaviour
     {
         LevelManager.DespawnLevel();
         Gold += LevelManager.GetReward();
+        UpdateGold();
         windows.winWindow.Open();
         currentLevel++;
     }
@@ -82,6 +88,11 @@ public class GameManager : MonoBehaviour
     {
         windows.startWindow.Close();
         windows.weaponSelectionWindow.Open();
+    }
+    private void OpenCharachterShop()
+    {
+        windows.startWindow.Close();
+        windows.playerShop.Open();
     }
     
     public void SpawnPlayer()
@@ -113,6 +124,7 @@ public class GameManager : MonoBehaviour
         playerPrefab.transform.position = playerSpawnPoint.position;
         playerPrefab.transform.rotation = playerSpawnPoint.rotation;
         playerPrefab.SetActive(true);
+        playerController.RestartPlayer();
 
         // Устанавливаем камеру и экипировку
         EquipCurrentWeapon(playerController);
@@ -145,6 +157,11 @@ public class GameManager : MonoBehaviour
         
         currentLevel++;
         
+    }
+
+    public void UpdateGold()
+    {
+        GoldCount.text = Gold.ToString();
     }
     
 }

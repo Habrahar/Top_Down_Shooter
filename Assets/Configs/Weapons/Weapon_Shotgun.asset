@@ -17,7 +17,7 @@ MonoBehaviour:
   weaponImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   weaponName: "\u0414\u0440\u043E\u0431\u043E\u0432\u0438\u043A"
   cost: 500
-  isBought: 0
+  isBought: 1
   fireRate: 0.5
   bulletSpeed: 20
   bulletDamage: 10

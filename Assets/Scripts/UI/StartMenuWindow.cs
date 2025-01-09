@@ -11,6 +11,8 @@ namespace UI
     {
         public static event Action gameStart; // Событие обновления патронов
         public static event Action shopOpen; // Событие обновления патронов
+        public static event Action playershopOpen; // Событие обновления патронов
+        
 
         protected override void OnOpen()
         {
@@ -32,6 +34,10 @@ namespace UI
             shopOpen?.Invoke();
         }
 
+        public void OpenplayerShop()
+        {
+            playershopOpen?.Invoke();
+        }
         public override void UpdateWindow()
         {
             

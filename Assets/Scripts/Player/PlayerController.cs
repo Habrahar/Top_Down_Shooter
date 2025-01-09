@@ -9,6 +9,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour, IDamageable
 {
     public IDamageable Target { get; set; }
+    [SerializeField] public float Max_Health; 
     public float MaxHealth { get; set; }
     public float moveSpeed = 5f;
     public static event Action playerDead; // Событие обновления патронов
@@ -42,10 +43,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void Start()
     {
-        MaxHealth = 100;
-        CurrentHealth = MaxHealth;
-        LocationObserver.RegisterPlayer(transform);
-        EquipWeapon(currentWeapon);
+        RestartPlayer();
         
     }
 
@@ -71,6 +69,14 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             Die();
         }
+    }
+
+    public void RestartPlayer()
+    {
+        MaxHealth = Max_Health;
+        CurrentHealth = MaxHealth;
+        LocationObserver.RegisterPlayer(transform);
+        EquipWeapon(currentWeapon);
     }
 
     public void Die()
