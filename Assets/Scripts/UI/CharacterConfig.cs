@@ -14,6 +14,7 @@ namespace UI
         [SerializeField] public int cost;
         [SerializeField] public GameObject modelPrefab;
         [SerializeField] public int MaxHp;
+        [SerializeField] public int radiusAttack;
         [SerializeField] public float speed;
         public bool isBought;
     }

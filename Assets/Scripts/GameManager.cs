@@ -15,9 +15,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] public WeaponConfig currentWeapon;
     [SerializeField] public int Gold;
     [SerializeField] public TextMeshProUGUI GoldCount;
+    [SerializeField] public EnemySpawner spawner;
+    private GameObject plprefab;
 
     [Header("Игрок")]
-    public GameObject playerPrefab;
+    public CharacterConfig playerPrefab;
 
     private PlayerController playerController;
     private Transform playerSpawnPoint;
@@ -33,7 +35,6 @@ public class GameManager : MonoBehaviour
             Instance = this;
             //LevelManager.StartNextLevel(currentLevel);
             windows.startWindow.Open();
-            SpawnPlayer();
             UpdateGold();
         }
         else
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour
         StartMenuWindow.playershopOpen += OpenCharachterShop;
         WeaponSelectionWindow.ApplyWeapon += SaveWeapon;
         PlayerController.playerDead += openLoseWindow;
-        EnemySpawner.levelClear += openWinWindow;
+        EvacuationZone.OnLevelComplete += openWinWindow;
     }
 
     private void OnDisable()
@@ -59,7 +60,7 @@ public class GameManager : MonoBehaviour
         StartMenuWindow.shopOpen -= OpenShop;
         WeaponSelectionWindow.ApplyWeapon -= SaveWeapon;
         PlayerController.playerDead -= openLoseWindow;
-        EnemySpawner.levelClear += openWinWindow;
+        EvacuationZone.OnLevelComplete += openWinWindow;
     }
 
     public void StartGame()
@@ -77,11 +78,16 @@ public class GameManager : MonoBehaviour
     }
     private void openWinWindow()
     {
-        LevelManager.DespawnLevel();
-        Gold += LevelManager.GetReward();
-        UpdateGold();
         windows.winWindow.Open();
+        if (spawner.tmp_counter != 0)
+        {
+            Gold += LevelManager.GetReward() / (spawner.tmp_counter/spawner.counter);    
+        }
+        
+        UpdateGold();
         currentLevel++;
+        Destroy(plprefab);
+        LevelManager.DespawnLevel();
     }
 
     private void OpenShop()
@@ -95,23 +101,22 @@ public class GameManager : MonoBehaviour
         windows.playerShop.Open();
     }
     
-    public void SpawnPlayer()
+    public void SetPlayer()
     {
         if (playerPrefab != null)
         {
             // Создаем игрока в нулевой позиции и с отключенным объектом
-            playerPrefab = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-            playerController = playerPrefab.GetComponent<PlayerController>();
-            playerPrefab.SetActive(false); // Отключаем игрока до загрузки уровня
+            plprefab = Instantiate(playerPrefab.modelPrefab, Vector3.zero, Quaternion.identity);
+            playerController = plprefab.GetComponent<PlayerController>();
         }
         else
         {
             Debug.LogError("Не заданы prefab игрока!");
         }
-    }
 
-    public void SetPlayer()
-    {
+        playerController.MaxHealth = playerPrefab.MaxHp;
+        playerController.moveSpeed = playerPrefab.speed;
+        playerController.detectionRadius = playerPrefab.radiusAttack;
         playerSpawnPoint = LevelManager.getPlayerPos();
         // Проверяем, задана ли точка спавна
         if (playerSpawnPoint == null)
@@ -121,10 +126,9 @@ public class GameManager : MonoBehaviour
         }
         
         // Перемещаем игрока в точку спавна и активируем его
-        playerPrefab.transform.position = playerSpawnPoint.position;
-        playerPrefab.transform.rotation = playerSpawnPoint.rotation;
-        playerPrefab.SetActive(true);
-        playerController.RestartPlayer();
+        plprefab.transform.position = playerSpawnPoint.position;
+        plprefab.transform.rotation = playerSpawnPoint.rotation;
+        plprefab.SetActive(true);
 
         // Устанавливаем камеру и экипировку
         EquipCurrentWeapon(playerController);

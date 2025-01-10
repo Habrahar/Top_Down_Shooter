@@ -129,7 +129,7 @@ namespace UI
         }
         else
         {
-            buttonText.text = weapon.cost.ToString();
+            buttonText.text = "Цена: " + weapon.cost.ToString();
             actionButton.interactable = gm.Gold >= weapon.cost; // Заблокируем, если недостаточно золота
         }
 

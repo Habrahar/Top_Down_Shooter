@@ -14,84 +14,110 @@ namespace UI
         
         
         [SerializeField] private Transform characterParent; // Родитель для моделей
-    [SerializeField] private TextMeshProUGUI characterNameText;
-    [SerializeField] private TextMeshProUGUI health;
-    [SerializeField] private TextMeshProUGUI speed;
-    [SerializeField] private TextMeshProUGUI costText;
-    [SerializeField] private Button buyButton;
-    [SerializeField] private Button nextButton;
-    [SerializeField] private Button prevButton;
+        [SerializeField] private TextMeshProUGUI characterNameText;
+        [SerializeField] private TextMeshProUGUI health;
+        [SerializeField] private TextMeshProUGUI speed;
+        [SerializeField] private TextMeshProUGUI radiusAttack;
+        [SerializeField] private TextMeshProUGUI costText;
+        [SerializeField] private Button buyButton;
+        [SerializeField] private Button nextButton;
+        [SerializeField] private Button prevButton;
 
-    private GameObject currentCharacter;
-    private int currentIndex = 0;
-    public override void UpdateWindow()
-    {
-            
-    }
-
-    private void ChangeCharacter(int direction)
-    {
-        currentIndex = (currentIndex + direction + characters.Count) % characters.Count;
-        UpdateCharacterView();
-    }
-
-    private void UpdateCharacterView()
-    {
-        // Удаляем текущую модель
-        if (currentCharacter != null)
+        private GameObject currentCharacter;
+        private int currentIndex = 0;
+        public override void UpdateWindow()
         {
-            Destroy(currentCharacter);
-        }
+            // Удаляем текущую модель
+            if (currentCharacter != null)
+            {
+                Destroy(currentCharacter);
+            }
 
-        // Создаем новую модель
-        currentCharacter = Instantiate(characters[currentIndex].modelPrefab, characterParent);
-        currentCharacter.transform.localPosition = Vector3.zero; // Центрируем
-        currentCharacter.transform.localRotation = Quaternion.identity; // Сбрасываем поворот
+            // Создаем новую модель
+            currentCharacter = Instantiate(characters[currentIndex].modelPrefab, characterParent);
+            currentCharacter.transform.localPosition = Vector3.zero; // Центрируем
+            currentCharacter.transform.localRotation = Quaternion.identity; // Сбрасываем поворот
 
-        // Обновляем текст
-        characterNameText.text = characters[currentIndex].characterName;
-        health.text = characters[currentIndex].MaxHp.ToString();
-        speed.text = characters[currentIndex].speed.ToString();
+            // Обновляем текст
+            characterNameText.text = characters[currentIndex].characterName;
+            health.text = characters[currentIndex].MaxHp.ToString();
+            speed.text = characters[currentIndex].speed.ToString();
+            radiusAttack.text = characters[currentIndex].radiusAttack.ToString();
 
-        if (characters[currentIndex].isBought)
-        {
-            if (gm.playerPrefab != characters[currentIndex].modelPrefab)
+            if (characters[currentIndex].isBought)
+            {
+                if (gm.playerPrefab != characters[currentIndex])
                 {
                     costText.text = "Выбрать";
                     buyButton.interactable = true;
-                    
+                        
                 }
                 else
                 {
                     costText.text = "Выбрано";
                     buyButton.interactable = false;    
                 }
-        }
-        else
-        {
-            costText.text = "Цена: " + characters[currentIndex].cost;
-            buyButton.interactable = true;
-        }
-    }
-
-    private void BuyCharacter()
-    {
-        if (characters[currentIndex].isBought)
-        {
-            gm.playerPrefab = characters[currentIndex].modelPrefab;
-        }else
-        {
-            if( gm.Gold >= characters[currentIndex].cost)
-            {
-                gm.Gold -= characters[currentIndex].cost;
-                characters[currentIndex].isBought = true;
-
-                // Обновляем UI
-                UpdateCharacterView();    
             }
-            
+            else
+            {
+                costText.text = "Цена: " + characters[currentIndex].cost;
+                buyButton.interactable = true;
+            }
         }
-    }
+
+        public void LeftButton()
+        {
+            if (currentIndex == 0)
+            {
+
+                currentIndex = characters.Count - 1;
+            }
+            else
+            {
+                currentIndex--;
+            }
+            UpdateWindow();
+        }
+
+        public void RightButton()
+        {
+            if (currentIndex == characters.Count - 1)
+            {
+                currentIndex = 0;
+            }
+            else
+            {
+                currentIndex++;
+            }
+            UpdateWindow();
+        }
+
+        public void ChangeCharacter(int direction)
+        {
+            currentIndex = (currentIndex + direction + characters.Count) % characters.Count;
+            UpdateWindow();
+        }
+        
+        public void BuyCharacter()
+        {
+            if (characters[currentIndex].isBought)
+            {
+                gm.playerPrefab = characters[currentIndex];
+                UpdateWindow();
+            }else
+            {
+                if( gm.Gold >= characters[currentIndex].cost)
+                {
+                    gm.Gold -= characters[currentIndex].cost;
+                    gm.UpdateGold();
+                    characters[currentIndex].isBought = true;
+
+                    // Обновляем UI
+                    UpdateWindow();    
+                }
+                
+            }
+        }
     
     
 
@@ -99,12 +125,7 @@ namespace UI
         protected override void OnOpen()
         {
             base.OnOpen();
-            UpdateCharacterView();
-
-            // Навешиваем действия на кнопки
-            nextButton.onClick.AddListener(() => ChangeCharacter(1));
-            prevButton.onClick.AddListener(() => ChangeCharacter(-1));
-            buyButton.onClick.AddListener(() => BuyCharacter());
+            UpdateWindow();
         }
 
         

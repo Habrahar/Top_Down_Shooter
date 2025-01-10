@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17fe3adb702f98f4f89cf6fa92e7b33e, type: 3}
+  m_Name: Weapon_4_Shotgun
+  m_EditorClassIdentifier: 
+  weaponPrefab: {fileID: 4812217308782969647, guid: b258c7da8c3c8a146afcca10664e7d32, type: 3}
+  bulletPrefab: {fileID: 6681766636307311056, guid: d86ac54c80bc64d4da120230a87a4110, type: 3}
+  weaponImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  weaponName: "\u0414\u0440\u043E\u0431\u043E\u0432\u0438\u043A"
+  cost: 600
+  isBought: 0
+  fireRate: 0.5
+  bulletSpeed: 20
+  bulletDamage: 10
+  bulletDistance: 12
+  magazineSize: 30
+  maxTotalAmmo: 2147483647
+  reloadTime: 1.5
+  hitEffect: {fileID: 166404, guid: 78e1c8c5b281b8b439229473779ac9aa, type: 3}
+  fireEffect: {fileID: 1549373087677006, guid: d19ad59113dcf9445ae9f7e2775a0cd5, type: 3}
+  shootingBehaviourConfig: {fileID: 11400000, guid: ceedd1b017f91504f86f7ebf98ca3158, type: 2}
+  bulletSpread: 30

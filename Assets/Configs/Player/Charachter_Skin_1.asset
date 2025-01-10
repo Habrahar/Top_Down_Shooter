@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: "\u0421\u043D\u0430\u0439\u043F\u0435\u0440"
   description: 
-  cost: 1000
+  cost: 500
   modelPrefab: {fileID: 2779707500573682730, guid: f33340c8a06c8ba41b391c0096ac6b53, type: 3}
   MaxHp: 200
+  radiusAttack: 6
   speed: 4
   isBought: 0

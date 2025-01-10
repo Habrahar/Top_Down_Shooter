@@ -12,12 +12,12 @@ namespace New
             public Transform spawnPosition;
             public EnemyConfig enemyConfig;
         }
-
+       
         public int initialPoolSize = 5;
         public int counter;
         public int tmp_counter;
         private Dictionary<EnemyConfig, ObjectPool<EnemyController>> enemyPools;
-        public static event Action levelClear; // Событие обновления патронов
+        public static event Action<int> levelClear; // Событие обновления патронов
 
         private void Awake()
         {
@@ -48,13 +48,8 @@ namespace New
         private void deadCount()
         {
             tmp_counter++;
-            if (tmp_counter == counter)
-            {
-                levelClear?.Invoke();
-            }
-                
+            Debug.Log((tmp_counter));
         }
-
         public void resetDeadCount()
         {
             tmp_counter = 0;

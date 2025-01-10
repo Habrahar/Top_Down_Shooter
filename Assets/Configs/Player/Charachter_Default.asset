@@ -17,5 +17,6 @@ MonoBehaviour:
   cost: 0
   modelPrefab: {fileID: 2779707500573682730, guid: 23f46650836872a4389161aebe6d8de4, type: 3}
   MaxHp: 100
+  radiusAttack: 5
   speed: 3
   isBought: 1
