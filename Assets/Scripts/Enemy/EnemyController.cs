@@ -43,7 +43,7 @@ namespace New
         public static event Action<EnemyConfig> OnDieTrigger; // Событие обновления патронов
         public static event Action dieTrigger; // Событие обновления патронов
 
-
+        [SerializeField] public HealthController hpBar;
         private void Awake(){
             StateMachine = new EnemyStateMachine();
 
@@ -67,7 +67,6 @@ namespace New
             _enemy = config;
             agent = GetComponent<NavMeshAgent>();
             agent.speed = speed;
-
             // Инициализация базового движения
             Initialize(config.Speed, 0.5f, LayerMask.GetMask("Collision"));
 
@@ -90,6 +89,7 @@ namespace New
         public void TakeDamage(int damage)
         {
             CurrentHealth -= damage;
+            hpBar.UpdateHealthBar(damage);
             if (CurrentHealth <= 0)
             {
                 Die();
@@ -153,6 +153,7 @@ namespace New
     
         public void Die()
         {
+            hpBar.destroyHP();
             
             EnemySpawner.Instance.ReturnEnemy(this, _enemy);
             dieTrigger?.Invoke();

@@ -70,7 +70,6 @@ namespace Level
 
       private void DespawnEnemies()
       {
-          
           EnemySpawner.Instance.ReturnAllEnemy();
           EnemySpawner.Instance.resetDeadCount();
       }
@@ -89,10 +88,10 @@ namespace Level
 
               // Получаем врага из спавнера
               var enemy = EnemySpawner.Instance.GetEnemy(config);
-                
               enemy.transform.position = spawnPoint.position;
               enemy.transform.rotation = spawnPoint.rotation;
               enemy.Initialize(config);
+              enemy.hpBar.SetHealth(enemy.MaxHealth);
           }
           EnemySpawner.Instance.setDeadCount(level.enemySpawnPoints.Count);
       }

@@ -28,17 +28,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     [SerializeField] private WeaponConfig currentWeapon;
     private AnimationController animationController;
-
-
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDisable()
-    {
-        ;
-    }
+    [SerializeField] public HealthController hpBar;
 
     public void Start()
     {
@@ -64,6 +54,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
+        hpBar.UpdateHealthBar(damage);
         if (CurrentHealth <= 0)
         {
             Die();
@@ -72,14 +63,16 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void RestartPlayer()
     {
+        
         CurrentHealth = MaxHealth;
+        hpBar.SetHealth(MaxHealth);
         LocationObserver.RegisterPlayer(transform);
         EquipWeapon(currentWeapon);
     }
 
     public void Die()
     {
-        
+        hpBar.destroyHP();
         gameObject.SetActive(false);
         playerDead?.Invoke();
         

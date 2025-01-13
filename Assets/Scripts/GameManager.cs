@@ -73,11 +73,13 @@ public class GameManager : MonoBehaviour
 
     private void openLoseWindow()
     {
+        DestroyPlayer();
         LevelManager.DespawnLevel();
         windows.OpenLoseWindow();
     }
     private void openWinWindow()
     {
+        DestroyPlayer();
         windows.winWindow.Open();
         if (spawner.tmp_counter != 0)
         {
@@ -88,6 +90,7 @@ public class GameManager : MonoBehaviour
         currentLevel++;
         Destroy(plprefab);
         LevelManager.DespawnLevel();
+        
     }
 
     private void OpenShop()
@@ -100,7 +103,12 @@ public class GameManager : MonoBehaviour
         windows.startWindow.Close();
         windows.playerShop.Open();
     }
-    
+
+    public void DestroyPlayer()
+    {
+        playerController.hpBar.destroyHP();
+        Destroy(plprefab);
+    }
     public void SetPlayer()
     {
         if (playerPrefab != null)

@@ -59,6 +59,7 @@ namespace New
         {
             if (!enemyPools.TryGetValue(config, out var pool))
             {
+                
                 // Если пула нет, создаем его
                 var prefab = config.Prefab.GetComponent<EnemyController>();
                 pool = new ObjectPool<EnemyController>(prefab, initialPoolSize, transform);
@@ -83,11 +84,12 @@ namespace New
             foreach (var poolEntry in enemyPools)
             {
                 var pool = poolEntry.Value;
-
+                
                 foreach (var enemy in pool.Objects)
                 {
                     if (enemy.gameObject.activeSelf) // Проверяем, активен ли враг
                     {
+                        enemy.hpBar.destroyHP();
                         pool.Return(enemy); // Возвращаем в пул только активных
                     }
                 }
