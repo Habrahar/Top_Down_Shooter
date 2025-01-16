@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
         WeaponSelectionWindow.ApplyWeapon += SaveWeapon;
         PlayerController.playerDead += openLoseWindow;
         EvacuationZone.OnLevelComplete += openWinWindow;
+        AdManager.OnRewardGoldGranted += adRewardGold;
     }
 
     private void OnDisable()
@@ -63,7 +64,8 @@ public class GameManager : MonoBehaviour
         StartMenuWindow.shopOpen -= OpenShop;
         WeaponSelectionWindow.ApplyWeapon -= SaveWeapon;
         PlayerController.playerDead -= openLoseWindow;
-        EvacuationZone.OnLevelComplete += openWinWindow;
+        EvacuationZone.OnLevelComplete -= openWinWindow;
+        AdManager.OnRewardGoldGranted -= adRewardGold;
     }
 
     public void StartGame()
@@ -199,6 +201,13 @@ public class GameManager : MonoBehaviour
     public void UpdateGold()
     {
         GoldCount.text = Gold.ToString();
+    }
+
+    public void adRewardGold()
+    {
+        Gold += windows.goldWindowManager._rewardAmount;
+        windows.goldWindowManager.UpdateWindow();
+        UpdateGold();
     }
     
 }

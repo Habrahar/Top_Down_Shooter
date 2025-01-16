@@ -10,6 +10,7 @@ namespace UI
         //public IWindow questWindow;
         public WinWindow winWindow;
         public PlayerShop playerShop;
+        public GoldWindowManager goldWindowManager;
 
         private void Start()
         {
@@ -62,6 +63,15 @@ namespace UI
         public void CloseWinWindow()
         {
             winWindow.Close();
+        }
+        public void OpenGoldManager()
+        {
+            goldWindowManager.Open();
+        }
+
+        public void CloseGoldManager()
+        {
+            goldWindowManager.Close();
         }
         
     }
