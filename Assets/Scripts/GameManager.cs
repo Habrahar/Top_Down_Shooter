@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] public EnemySpawner spawner;
     private GameObject plprefab;
 
+    [SerializeField] private WeaponConfig defaultWeapon;
+    [SerializeField] private CharacterConfig defaultPlayer;
+
     [Header("Игрок")]
     public CharacterConfig playerPrefab;
 
@@ -162,6 +165,28 @@ public class GameManager : MonoBehaviour
     {
         
         
+    }
+
+    public void resetProgress()
+    {
+        currentLevel = 0;
+        Gold = 10000;
+        UpdateGold();
+        ResetWeapon();
+        ResetPlayer();
+
+    }
+
+    private void ResetPlayer()
+    {
+        defaultPlayer = playerPrefab;
+        windows.playerShop.ResetAllCharachters(defaultPlayer);
+    }
+
+    private void ResetWeapon()
+    {
+        defaultWeapon = currentWeapon;
+        windows.weaponSelectionWindow.ResetAllWeapon(defaultWeapon);
     }
 
     private void OnLevelComplete()

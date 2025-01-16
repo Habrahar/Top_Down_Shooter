@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9796167d8d848d5ba4dbb68a3babb4a, type: 3}
   m_Name: Charachter_Skin_1
   m_EditorClassIdentifier: 
-  characterName: "\u0421\u043D\u0430\u0439\u043F\u0435\u0440"
+  characterName: "\u0411\u0430\u043D\u0434\u0438\u0442"
   description: 
   cost: 500
   modelPrefab: {fileID: 2779707500573682730, guid: f33340c8a06c8ba41b391c0096ac6b53, type: 3}
+  lobbyPrefab: {fileID: 2779707500573682730, guid: 5bb16c763ba1dc040a382088c1ad8c31, type: 3}
   MaxHp: 200
   radiusAttack: 6
   speed: 4

@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9796167d8d848d5ba4dbb68a3babb4a, type: 3}
-  m_Name: Charachter_Skin_2
+  m_Name: Charachter_Skin_5
   m_EditorClassIdentifier: 
-  characterName: "\u0421\u043D\u0430\u0439\u043F\u0435\u0440"
+  characterName: "\u0421\u0430\u043C\u0443\u0440\u0430\u0439"
   description: 
-  cost: 1000
+  cost: 2000
   modelPrefab: {fileID: 2779707500573682730, guid: f33340c8a06c8ba41b391c0096ac6b53, type: 3}
-  lobbyPrefab: {fileID: 2779707500573682730, guid: a7820561676dfba47949f865777a0911, type: 3}
-  MaxHp: 300
-  radiusAttack: 7
+  lobbyPrefab: {fileID: 2779707500573682730, guid: 216170a08160cb74f8b16eaa09003dd4, type: 3}
+  MaxHp: 700
+  radiusAttack: 9
   speed: 4
   isBought: 0

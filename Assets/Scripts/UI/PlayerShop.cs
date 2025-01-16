@@ -25,6 +25,17 @@ namespace UI
 
         private GameObject currentCharacter;
         private int currentIndex = 0;
+
+        public void ResetAllCharachters(CharacterConfig playerdef)
+        {
+            foreach (var player in characters)
+            {
+                if (player.isBought && player != playerdef)
+                {
+                    player.isBought = false;
+                }
+            }
+        }
         public override void UpdateWindow()
         {
             // Удаляем текущую модель
@@ -34,7 +45,7 @@ namespace UI
             }
 
             // Создаем новую модель
-            currentCharacter = Instantiate(characters[currentIndex].modelPrefab, characterParent);
+            currentCharacter = Instantiate(characters[currentIndex].lobbyPrefab, characterParent);
             currentCharacter.transform.localPosition = Vector3.zero; // Центрируем
             currentCharacter.transform.localRotation = Quaternion.identity; // Сбрасываем поворот
 

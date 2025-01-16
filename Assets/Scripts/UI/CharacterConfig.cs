@@ -13,6 +13,7 @@ namespace UI
         [SerializeField] public string description;
         [SerializeField] public int cost;
         [SerializeField] public GameObject modelPrefab;
+        [SerializeField] public GameObject lobbyPrefab;
         [SerializeField] public int MaxHp;
         [SerializeField] public int radiusAttack;
         [SerializeField] public float speed;

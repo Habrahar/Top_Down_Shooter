@@ -83,71 +83,81 @@ namespace UI
             
             SlotUpdate();
         }
+        public void ResetAllWeapon(WeaponConfig weapondef)
+        {
+            foreach (var weapon in availableWeapons)
+            {
+                if (weapon.isBought && weapon != weapondef)
+                {
+                    weapon.isBought = false;
+                }
+            }
+        }
         public void PopulateWeaponList()
-{
-    // Удаляем старые слоты
-    foreach (var slot in instantiatedSlots)
-    {
-        Destroy(slot);
-    }
-    instantiatedSlots.Clear();
-
-    // Создаем новые слоты
-    foreach (var weapon in availableWeapons)
-    {
-        GameObject slot = Instantiate(weaponSlotPrefab, contentParent);
-        instantiatedSlots.Add(slot);
-
-        // Получаем ссылки на UI-элементы внутри слота
-        TextMeshProUGUI nameText = slot.transform.Find("WeaponName").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI damageText = slot.transform.Find("Damage").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI fireRateText = slot.transform.Find("FireRate").GetComponent<TextMeshProUGUI>();
-        Image weaponImage = slot.transform.Find("WeaponImage").GetComponent<Image>();
-        Button actionButton = slot.transform.Find("ActionButton").GetComponent<Button>();
-        TextMeshProUGUI buttonText = actionButton.GetComponentInChildren<TextMeshProUGUI>();
-
-        // Заполняем данные
-        nameText.text = weapon.weaponName;
-        damageText.text = "Урон: " + weapon.bulletDamage.ToString();
-        fireRateText.text = "Скорость: " + weapon.fireRate.ToString();
-        weaponImage.sprite = weapon.weaponImage;
-
-        // Настраиваем кнопку
-        if (weapon.isBought)
-        {
-            if (gm.currentWeapon != weapon)
             {
-                buttonText.text = "Экипировать";
-            
+            // Удаляем старые слоты
+            foreach (var slot in instantiatedSlots)
+            {
+                Destroy(slot);
+            }
+            instantiatedSlots.Clear();
+
+            // Создаем новые слоты
+            foreach (var weapon in availableWeapons)
+            {
+                GameObject slot = Instantiate(weaponSlotPrefab, contentParent);
+                instantiatedSlots.Add(slot);
+
+                // Получаем ссылки на UI-элементы внутри слота
+                TextMeshProUGUI nameText = slot.transform.Find("WeaponName").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI damageText = slot.transform.Find("Damage").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI fireRateText = slot.transform.Find("FireRate").GetComponent<TextMeshProUGUI>();
+                Image weaponImage = slot.transform.Find("WeaponImage").GetComponent<Image>();
+                Button actionButton = slot.transform.Find("ActionButton").GetComponent<Button>();
+                TextMeshProUGUI buttonText = actionButton.GetComponentInChildren<TextMeshProUGUI>();
+
+                // Заполняем данные
+                nameText.text = weapon.weaponName;
+                damageText.text = "Урон: " + weapon.bulletDamage.ToString();
+                fireRateText.text = "Скорость: " + weapon.fireRate.ToString();
+                weaponImage.sprite = weapon.weaponImage;
+
+                // Настраиваем кнопку
+                if (weapon.isBought)
+                {
+                    if (gm.currentWeapon != weapon)
+                    {
+                        buttonText.text = "Экипировать";
                     
-            }
-            else
-            {
-                actionButton.interactable = false;
-                buttonText.text = "Экипировано";    
-            }
-        }
-        else
-        {
-            buttonText.text = "Цена: " + weapon.cost.ToString();
-            actionButton.interactable = gm.Gold >= weapon.cost; // Заблокируем, если недостаточно золота
-        }
+                            
+                    }
+                    else
+                    {
+                        actionButton.interactable = false;
+                        buttonText.text = "Экипировано";    
+                    }
+                }
+                else
+                {
+                    buttonText.text = "Цена: " + weapon.cost.ToString();
+                    actionButton.interactable = gm.Gold >= weapon.cost; // Заблокируем, если недостаточно золота
+                }
 
-        // Добавляем функционал для кнопки
-        actionButton.onClick.RemoveAllListeners();
-        actionButton.onClick.AddListener(() =>
-        {
-            if (weapon.isBought)
-            {
-                EquipWeapon(weapon);
+                // Добавляем функционал для кнопки
+                actionButton.onClick.RemoveAllListeners();
+                actionButton.onClick.AddListener(() =>
+                {
+                    if (weapon.isBought)
+                    {
+                        EquipWeapon(weapon);
+                    }
+                    else
+                    {
+                        BuyWeapon(weapon, buttonText, actionButton);
+                    }
+                });
             }
-            else
-            {
-                BuyWeapon(weapon, buttonText, actionButton);
-            }
-        });
-    }
-}
+        }
         private void BuyWeapon(WeaponConfig weapon, TextMeshProUGUI buttonText, Button actionButton)
         {
             if (gm.Gold >= weapon.cost)
@@ -168,7 +178,7 @@ namespace UI
         }
 
 
-
+    
 
         private void SelectWeaponFromSlot(WeaponConfig weapon)
         {
@@ -209,5 +219,7 @@ namespace UI
             weaponNameText.text = availableWeapons[selectedWeaponIndex].weaponName;
         }
     }
+    
+    
 
 }

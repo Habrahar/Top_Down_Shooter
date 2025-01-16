@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Zombie
   Health: 50
-  Speed: 1.5
+  Speed: 1.2
   Damage: 50
   AttackRange: 2
   AttackInterval: 2
