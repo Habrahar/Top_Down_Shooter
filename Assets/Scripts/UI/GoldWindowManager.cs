@@ -1,28 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
-using UI;
-using UnityEngine;
 using System;
-using TMPro;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UI;
 
 public class GoldWindowManager : WindowBase
 {
     [SerializeField] private Button _watchAdButton; // Кнопка для просмотра рекламы
     [SerializeField] private TextMeshProUGUI _timerText; // Текст для отображения таймера
-    [SerializeField] public int _rewardAmount = 100; // Количество золота за просмотр
-    [SerializeField] private TextMeshProUGUI _rewardAmounText; // Текст для отображения таймера
-    [SerializeField] private int _cooldownMinutes = 60; // Время ожидания в минутах
+    [SerializeField] public int _rewardAmount = 200; // Количество золота за просмотр
+    [SerializeField] private TextMeshProUGUI _rewardAmountText; // Текст для отображения количества награды
+    [SerializeField] private int _cooldownMinutes = 1; // Время ожидания в минутах
 
+    [SerializeField] protected int countWatched = 1; //НУжно сохранить параметр
     private DateTime _lastAdWatchTime; // Время последнего просмотра рекламы
-    
+    private Coroutine _updateCoroutine; // Корутина для обновления таймера
+
     protected override void OnOpen()
     {
         base.OnOpen();
-        _rewardAmounText.text = _rewardAmount.ToString();
+        _rewardAmountText.text = (_rewardAmount).ToString(); // Устанавливаем текст награды
         LoadLastAdWatchTime(); // Загружаем время последнего просмотра
-        UpdateButtonState(); // Обновляем состояние кнопки
+        StartUpdateCoroutine(); // Запускаем корутину для обновления таймера
+    }
+
+    protected override void OnClose()
+    {
+        base.OnClose();
+        StopUpdateCoroutine(); // Останавливаем корутину при закрытии окна
+    }
+
+    public override void UpdateWindow()
+    {
+        throw new NotImplementedException();
     }
 
     private void LoadLastAdWatchTime()
@@ -47,8 +58,32 @@ public class GoldWindowManager : WindowBase
         PlayerPrefs.Save();
     }
 
+    public void OnWatchAdButtonClicked()
+    {
+        // Вызывается при нажатии на кнопку просмотра рекламы
+        if (DateTime.Now - _lastAdWatchTime >= TimeSpan.FromMinutes(_cooldownMinutes))
+        {
+            StopUpdateCoroutine();
+            // Сохраняем время последнего просмотра
+            countWatched++;
+            _cooldownMinutes *= countWatched;
+            SaveLastAdWatchTime();
+            
+            _rewardAmount *= countWatched; 
+            _rewardAmountText.text = (_rewardAmount).ToString(); // Устанавливаем текст награды
+            LoadLastAdWatchTime(); // Загружаем время последнего просмотра
+            StartUpdateCoroutine(); // Запускаем корутину для обновления таймера
+        }
+    }
+
     private void UpdateButtonState()
     {
+        if (_watchAdButton == null || _timerText == null)
+        {
+            Debug.LogWarning("Кнопка или текст таймера не назначены!");
+            return;
+        }
+
         TimeSpan timeSinceLastAd = DateTime.Now - _lastAdWatchTime;
 
         if (timeSinceLastAd.TotalMinutes >= _cooldownMinutes)
@@ -56,6 +91,7 @@ public class GoldWindowManager : WindowBase
             // Если время ожидания прошло, кнопка активна
             _watchAdButton.interactable = true;
             _timerText.text = "Смотреть рекламу";
+            Debug.Log("Кнопка активна.");
         }
         else
         {
@@ -65,31 +101,38 @@ public class GoldWindowManager : WindowBase
             // Вычисляем оставшееся время
             TimeSpan remainingTime = TimeSpan.FromMinutes(_cooldownMinutes) - timeSinceLastAd;
             _timerText.text = $"Доступно через: {remainingTime:mm\\:ss}";
+            Debug.Log("Кнопка неактивна.");
         }
     }
 
-    public void OnWatchAdButtonClicked()
+    private void StartUpdateCoroutine()
     {
-        // Вызывается при нажатии на кнопку просмотра рекламы
-        if (DateTime.Now - _lastAdWatchTime >= TimeSpan.FromMinutes(_cooldownMinutes))
+        // Запускаем корутину, если она еще не запущена
+        if (_updateCoroutine == null)
         {
-            // Сохраняем время последнего просмотра
-            SaveLastAdWatchTime();
-
-            // Обновляем состояние кнопки
-            UpdateButtonState();
+            _updateCoroutine = StartCoroutine(UpdateTimerCoroutine());
         }
     }
 
-
-    public override void UpdateWindow()
+    private void StopUpdateCoroutine()
     {
-        // Обновляем состояние кнопки каждый кадр (или через определенные интервалы)
-        UpdateButtonState();
+        // Останавливаем корутину, если она запущена
+        if (_updateCoroutine != null)
+        {
+            StopCoroutine(_updateCoroutine);
+            _updateCoroutine = null;
+        }
     }
 
-    protected override void OnClose()
+    private IEnumerator UpdateTimerCoroutine()
     {
-        base.OnClose();
+        while (true)
+        {
+            // Обновляем состояние кнопки и таймера
+            UpdateButtonState();
+
+            // Ждем 1 секунду перед следующим обновлением
+            yield return new WaitForSeconds(1f);
+        }
     }
 }

@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         animationController.Initialize(_animator);
         movement.SetParameters(moveSpeed, null, checkDistance, Collision);
         shooting.SetParameters(detectionRadius, enemyLayer);
+        weapon.SetPlayerController(this);
+        hpBar.maxBullets = currentWeapon.magazineSize;
     }
 
     public void Update()
@@ -68,6 +70,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         hpBar.SetHealth(MaxHealth);
         LocationObserver.RegisterPlayer(transform);
         EquipWeapon(currentWeapon);
+        hpBar.UpdateBullets(currentWeapon.magazineSize);
+        
     }
 
     public void Die()

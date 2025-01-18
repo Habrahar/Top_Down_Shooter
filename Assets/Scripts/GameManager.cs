@@ -206,7 +206,7 @@ public class GameManager : MonoBehaviour
     public void adRewardGold()
     {
         Gold += windows.goldWindowManager._rewardAmount;
-        windows.goldWindowManager.UpdateWindow();
+        windows.goldWindowManager.OnWatchAdButtonClicked();
         UpdateGold();
     }
     

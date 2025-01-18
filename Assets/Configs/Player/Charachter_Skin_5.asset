@@ -18,6 +18,6 @@ MonoBehaviour:
   modelPrefab: {fileID: 2779707500573682730, guid: f33340c8a06c8ba41b391c0096ac6b53, type: 3}
   lobbyPrefab: {fileID: 2779707500573682730, guid: 216170a08160cb74f8b16eaa09003dd4, type: 3}
   MaxHp: 700
-  radiusAttack: 9
+  radiusAttack: 12
   speed: 4
   isBought: 0

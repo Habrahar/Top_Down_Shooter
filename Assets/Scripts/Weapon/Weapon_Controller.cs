@@ -69,6 +69,11 @@ public class Weapon_Controller : MonoBehaviour
         }
     }
 
+    public void SetPlayerController(PlayerController player)
+    {
+        player_controller = player;
+    }
+
 
 
     private void InitializeAmmo(WeaponConfig config)
@@ -87,6 +92,7 @@ public class Weapon_Controller : MonoBehaviour
         {
            // Debug.Log("Shooting");
             HandleShoot(player.currentTarget.position);
+            
         }
     }
 
@@ -107,10 +113,12 @@ public class Weapon_Controller : MonoBehaviour
         EffectPool.Instance.GetEffect(weaponConfig.fireEffect, firePoint.position, effectRotation);
 
         currentMagazineAmmo--;
+        player_controller.hpBar.UpdateBullets(currentMagazineAmmo);
         //OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo);
 
         if (currentMagazineAmmo <= 0)
         {
+            player_controller.hpBar.StartReload(weaponConfig.reloadTime);
             TryReload();
         }
     }
@@ -119,9 +127,9 @@ public class Weapon_Controller : MonoBehaviour
     private void TryReload()
     {
         if (currentMagazineAmmo == weaponConfig.magazineSize) return; // Если магазин полон или патронов нет
-
         isReloading = true;
         Invoke(nameof(Reload), weaponConfig.reloadTime);
+        player_controller.hpBar.UpdateBullets(currentMagazineAmmo);
     }
 
     private void Reload()
@@ -133,8 +141,9 @@ public class Weapon_Controller : MonoBehaviour
         currentMagazineAmmo += weaponConfig.magazineSize;
 
         //OnAmmoUpdate?.Invoke(currentMagazineAmmo, totalAmmo); // Обновляем UI
-
+        
         isReloading = false;
+        
     }
     
     public void AddAmmo(int amount)

@@ -240,9 +240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaea4d8de5b852a4b9dd89a27ef21fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   currentHealth: 0
   maxHealth: 0
-  fillImage: {fileID: 0}
   healthBarPrefab: {fileID: 1223041434465391183, guid: 394c50f72efb3de43b915a0e31097235, type: 3}
   healthBarAnchor: {fileID: 1968763568959288664}
 --- !u!1 &4826861957400538547
