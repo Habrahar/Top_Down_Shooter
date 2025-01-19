@@ -17,8 +17,8 @@ MonoBehaviour:
   weaponImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   weaponName: "\u0421\u041C\u0413"
   cost: 200
-  isBought: 0
-  fireRate: 0.5
+  isBought: 1
+  fireRate: 0.2
   bulletSpeed: 20
   bulletDamage: 10
   bulletDistance: 12
@@ -29,3 +29,5 @@ MonoBehaviour:
   fireEffect: {fileID: 157586, guid: 2574ca206a571a342a7fab69fdfb87aa, type: 3}
   shootingBehaviourConfig: {fileID: 11400000, guid: 10d1825596b023a4da90eeba12294bcc, type: 2}
   bulletSpread: 30
+  fireSoundName: 9mm_shoot
+  reloadSoundName: 9mm_reload

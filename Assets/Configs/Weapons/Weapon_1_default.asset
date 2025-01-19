@@ -29,3 +29,5 @@ MonoBehaviour:
   fireEffect: {fileID: 157586, guid: 2574ca206a571a342a7fab69fdfb87aa, type: 3}
   shootingBehaviourConfig: {fileID: 11400000, guid: 10d1825596b023a4da90eeba12294bcc, type: 2}
   bulletSpread: 0.05
+  fireSoundName: 9mm_shoot
+  reloadSoundName: 9mm_reload

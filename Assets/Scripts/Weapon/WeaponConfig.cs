@@ -30,4 +30,8 @@ public class WeaponConfig : ScriptableObject
     [Header("Shooting Behaviour")]
     public ShootingBehaviourConfig shootingBehaviourConfig;
     public float bulletSpread;
+
+    [Header("Sounds")] public string fireSoundName;
+    public string reloadSoundName;
+
 }

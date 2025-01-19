@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
             //LevelManager.StartNextLevel(currentLevel);
             windows.startWindow.Open();
             UpdateGold();
+            SoundManager.Instance.PlayMusic("MainMenu_theme");
         }
         else
         {

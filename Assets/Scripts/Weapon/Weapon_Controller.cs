@@ -111,6 +111,7 @@ public class Weapon_Controller : MonoBehaviour
         // Создание эффекта, направленного к цели
         Quaternion effectRotation = Quaternion.LookRotation(direction);
         EffectPool.Instance.GetEffect(weaponConfig.fireEffect, firePoint.position, effectRotation);
+        SoundManager.Instance.PlaySoundEffect(weaponConfig.fireSoundName);
 
         currentMagazineAmmo--;
         player_controller.hpBar.UpdateBullets(currentMagazineAmmo);
@@ -129,6 +130,7 @@ public class Weapon_Controller : MonoBehaviour
         if (currentMagazineAmmo == weaponConfig.magazineSize) return; // Если магазин полон или патронов нет
         isReloading = true;
         Invoke(nameof(Reload), weaponConfig.reloadTime);
+        SoundManager.Instance.PlaySoundEffect(weaponConfig.reloadSoundName);
         player_controller.hpBar.UpdateBullets(currentMagazineAmmo);
     }
 
