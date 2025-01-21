@@ -11,6 +11,7 @@ namespace Level
         [SerializeField] private ObjectPool<EnemyController> enemyPool; // Пул врагов
         
         private GameObject currentLevelInstance; // Текущий активный уровень
+        private int currentLevel;
         public Transform playerPos;
         private int tmp_reward;
 
@@ -39,7 +40,8 @@ namespace Level
                 Debug.LogError($"Префаб уровня с индексом {currentLevelIndex} равен NULL!");
                 return;
             }
-            
+
+            currentLevel = currentLevelIndex;
             currentLevelInstance = Instantiate(levelPrefab);
 
                 InitializeLevel(currentLevelInstance);
@@ -101,6 +103,16 @@ namespace Level
           DespawnEnemies();
           Destroy(currentLevelInstance);
       }
-        
+
+      public List<GameObject> GetLevels()
+      {
+          return levelPrefabs;
+      }
+
+      public int GetCurrentLevel()
+      {
+          return currentLevel;
+      }
+
     }
 }
