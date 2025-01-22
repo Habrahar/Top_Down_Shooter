@@ -126,7 +126,7 @@ namespace UI
                     progressValue = gm.spawner.tmp_counter / gm.spawner.counter;    
                 }
                 
-                reward.text = (gm.LevelManager.GetReward() / progressValue).ToString();
+                reward.text = (gm.LevelManager.GetReward() * progressValue).ToString();
             }
             else
             {

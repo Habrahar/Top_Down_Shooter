@@ -128,7 +128,10 @@ namespace Level
         public void SetLevelprogress(float progres)
         {
             var levelComponent = levelPrefabs[currentLevel].GetComponent<LevelComponent>();
-            levelComponent.progress = progres;
+            if (progres > levelComponent.progress)
+            {
+                levelComponent.progress = progres;
+            }
         }
 
         public float GetLevelProgress(int level)

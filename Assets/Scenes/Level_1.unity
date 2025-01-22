@@ -3522,6 +3522,7 @@ MonoBehaviour:
   levelButtonPrefab: {fileID: 283238767574964172, guid: 7f5faee70ae5bfd46ae202b23fd56b87, type: 3}
   levelsContainer: {fileID: 1937805142}
   closeButton: {fileID: 726565103}
+  gm: {fileID: 1869800339}
 --- !u!1 &701491073
 GameObject:
   m_ObjectHideFlags: 0
@@ -8995,7 +8996,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f835537a4d4501a43b743b2d51eb1eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevel: 1
+  currentLevel: 7
   _cam: {fileID: 963194229}
   LevelManager: {fileID: 1869800343}
   windows: {fileID: 62631635}
