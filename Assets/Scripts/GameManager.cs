@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
             //LevelManager.StartNextLevel(currentLevel);
             windows.startWindow.Open();
             UpdateGold();
+            LevelManager.SetCurrentLevel(currentLevel);
             SoundManager.Instance.PlayMusic("MainMenu_theme");
         }
         else
@@ -86,10 +87,11 @@ public class GameManager : MonoBehaviour
     private void openWinWindow()
     {
         DestroyPlayer();
+        LevelManager.SetLevelprogress(spawner.tmp_counter / spawner.counter);
         windows.winWindow.Open();
         if (spawner.tmp_counter != 0)
         {
-            Gold += LevelManager.GetReward() / (spawner.tmp_counter/spawner.counter);    
+            Gold += (int)(LevelManager.GetReward() * (spawner.tmp_counter/spawner.counter));    
         }
         
         UpdateGold();

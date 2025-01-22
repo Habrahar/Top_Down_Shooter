@@ -14,8 +14,8 @@ namespace New
         }
        
         public int initialPoolSize = 5;
-        public int counter;
-        public int tmp_counter;
+        public float counter;
+        public float tmp_counter;
         private Dictionary<EnemyConfig, ObjectPool<EnemyController>> enemyPools;
         public static event Action<int> levelClear; // Событие обновления патронов
 

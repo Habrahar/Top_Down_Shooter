@@ -8,7 +8,8 @@ namespace Level
     {
         public GameObject levelPrefab; // Префаб уровня
         public Transform playerSpawnPoint; // Точка спавна игрока
-        public EnemySpawnInfo[] enemySpawnPoints; // Информация о точках спавна врагов
+        public EnemySpawnInfo[] enemySpawnPoints; // Информация о точках спавна 
+        
     }
 
     [System.Serializable]

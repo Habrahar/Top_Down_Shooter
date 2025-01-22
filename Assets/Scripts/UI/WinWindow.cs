@@ -21,7 +21,7 @@ namespace UI
         [SerializeField] private Slider progressBar; // Ссылка на Slider для прогресса
         [SerializeField] private TextMeshProUGUI progressText; // Текст для отображения процентов
         [SerializeField] private TextMeshProUGUI reward;
-        private int progressValue;
+        private float progressValue;
 
         private RectTransform rectTransform;
         
@@ -117,7 +117,15 @@ namespace UI
             if (gm.spawner.tmp_counter != 0)
             {
                 adButton.gameObject.SetActive(true);
-                progressValue = gm.spawner.tmp_counter / gm.spawner.counter;
+                if (gm.spawner.tmp_counter == gm.spawner.counter)
+                {
+                    progressValue = 1;
+                }
+                else
+                {
+                    progressValue = gm.spawner.tmp_counter / gm.spawner.counter;    
+                }
+                
                 reward.text = (gm.LevelManager.GetReward() / progressValue).ToString();
             }
             else

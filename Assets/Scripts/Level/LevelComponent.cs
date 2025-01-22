@@ -15,5 +15,6 @@ namespace Level
         public Transform playerSpawnPoint; // Точка спавна игрока
         public int GoldReward;
         public List<EnemySpawnPoint> enemySpawnPoints; // Точки спавна врагов
+        public float progress = 0f;
     }
 }

@@ -9,7 +9,7 @@ namespace Level
     {
         [SerializeField] private List<GameObject> levelPrefabs; // Список префабов уровней
         [SerializeField] private ObjectPool<EnemyController> enemyPool; // Пул врагов
-        
+        [SerializeField] private GameManager gm;
         private GameObject currentLevelInstance; // Текущий активный уровень
         private int currentLevel;
         public Transform playerPos;
@@ -25,7 +25,8 @@ namespace Level
 
             if (currentLevelIndex < 0 || currentLevelIndex >= levelPrefabs.Count)
             {
-                Debug.LogError($"Индекс {currentLevelIndex} выходит за пределы списка (размер списка: {levelPrefabs.Count})!");
+                Debug.LogError(
+                    $"Индекс {currentLevelIndex} выходит за пределы списка (размер списка: {levelPrefabs.Count})!");
                 return;
             }
 
@@ -44,75 +45,98 @@ namespace Level
             currentLevel = currentLevelIndex;
             currentLevelInstance = Instantiate(levelPrefab);
 
-                InitializeLevel(currentLevelInstance);
+            InitializeLevel(currentLevelInstance);
+
+            gm.SetPlayer();
+            gm.windows.startWindow.Close();
+
         }
 
 
 
-      private void InitializeLevel(GameObject level)
-      {
-          var levelComponent = level.GetComponent<LevelComponent>();
-          tmp_reward = levelComponent.GoldReward;
-          if (levelComponent == null)
-          {
-              Debug.LogError("На уровне отсутствует компонент LevelComponent!");
-              return;
-          }
+        private void InitializeLevel(GameObject level)
+        {
+            var levelComponent = level.GetComponent<LevelComponent>();
+            tmp_reward = levelComponent.GoldReward;
+            if (levelComponent == null)
+            {
+                Debug.LogError("На уровне отсутствует компонент LevelComponent!");
+                return;
+            }
 
-          playerPos = levelComponent.playerSpawnPoint;
-          DespawnEnemies();
-          SpawnEnemies(levelComponent);
-          
-      }
+            playerPos = levelComponent.playerSpawnPoint;
+            DespawnEnemies();
+            SpawnEnemies(levelComponent);
 
-      public Transform getPlayerPos()
-      {
-          return playerPos;
-      }
+        }
 
-      private void DespawnEnemies()
-      {
-          EnemySpawner.Instance.ReturnAllEnemy();
-          EnemySpawner.Instance.resetDeadCount();
-      }
+        public Transform getPlayerPos()
+        {
+            return playerPos;
+        }
 
-      public int GetReward()
-      {
-          return tmp_reward;
-      }
+        private void DespawnEnemies()
+        {
+            EnemySpawner.Instance.ReturnAllEnemy();
+            EnemySpawner.Instance.resetDeadCount();
+        }
 
-      private void SpawnEnemies(LevelComponent level)
-      {
-          for (int i = 0; i < level.enemySpawnPoints.Count; i++)
-          {
-              var config = level.enemySpawnPoints[i].enemyConfig;
-              var spawnPoint = level.enemySpawnPoints[i].spawnPoint;
+        public int GetReward()
+        {
+            return tmp_reward;
+        }
 
-              // Получаем врага из спавнера
-              var enemy = EnemySpawner.Instance.GetEnemy(config);
-              enemy.transform.position = spawnPoint.position;
-              enemy.transform.rotation = spawnPoint.rotation;
-              enemy.Initialize(config);
-              enemy.hpBar.SetHealth(enemy.MaxHealth);
-          }
-          EnemySpawner.Instance.setDeadCount(level.enemySpawnPoints.Count);
-      }
+        private void SpawnEnemies(LevelComponent level)
+        {
+            for (int i = 0; i < level.enemySpawnPoints.Count; i++)
+            {
+                var config = level.enemySpawnPoints[i].enemyConfig;
+                var spawnPoint = level.enemySpawnPoints[i].spawnPoint;
 
-      public void DespawnLevel()
-      {
-          DespawnEnemies();
-          Destroy(currentLevelInstance);
-      }
+                // Получаем врага из спавнера
+                var enemy = EnemySpawner.Instance.GetEnemy(config);
+                enemy.transform.position = spawnPoint.position;
+                enemy.transform.rotation = spawnPoint.rotation;
+                enemy.Initialize(config);
+                enemy.hpBar.SetHealth(enemy.MaxHealth);
+            }
 
-      public List<GameObject> GetLevels()
-      {
-          return levelPrefabs;
-      }
+            EnemySpawner.Instance.setDeadCount(level.enemySpawnPoints.Count);
+        }
 
-      public int GetCurrentLevel()
-      {
-          return currentLevel;
-      }
+        public void DespawnLevel()
+        {
+            DespawnEnemies();
+            Destroy(currentLevelInstance);
+        }
 
+        public List<GameObject> GetLevels()
+        {
+            return levelPrefabs;
+        }
+
+        public int GetCurrentLevel()
+        {
+            return currentLevel;
+        }
+
+        public void SetCurrentLevel(int level)
+        {
+            currentLevel = level;
+        }
+
+        public void SetLevelprogress(float progres)
+        {
+            var levelComponent = levelPrefabs[currentLevel].GetComponent<LevelComponent>();
+            levelComponent.progress = progres;
+        }
+
+        public float GetLevelProgress(int level)
+        {
+            
+                var levelComponent = levelPrefabs[level].GetComponent<LevelComponent>();
+                return levelComponent.progress;
+
+        }
     }
 }

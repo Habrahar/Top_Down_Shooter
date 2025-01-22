@@ -15,6 +15,7 @@ namespace UI
         [SerializeField] private Button closeButton; // Кнопка закрытия окна
 
         private LevelManager levelManager; // Ссылка на LevelManager
+        [SerializeField] private GameManager gm;
         private List<Button> levelButtons = new List<Button>(); // Список кнопок уровней
 
         private void Awake()
@@ -62,14 +63,15 @@ namespace UI
 
             // Получаем список уровней из LevelManager
             List<GameObject> levels = levelManager.GetLevels();
-            int currentLevel = levelManager.GetCurrentLevel();
+            int currentLevel = gm.currentLevel;
 
             // Создаем кнопки для каждого уровня
             for (int i = 0; i < levels.Count; i++)
             {
                 GameObject buttonObject = Instantiate(levelButtonPrefab, levelsContainer);
                 Button levelButton = buttonObject.GetComponent<Button>();
-                TextMeshProUGUI levelText = buttonObject.GetComponentInChildren<TextMeshProUGUI>();
+                TextMeshProUGUI levelText = buttonObject.transform.Find("LevelText").GetComponentInChildren<TextMeshProUGUI>();
+                Slider sliderPorgres = buttonObject.transform.Find("Slider").GetComponentInChildren<Slider>();
                 Image lockIcon = buttonObject.transform.Find("LockIcon").GetComponent<Image>();
 
                 // Устанавливаем номер уровня
@@ -79,10 +81,12 @@ namespace UI
                 if (i + 1 > currentLevel)
                 {
                     levelButton.interactable = false;
+                    sliderPorgres.value = 0;
                     lockIcon.gameObject.SetActive(true);
                 }
                 else
                 {
+                    sliderPorgres.value = levelManager.GetLevelProgress(i);
                     levelButton.interactable = true;
                     lockIcon.gameObject.SetActive(false);
                 }
@@ -100,7 +104,7 @@ namespace UI
         private void OnLevelButtonClicked(int levelIndex)
         {
             Debug.Log($"Выбран уровень: {levelIndex + 1}");
-            levelManager.StartNextLevel(levelIndex + 1); // Загружаем уровень
+            levelManager.StartNextLevel(levelIndex ); // Загружаем уровень
             CloseWindow(); // Закрываем окно
         }
 
