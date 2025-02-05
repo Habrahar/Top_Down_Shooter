@@ -1,4 +1,8 @@
-﻿
+﻿using System.Collections.Generic;
+using DefaultNamespace;
+using Level;
+using UI;
+
 namespace YG
 {
     [System.Serializable]
@@ -16,18 +20,25 @@ namespace YG
         public string newPlayerName = "Hello!";
         public bool[] openLevels = new bool[3];
 
-        // Ваши сохранения
+        // Данные игры
+        public int currentLevel = 0;
+        public int gold = 0;
+        public WeaponConfig CurrentWeapon;
+        public CharacterConfig CurrentCharachter;
+        public int rewAdShowCount = 1;
+        public int rewAdShowCooldown = 1;
+        
+        public List<LevelProgressData> levelProgress = new List<LevelProgressData>();
+        public List<BoughtItemData> boughtWeapons = new List<BoughtItemData>();
+        public List<BoughtItemData> boughtCharacters = new List<BoughtItemData>();
 
-        // ...
+        
 
-        // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны
 
 
         // Вы можете выполнить какие то действия при загрузке сохранений
         public SavesYG()
         {
-            // Допустим, задать значения по умолчанию для отдельных элементов массива
-
             openLevels[1] = true;
         }
     }

@@ -72,7 +72,16 @@ namespace UI
             else
             {
                 costText.text = "Цена: " + characters[currentIndex].cost;
-                buyButton.interactable = true;
+                if (gm.Gold < characters[currentIndex].cost)
+                {
+                    
+                    buyButton.interactable = false;    
+                }
+                else
+                {
+                    buyButton.interactable = true;    
+                }
+                
             }
         }
 
@@ -128,6 +137,8 @@ namespace UI
                 }
                 
             }
+            GameManager.OnSaveGame?.Invoke();
+
         }
     
     

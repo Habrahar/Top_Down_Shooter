@@ -7,7 +7,7 @@ namespace Level
 
     public class LevelManager : MonoBehaviour
     {
-        [SerializeField] private List<GameObject> levelPrefabs; // Список префабов уровней
+        [SerializeField] public List<LevelData> levelData; // Список префабов уровней
         [SerializeField] private ObjectPool<EnemyController> enemyPool; // Пул врагов
         [SerializeField] private GameManager gm;
         private GameObject currentLevelInstance; // Текущий активный уровень
@@ -17,16 +17,16 @@ namespace Level
 
         public void StartNextLevel(int currentLevelIndex)
         {
-            if (levelPrefabs == null || levelPrefabs.Count == 0)
+            if (levelData == null || levelData.Count == 0)
             {
                 Debug.LogError("Список levelPrefabs пуст или не инициализирован!");
                 return;
             }
 
-            if (currentLevelIndex < 0 || currentLevelIndex >= levelPrefabs.Count)
+            if (currentLevelIndex < 0 || currentLevelIndex >= levelData.Count)
             {
                 Debug.LogError(
-                    $"Индекс {currentLevelIndex} выходит за пределы списка (размер списка: {levelPrefabs.Count})!");
+                    $"Индекс {currentLevelIndex} выходит за пределы списка (размер списка: {levelData.Count})!");
                 return;
             }
 
@@ -35,7 +35,7 @@ namespace Level
                 Destroy(currentLevelInstance);
             }
 
-            var levelPrefab = levelPrefabs[currentLevelIndex];
+            var levelPrefab = levelData[currentLevelIndex];
             if (levelPrefab == null)
             {
                 Debug.LogError($"Префаб уровня с индексом {currentLevelIndex} равен NULL!");
@@ -43,7 +43,7 @@ namespace Level
             }
 
             currentLevel = currentLevelIndex;
-            currentLevelInstance = Instantiate(levelPrefab);
+            currentLevelInstance = Instantiate(levelPrefab.levelPrefab);
 
             InitializeLevel(currentLevelInstance);
 
@@ -110,9 +110,9 @@ namespace Level
             Destroy(currentLevelInstance);
         }
 
-        public List<GameObject> GetLevels()
+        public List<LevelData> GetLevels()
         {
-            return levelPrefabs;
+            return levelData;
         }
 
         public int GetCurrentLevel()
@@ -127,18 +127,16 @@ namespace Level
 
         public void SetLevelprogress(float progres)
         {
-            var levelComponent = levelPrefabs[currentLevel].GetComponent<LevelComponent>();
-            if (progres > levelComponent.progress)
+            if (progres > levelData[currentLevel].progress)
             {
-                levelComponent.progress = progres;
+                levelData[currentLevel].progress = progres;
             }
         }
 
         public float GetLevelProgress(int level)
         {
             
-                var levelComponent = levelPrefabs[level].GetComponent<LevelComponent>();
-                return levelComponent.progress;
+                return levelData[level].progress;
 
         }
     }

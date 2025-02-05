@@ -1,0 +1,67 @@
+{
+    "idSave": 79,
+    "isFirstSession": false,
+    "language": "ru",
+    "promptDone": false,
+    "money": 1,
+    "newPlayerName": "Hello!",
+    "openLevels": [
+        false,
+        true,
+        false
+    ],
+    "currentLevel": 6,
+    "gold": 380,
+    "CurrentWeapon": {
+        "instanceID": 23622
+    },
+    "CurrentCharachter": {
+        "instanceID": 24312
+    },
+    "rewAdShowCount": 5,
+    "rewAdShowCooldown": 5,
+    "levelProgress": [
+        {
+            "levelName": "Level_1",
+            "progress": 1.0
+        },
+        {
+            "levelName": "Level_2",
+            "progress": 0.4000000059604645
+        },
+        {
+            "levelName": "Level_3",
+            "progress": 0.20000000298023225
+        },
+        {
+            "levelName": "Level_4",
+            "progress": 0.20000000298023225
+        },
+        {
+            "levelName": "Level_5",
+            "progress": 0.800000011920929
+        },
+        {
+            "levelName": "Level_6",
+            "progress": 0.0
+        },
+        {
+            "levelName": "Level_7",
+            "progress": 0.0
+        },
+        {
+            "levelName": "Level_8",
+            "progress": 0.0
+        },
+        {
+            "levelName": "Level_9",
+            "progress": 0.0
+        },
+        {
+            "levelName": "Level_10",
+            "progress": 0.0
+        }
+    ],
+    "boughtWeapons": [],
+    "boughtCharacters": []
+}

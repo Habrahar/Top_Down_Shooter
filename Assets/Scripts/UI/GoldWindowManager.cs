@@ -9,18 +9,18 @@ public class GoldWindowManager : WindowBase
 {
     [SerializeField] private Button _watchAdButton; // Кнопка для просмотра рекламы
     [SerializeField] private TextMeshProUGUI _timerText; // Текст для отображения таймера
-    [SerializeField] public int _rewardAmount = 200; // Количество золота за просмотр
+    [SerializeField] public int _rewardAmount = 100; // Количество золота за просмотр
     [SerializeField] private TextMeshProUGUI _rewardAmountText; // Текст для отображения количества награды
-    [SerializeField] private int _cooldownMinutes = 1; // Время ожидания в минутах
+    [SerializeField] public int _cooldownMinutes = 1; // Время ожидания в минутах
 
-    [SerializeField] protected int countWatched = 1; //НУжно сохранить параметр
+    [SerializeField] public int countWatched = 1; //НУжно сохранить параметр
     private DateTime _lastAdWatchTime; // Время последнего просмотра рекламы
     private Coroutine _updateCoroutine; // Корутина для обновления таймера
 
     protected override void OnOpen()
     {
-        base.OnOpen();
-        _rewardAmountText.text = (_rewardAmount).ToString(); // Устанавливаем текст награды
+        base.OnOpen();  
+        _rewardAmountText.text = (_rewardAmount * countWatched).ToString(); // Устанавливаем текст награды
         LoadLastAdWatchTime(); // Загружаем время последнего просмотра
         StartUpdateCoroutine(); // Запускаем корутину для обновления таймера
     }

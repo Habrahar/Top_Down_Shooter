@@ -30,6 +30,7 @@ public class AdManager : MonoBehaviour
 
     // Делегат для выдачи награды
     public static event Action OnRewardGoldGranted;
+    public static event Action OnRewardGoldAfterlevel;
 
     // Приватный конструктор, чтобы нельзя было создать экземпляр извне
     private AdManager() { }
@@ -63,12 +64,10 @@ public class AdManager : MonoBehaviour
         switch (tmp_id)
         {
             case 1:
-                Debug.Log("Выдана награда: 100 монет");
                 OnRewardGoldGranted?.Invoke(); // Вызываем делегат
                 break;
             case 2:
-                Debug.Log("Выдана награда: 1 жизнь");
-                // Логика выдачи 1 жизни
+                OnRewardGoldAfterlevel?.Invoke();
                 break;
             case 3:
                 Debug.Log("Выдана награда: 2 бонусных уровня");

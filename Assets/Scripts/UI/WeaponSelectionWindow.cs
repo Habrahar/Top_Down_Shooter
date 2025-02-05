@@ -34,6 +34,7 @@ namespace UI
                 gm.UpdateGold();
                 availableWeapons[selectedWeaponIndex].isBought = true;    
             }
+            gm.SaveGame();
             SlotUpdate();
             
         }
@@ -169,12 +170,16 @@ namespace UI
                 // Обновляем кнопку после покупки
                 buttonText.text = "Экипировать";
                 actionButton.interactable = gm.currentWeapon != weapon;
+                GameManager.OnSaveGame?.Invoke();
+
             }
         }
         private void EquipWeapon(WeaponConfig weapon)
         {
             gm.currentWeapon = weapon;
             PopulateWeaponList(); // Обновляем весь список после изменения текущего оружия
+            GameManager.OnSaveGame?.Invoke();
+
         }
 
 

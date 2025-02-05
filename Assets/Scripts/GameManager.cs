@@ -4,6 +4,7 @@ using New;
 using UI;
 using UnityEngine;
 using TMPro;
+using YG;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,16 +17,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] public int Gold;
     [SerializeField] public TextMeshProUGUI GoldCount;
     [SerializeField] public EnemySpawner spawner;
+    public static Action OnSaveGame;
+
     private GameObject plprefab;
 
-    [SerializeField] private WeaponConfig defaultWeapon;
-    [SerializeField] private CharacterConfig defaultPlayer;
+    [SerializeField] public WeaponConfig defaultWeapon;
+    [SerializeField] public CharacterConfig defaultPlayer;
 
     [Header("Игрок")]
     public CharacterConfig playerPrefab;
 
+    [Header("Сохранения")]
+    [SerializeField]
+    public SaveManager saver;
+
     private PlayerController playerController;
     private Transform playerSpawnPoint;
+    private SavesYG saveData;
+
     public void EnemyKilled(EnemyConfig enemyType)
     {
         
@@ -36,11 +45,17 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            OnSaveGame += SaveGame; 
+            saver.Initialize(this);
+            LoadGame();
+
             //LevelManager.StartNextLevel(currentLevel);
             windows.startWindow.Open();
             UpdateGold();
             LevelManager.SetCurrentLevel(currentLevel);
             SoundManager.Instance.PlayMusic("MainMenu_theme");
+            SaveManager.Instance.Initialize(this); // Загружаем данные
+
         }
         else
         {
@@ -69,12 +84,17 @@ public class GameManager : MonoBehaviour
         EvacuationZone.OnLevelComplete -= openWinWindow;
         AdManager.OnRewardGoldGranted -= adRewardGold;
     }
+    private void OnDestroy()
+    {
+        OnSaveGame -= SaveGame;
+    }
 
     public void StartGame()
     {
         LevelManager.StartNextLevel(currentLevel);
         SetPlayer();
         windows.startWindow.Close();
+        windows.goldcurrency.Close();
         
     }
 
@@ -91,13 +111,15 @@ public class GameManager : MonoBehaviour
         windows.winWindow.Open();
         if (spawner.tmp_counter != 0)
         {
-            Gold += (int)(LevelManager.GetReward() * (spawner.tmp_counter/spawner.counter));    
+            var tmp_reward= (int)(LevelManager.GetReward() * (spawner.tmp_counter/spawner.counter));
+            windows.winWindow.SetReward(tmp_reward);
         }
         
         UpdateGold();
-        currentLevel++;
+        OnLevelComplete();
         Destroy(plprefab);
         LevelManager.DespawnLevel();
+        SaveGame();
         
     }
 
@@ -158,12 +180,14 @@ public class GameManager : MonoBehaviour
 
     public void SaveWeapon(WeaponConfig config, int cost)
     {
-            currentWeapon = config;    
+            currentWeapon = config;   
+            SaveGame();
     }
 
     public void EquipCurrentWeapon(PlayerController controller)
     {
         controller.EquipWeapon(currentWeapon);
+        SaveGame();
     }
 
     public void StartLevel()
@@ -196,14 +220,18 @@ public class GameManager : MonoBehaviour
 
     private void OnLevelComplete()
     {
-        
-        currentLevel++;
+        if (currentLevel == LevelManager.GetCurrentLevel())
+        {
+            currentLevel++;    
+        }
+        SaveGame();
         
     }
 
     public void UpdateGold()
     {
         GoldCount.text = Gold.ToString();
+        SaveGame();
     }
 
     public void adRewardGold()
@@ -211,6 +239,15 @@ public class GameManager : MonoBehaviour
         Gold += windows.goldWindowManager._rewardAmount;
         windows.goldWindowManager.OnWatchAdButtonClicked();
         UpdateGold();
+        SaveGame();
     }
-    
+    public void SaveGame()
+    {
+        saver.SaveGame();
+    }
+    private void LoadGame()
+    {
+        saver.LoadGame();
+    }
+
 }

@@ -11,6 +11,7 @@ namespace UI
         public WinWindow winWindow;
         public PlayerShop playerShop;
         public GoldWindowManager goldWindowManager;
+        public GoldCounterWindow goldcurrency;
 
         private void Start()
         {
@@ -72,6 +73,15 @@ namespace UI
         public void CloseGoldManager()
         {
             goldWindowManager.Close();
+        }
+        public void OpenGoldCurrency()
+        {
+            goldcurrency.Open();
+        }
+
+        public void CloseGoldCurrency()
+        {
+            goldcurrency.Close();
         }
         
     }

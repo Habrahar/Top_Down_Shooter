@@ -22,8 +22,20 @@ namespace UI
         [SerializeField] private TextMeshProUGUI progressText; // Текст для отображения процентов
         [SerializeField] private TextMeshProUGUI reward;
         private float progressValue;
+        private int tmp_reward;
 
         private RectTransform rectTransform;
+        
+        private void OnEnable()
+        {
+            AdManager.OnRewardGoldAfterlevel += GiveRewardAd;
+        }
+
+        private void OnDisable()
+        {
+            AdManager.OnRewardGoldAfterlevel -= GiveRewardAd;
+        }
+        
         
         private void Awake()
         {
@@ -145,6 +157,28 @@ namespace UI
             {
                 progressText.text = $"{progressValue * 100f}%"; // Устанавливаем текст
             }
+        }
+
+
+        public void GiveRewardAd()
+        {
+            gm.windows.winWindow.Close();
+            gm.windows.startWindow.Open();
+            gm.Gold += (int)(gm.LevelManager.GetReward() * progressValue) * 2;
+            gm.UpdateGold();
+        }
+
+        public void SetReward(int reward)
+        {
+            tmp_reward = reward;
+
+        }
+        public void GiveReward()
+        {
+            gm.Gold += tmp_reward;
+            gm.UpdateGold();
+            gm.SaveGame();
+
         }
     }
 }
