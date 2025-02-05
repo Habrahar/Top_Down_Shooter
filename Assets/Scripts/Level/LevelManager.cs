@@ -56,6 +56,7 @@ namespace Level
 
         private void InitializeLevel(GameObject level)
         {
+            gm.windows.goldcurrency.Close();
             var levelComponent = level.GetComponent<LevelComponent>();
             tmp_reward = levelComponent.GoldReward;
             if (levelComponent == null)

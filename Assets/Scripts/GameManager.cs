@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
             //LevelManager.StartNextLevel(currentLevel);
             windows.startWindow.Open();
             UpdateGold();
+            windows.OpenGoldCurrency();
             LevelManager.SetCurrentLevel(currentLevel);
             SoundManager.Instance.PlayMusic("MainMenu_theme");
             SaveManager.Instance.Initialize(this); // Загружаем данные
@@ -91,6 +92,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        windows.CloseGoldCurrency();
         LevelManager.StartNextLevel(currentLevel);
         SetPlayer();
         windows.startWindow.Close();
@@ -100,12 +102,14 @@ public class GameManager : MonoBehaviour
 
     private void openLoseWindow()
     {
+        windows.OpenGoldCurrency();
         DestroyPlayer();
         LevelManager.DespawnLevel();
         windows.OpenLoseWindow();
     }
     private void openWinWindow()
     {
+        windows.OpenGoldCurrency();
         DestroyPlayer();
         LevelManager.SetLevelprogress(spawner.tmp_counter / spawner.counter);
         windows.winWindow.Open();

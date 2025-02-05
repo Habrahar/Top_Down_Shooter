@@ -1,5 +1,5 @@
 {
-    "idSave": 79,
+    "idSave": 134,
     "isFirstSession": false,
     "language": "ru",
     "promptDone": false,
@@ -11,9 +11,9 @@
         false
     ],
     "currentLevel": 6,
-    "gold": 380,
+    "gold": 280,
     "CurrentWeapon": {
-        "instanceID": 23622
+        "instanceID": 24282
     },
     "CurrentCharachter": {
         "instanceID": 24312
