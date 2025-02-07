@@ -73,8 +73,27 @@ namespace New
             StateMachine.Initialize(IdleState);
             animationController = gameObject.AddComponent<AnimationController>();
             animationController.Initialize(_animation);
+            setNavMesh();
         }
-        
+
+        private void setNavMesh()
+        {
+            if (!agent.isOnNavMesh)
+            {
+                Debug.LogError($"Враг {gameObject.name} не на NavMesh! Перемещаем...");
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(transform.position, out hit, 5f, NavMesh.AllAreas))
+                {
+                    transform.position = hit.position;
+                    agent.Warp(hit.position); // Перемещаем агента на правильную позицию на NavMesh
+                }
+                else
+                {
+                    Debug.LogError("Не удалось найти ближайшую точку NavMesh!");
+                }
+            }
+        }
+
 
         public void SetPool(ObjectPool<EnemyController> pool)
         {

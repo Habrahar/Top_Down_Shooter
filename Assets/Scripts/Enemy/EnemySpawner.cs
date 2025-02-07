@@ -59,17 +59,23 @@ namespace New
         {
             if (!enemyPools.TryGetValue(config, out var pool))
             {
-                
-                // Если пула нет, создаем его
                 var prefab = config.Prefab.GetComponent<EnemyController>();
                 pool = new ObjectPool<EnemyController>(prefab, initialPoolSize, transform);
                 enemyPools[config] = pool;
             }
-
+        
             var enemy = pool.Get();
+            if (enemy.agent != null)
+            {
+                enemy.agent.ResetPath(); // Сброс пути
+                enemy.agent.enabled = false;
+                enemy.agent.enabled = true; // Перезапускаем агент
+            }
+
             enemy.SetPool(pool);
             return enemy;
         }
+
 
         public void ReturnEnemy(EnemyController enemy, EnemyConfig config)
         {

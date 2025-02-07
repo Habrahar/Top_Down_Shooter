@@ -809,7 +809,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 93c5247ea8c800b49b9f165cbd5eada4, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: ba1a7ec6d6f6478439e73114bb42ed11, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1698076248295594823
 GameObject:
@@ -1231,6 +1231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6284779202124441509}
+  - component: {fileID: 941161696727441400}
   m_Layer: 9
   m_Name: Ground
   m_TagString: Untagged
@@ -1286,6 +1287,25 @@ Transform:
   - {fileID: 4579690519345881021}
   m_Father: {fileID: 7600925099619111893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &941161696727441400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4623034069035611597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &4674610341358491272
 GameObject:
   m_ObjectHideFlags: 0
