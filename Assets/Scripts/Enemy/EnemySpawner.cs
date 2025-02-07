@@ -67,7 +67,6 @@ namespace New
             var enemy = pool.Get();
             if (enemy.agent != null)
             {
-                enemy.agent.ResetPath(); // Сброс пути
                 enemy.agent.enabled = false;
                 enemy.agent.enabled = true; // Перезапускаем агент
             }

@@ -80,7 +80,7 @@ namespace New
         {
             if (!agent.isOnNavMesh)
             {
-                Debug.LogError($"Враг {gameObject.name} не на NavMesh! Перемещаем...");
+                //Debug.LogError($"Враг {gameObject.name} не на NavMesh! Перемещаем...");
                 NavMeshHit hit;
                 if (NavMesh.SamplePosition(transform.position, out hit, 5f, NavMesh.AllAreas))
                 {
@@ -173,6 +173,7 @@ namespace New
         public void Die()
         {
             hpBar.destroyHP();
+            agent.ResetPath(); // Сброс пути
             
             EnemySpawner.Instance.ReturnEnemy(this, _enemy);
             dieTrigger?.Invoke();
