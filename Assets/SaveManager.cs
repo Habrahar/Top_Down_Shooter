@@ -60,27 +60,40 @@ public class SaveManager : MonoBehaviour
 
         gameManager.currentLevel = saveData.currentLevel;
         gameManager.Gold = saveData.gold;
-        if (saveData.CurrentWeapon != null)
+
+        gameManager.currentWeapon = saveData.CurrentWeapon ?? gameManager.currentWeapon;
+        gameManager.playerPrefab = saveData.CurrentCharachter ?? gameManager.playerPrefab;
+
+        if (gameManager.windows?.goldWindowManager != null)
         {
-            gameManager.currentWeapon = saveData.CurrentWeapon;    
+            gameManager.windows.goldWindowManager.countWatched = saveData.rewAdShowCount;
+            gameManager.windows.goldWindowManager._cooldownMinutes = saveData.rewAdShowCooldown;
         }
-        if (saveData.CurrentCharachter != null)
+        else
         {
-            gameManager.playerPrefab = saveData.CurrentCharachter;    
+            Debug.LogError("goldWindowManager is null!");
         }
-        gameManager.windows.goldWindowManager.countWatched = saveData.rewAdShowCount;
-        gameManager.windows.goldWindowManager._cooldownMinutes = saveData.rewAdShowCooldown;
+
         gameManager.UpdateGold();
-        
-        foreach (var level in gameManager.LevelManager.levelData) 
+
+        if (saveData.levelProgress == null)
+        {
+            Debug.LogError("saveData.levelProgress is null! Skipping level loading.");
+            return;
+        }
+
+        foreach (var level in gameManager.LevelManager.levelData)
         {
             var savedLevel = saveData.levelProgress.Find(l => l.levelName == level.name);
-            if (savedLevel != null) 
+            if (savedLevel != null)
             {
                 level.progress = savedLevel.progress;
             }
+            else
+            {
+                Debug.LogWarning($"Level {level.name} not found in save data.");
+            }
         }
-
-
     }
+
 }

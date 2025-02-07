@@ -55,8 +55,6 @@ public class GameManager : MonoBehaviour
             windows.OpenGoldCurrency();
             LevelManager.SetCurrentLevel(currentLevel);
             SoundManager.Instance.PlayMusic("MainMenu_theme");
-            SaveManager.Instance.Initialize(this); // Загружаем данные
-
         }
         else
         {

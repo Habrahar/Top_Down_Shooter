@@ -9099,7 +9099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e47b1b15d40c48d09894dc3262d67444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialPoolSize: 5
+  initialPoolSize: 10
   counter: 0
   tmp_counter: 0
 --- !u!114 &1869800345
