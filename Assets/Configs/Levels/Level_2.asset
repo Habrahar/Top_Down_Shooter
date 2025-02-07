@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4ff982f6a549239924e4bdd2d58172, type: 3}
   m_Name: Level_2
   m_EditorClassIdentifier: 
-  levelPrefab: {fileID: 7814533387572147060, guid: 6a27aa53b1971714f876b0a7278c0c7b, type: 3}
+  levelPrefab: {fileID: 7814533387572147060, guid: 4c6b50e078cf9eb44bd06ce260011a2a, type: 3}
   progress: 0.4
