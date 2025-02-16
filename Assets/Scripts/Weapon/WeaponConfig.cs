@@ -33,5 +33,9 @@ public class WeaponConfig : ScriptableObject
 
     [Header("Sounds")] public string fireSoundName;
     public string reloadSoundName;
+    
+    [Header("Ad")]
+    public bool isAdvertised;
+    
 
 }

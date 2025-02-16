@@ -31,6 +31,8 @@ public class AdManager : MonoBehaviour
     // Делегат для выдачи награды
     public static event Action OnRewardGoldGranted;
     public static event Action OnRewardGoldAfterlevel;
+    public static event Action OnWeaponAdWatched;
+
 
     // Приватный конструктор, чтобы нельзя было создать экземпляр извне
     private AdManager() { }
@@ -70,8 +72,7 @@ public class AdManager : MonoBehaviour
                 OnRewardGoldAfterlevel?.Invoke();
                 break;
             case 3:
-                Debug.Log("Выдана награда: 2 бонусных уровня");
-                // Логика выдачи 2 бонусных уровней
+                OnWeaponAdWatched?.Invoke();
                 break;
             default:
                 Debug.LogWarning($"Неизвестный ID награды:");

@@ -18,6 +18,9 @@ namespace UI
         [SerializeField] private Button buyButton;
         [SerializeField] private GameObject weaponSlotPrefab; // Префаб слота
         [SerializeField] private Transform contentParent;    // Ссылка на Content в Scroll View
+        private WeaponConfig pendingWeaponReward;
+        private Transform adWatchg;
+        private Transform MoneyCostg;
 
         private List<GameObject> instantiatedSlots = new List<GameObject>();
         public GameManager gm;
@@ -50,13 +53,25 @@ namespace UI
         {
             base.OnOpen();
             PopulateWeaponList();
-            //SlotUpdate();
+            AdManager.OnWeaponAdWatched += GrantWeaponFromAd;
         }
 
         protected override void OnClose()
         {
             base.OnClose();
+            AdManager.OnWeaponAdWatched -= GrantWeaponFromAd;
         }
+        private void GrantWeaponFromAd()
+        {
+            if (pendingWeaponReward != null)
+            {
+                pendingWeaponReward.isBought = true;
+                pendingWeaponReward = null;
+                GameManager.OnSaveGame?.Invoke();
+                PopulateWeaponList();
+            }
+        }
+
 
         public void NextWeapon()
         {
@@ -115,8 +130,14 @@ namespace UI
                 TextMeshProUGUI fireRateText = slot.transform.Find("FireRate").GetComponent<TextMeshProUGUI>();
                 Image weaponImage = slot.transform.Find("WeaponImage").GetComponent<Image>();
                 Button actionButton = slot.transform.Find("ActionButton").GetComponent<Button>();
-                TextMeshProUGUI buttonText = actionButton.GetComponentInChildren<TextMeshProUGUI>();
-
+                TextMeshProUGUI buttonText = actionButton.transform.Find("MoneyCost").GetComponentInChildren<TextMeshProUGUI>();
+                buyCost = buttonText;
+                var moneyCost = actionButton.transform.Find("MoneyCost");
+                var adWatch = actionButton.transform.Find("AdWatch");
+                MoneyCostg = moneyCost;
+                adWatchg = adWatch;
+                
+                    
                 // Заполняем данные
                 nameText.text = weapon.weaponName;
                 damageText.text = "Урон: " + weapon.bulletDamage.ToString();
@@ -126,6 +147,8 @@ namespace UI
                 // Настраиваем кнопку
                 if (weapon.isBought)
                 {
+                    moneyCost.gameObject.SetActive(true);
+                    adWatch.gameObject.SetActive(false);
                     if (gm.currentWeapon != weapon)
                     {
                         buttonText.text = "Экипировать";
@@ -140,8 +163,19 @@ namespace UI
                 }
                 else
                 {
-                    buttonText.text = "Цена: " + weapon.cost.ToString();
-                    actionButton.interactable = gm.Gold >= weapon.cost; // Заблокируем, если недостаточно золота
+                    if (weapon.isAdvertised)
+                    {
+                        moneyCost.gameObject.SetActive(false);
+                        adWatch.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        moneyCost.gameObject.SetActive(true);
+                        adWatch.gameObject.SetActive(false);
+                        buttonText.text = "Цена: " + weapon.cost.ToString();
+                        actionButton.interactable = gm.Gold >= weapon.cost; // Заблокируем, если недостаточно золота    
+                    }
+                    
                 }
 
                 // Добавляем функционал для кнопки
@@ -150,13 +184,25 @@ namespace UI
                 {
                     if (weapon.isBought)
                     {
+                        
                         EquipWeapon(weapon);
                     }
                     else
                     {
-                        BuyWeapon(weapon, buttonText, actionButton);
+                        if (weapon.isAdvertised)
+                        {
+                            
+                            WatchAdForWeapon(weapon);
+                        }
+                        else
+                        {
+                           
+                            BuyWeapon(weapon, buttonText, actionButton);
+                        }
+                        
                     }
                 });
+                
             }
         }
         private void BuyWeapon(WeaponConfig weapon, TextMeshProUGUI buttonText, Button actionButton)
@@ -181,6 +227,11 @@ namespace UI
             GameManager.OnSaveGame?.Invoke();
 
         }
+        private void WatchAdForWeapon(WeaponConfig weapon)
+        {
+            pendingWeaponReward = weapon;
+            AdManager.Instance.ShowRewardedAd(3);
+        }   
 
 
     
@@ -193,6 +244,8 @@ namespace UI
         
         public void SlotUpdate()
         {
+            MoneyCostg.gameObject.SetActive(true);
+            adWatchg.gameObject.SetActive(false);
             if (availableWeapons[selectedWeaponIndex].isBought)
             {
                 if (gm.currentWeapon == availableWeapons[selectedWeaponIndex])

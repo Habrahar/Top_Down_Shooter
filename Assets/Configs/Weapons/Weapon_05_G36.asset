@@ -17,7 +17,7 @@ MonoBehaviour:
   weaponImage: {fileID: 21300000, guid: 186fcde77fee1c741b3585c67991d72f, type: 3}
   weaponName: G-36
   cost: 200
-  isBought: 1
+  isBought: 0
   fireRate: 0.3
   bulletSpeed: 20
   bulletDamage: 10
@@ -31,3 +31,4 @@ MonoBehaviour:
   bulletSpread: 20
   fireSoundName: 9mm_shoot
   reloadSoundName: 9mm_reload
+  isAdvertised: 0
