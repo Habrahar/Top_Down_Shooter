@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 964942d9a3be4c6c9643187eda36bd46, type: 3}
-  m_Name: Spread_ShootBehaviour
+  m_Name: Spread_double_ShootBehaviour
   m_EditorClassIdentifier: 
   shootingType: 1
+  BulletSpread: 2

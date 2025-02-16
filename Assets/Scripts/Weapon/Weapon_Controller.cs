@@ -14,6 +14,7 @@ public class Weapon_Controller : MonoBehaviour
     private Player_shooting player;
     private PlayerController player_controller;
     private IShootingBehaviour shootingBehaviour;
+    private Transform handePoint;
 
     private float nextFireTime;
     private int currentMagazineAmmo; // Текущий боезапас в магазине
@@ -43,15 +44,15 @@ public class Weapon_Controller : MonoBehaviour
         weaponConfig = config;
         currentWeaponInstance = Instantiate(config.weaponPrefab);
 
-        Transform handlePoint = currentWeaponInstance.transform.Find("SpawnPoint");
-        if (handlePoint != null)
+        handePoint = currentWeaponInstance.transform.Find("SpawnPoint");
+        if (handePoint != null)
         {
             currentWeaponInstance.transform.SetParent(spawnPoint, false);
             currentWeaponInstance.transform.position = spawnPoint.position;
             currentWeaponInstance.transform.rotation = spawnPoint.rotation;
 
             // Сместить объект оружия так, чтобы HandlePoint совпал с spawnPoint
-            Vector3 offset = spawnPoint.position - handlePoint.position;
+            Vector3 offset = spawnPoint.position - handePoint.position;
             currentWeaponInstance.transform.position += offset;
         }
         else
@@ -68,6 +69,22 @@ public class Weapon_Controller : MonoBehaviour
             player = FindObjectOfType<Player_shooting>();
         }
     }
+    private void LateUpdate()
+    {
+        if (currentWeaponInstance == null) return;
+
+        // Получаем локальное смещение оружия относительно SpawnPoint
+        if (handePoint == null) return;
+
+        // Перемещаем оружие так, чтобы его SpawnPoint совпадал с точкой спавна в руке
+        Vector3 offset = spawnPoint.position - handePoint.position;
+        currentWeaponInstance.transform.position += offset;
+
+        // Поворот как и раньше — по Y игрока, без влияния руки
+        currentWeaponInstance.transform.rotation = Quaternion.Euler(0, player_controller.transform.eulerAngles.y, 0);
+    }
+
+
 
     public void SetPlayerController(PlayerController player)
     {

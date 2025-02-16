@@ -1,5 +1,5 @@
 {
-    "idSave": 368,
+    "idSave": 541,
     "isFirstSession": false,
     "language": "ru",
     "promptDone": false,
@@ -11,9 +11,9 @@
         false
     ],
     "currentLevel": 6,
-    "gold": 440,
+    "gold": 540,
     "CurrentWeapon": {
-        "instanceID": 23608
+        "instanceID": 23488
     },
     "CurrentCharachter": {
         "instanceID": 23666
@@ -23,11 +23,11 @@
     "levelProgress": [
         {
             "levelName": "Level_1",
-            "progress": 0.800000011920929
+            "progress": 1.0
         },
         {
             "levelName": "Level_2",
-            "progress": 0.4000000059604645
+            "progress": 1.0
         },
         {
             "levelName": "Level_3",

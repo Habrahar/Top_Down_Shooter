@@ -6,6 +6,7 @@ namespace New
     public class ShootingBehaviourConfig : ScriptableObject
     {
         public ShootingBehaviourType shootingType;
+        public int BulletSpread;
 
         public IShootingBehaviour GetShootingBehaviour()
         {
@@ -14,7 +15,7 @@ namespace New
                 case ShootingBehaviourType.Single:
                     return new SingleShotBehaviour();
                 case ShootingBehaviourType.Spread:
-                    return new SpreadShotBehaviour(3); // Пример: 3 пули
+                    return new SpreadShotBehaviour(BulletSpread); // Пример: 3 пули
                 default:
                     throw new System.NotImplementedException();
             }

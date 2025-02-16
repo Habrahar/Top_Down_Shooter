@@ -245,6 +245,7 @@ MonoBehaviour:
   maxHealth: 0
   healthBarPrefab: {fileID: 1223041434465391183, guid: 394c50f72efb3de43b915a0e31097235, type: 3}
   healthBarAnchor: {fileID: 1968763568959288664}
+  maxBullets: 0
 --- !u!1 &4826861957400538547
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +271,7 @@ Transform:
   m_GameObject: {fileID: 4826861957400538547}
   serializedVersion: 2
   m_LocalRotation: {x: 0.42629248, y: 0.19984883, z: 0.41252363, w: 0.77984583}
-  m_LocalPosition: {x: 0, y: 0.003, z: -0.002}
+  m_LocalPosition: {x: -0.00065, y: 0.00127, z: -0.0003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

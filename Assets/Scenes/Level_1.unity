@@ -2836,11 +2836,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   availableWeapons:
   - {fileID: 11400000, guid: dc4f2fc2ac13c44498e11661b2cdf7a9, type: 2}
+  - {fileID: 11400000, guid: ea43dceb1a34d0e498ba41ece8a96037, type: 2}
+  - {fileID: 11400000, guid: 78dedde098a9ffb4495b7c4a9f2bcf86, type: 2}
   - {fileID: 11400000, guid: e896a7f0ce316d749b38e6164c01fb91, type: 2}
-  - {fileID: 11400000, guid: 5b98e337787879d4998f6fcd0d736833, type: 2}
-  - {fileID: 11400000, guid: 4902a2dca56576f4da702e9ca3a17b3f, type: 2}
-  - {fileID: 11400000, guid: caf169892abc77449a94890c6cd9d5e6, type: 2}
-  - {fileID: 11400000, guid: fdec38d39e2a5f744b984ada209fba3c, type: 2}
+  - {fileID: 11400000, guid: 3591880f1ff767040be25ce442f5cff3, type: 2}
   weaponNameText: {fileID: 0}
   buyCost: {fileID: 0}
   weaponImage: {fileID: 0}

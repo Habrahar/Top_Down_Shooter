@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17fe3adb702f98f4f89cf6fa92e7b33e, type: 3}
-  m_Name: Weapon_1_default
+  m_Name: Weapon_04_DoublShotgun
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 1898818643655030, guid: 566d96333dd309445943b52901918262, type: 3}
-  bulletPrefab: {fileID: 6681766636307311056, guid: d86ac54c80bc64d4da120230a87a4110, type: 3}
-  weaponImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  weaponName: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442"
-  cost: 0
+  weaponPrefab: {fileID: 3155210799366605875, guid: b4cd671d6a0628b49a1e2c0e6a37726f, type: 3}
+  bulletPrefab: {fileID: 6681766636307311056, guid: 3f4b18e03f5005041a625ee4d38007a6, type: 3}
+  weaponImage: {fileID: 21300000, guid: 186fcde77fee1c741b3585c67991d72f, type: 3}
+  weaponName: "\u041F\u043E\u043C\u043F\u043E\u0432\u044B\u0439 \u0434\u0440\u043E\u0431\u043E\u0432\u0438\u043A"
+  cost: 200
   isBought: 1
-  fireRate: 0.6
+  fireRate: 1
   bulletSpeed: 20
-  bulletDamage: 10
-  bulletDistance: 12
-  magazineSize: 7
+  bulletDamage: 30
+  bulletDistance: 10
+  magazineSize: 5
   maxTotalAmmo: 2147483647
-  reloadTime: 1.5
+  reloadTime: 3
   hitEffect: {fileID: 166404, guid: 78e1c8c5b281b8b439229473779ac9aa, type: 3}
   fireEffect: {fileID: 157586, guid: 2574ca206a571a342a7fab69fdfb87aa, type: 3}
-  shootingBehaviourConfig: {fileID: 11400000, guid: 10d1825596b023a4da90eeba12294bcc, type: 2}
-  bulletSpread: 0.05
+  shootingBehaviourConfig: {fileID: 11400000, guid: cfe3d3d6c6c1e274bb7e2c032a686880, type: 2}
+  bulletSpread: 20
   fireSoundName: 9mm_shoot
   reloadSoundName: 9mm_reload

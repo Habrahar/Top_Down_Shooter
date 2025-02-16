@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17fe3adb702f98f4f89cf6fa92e7b33e, type: 3}
-  m_Name: Weapon_2_SMG
+  m_Name: Weapon_03_UZI
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 4812217308782969647, guid: 479eba6bc6ac0914f9a1dee7f91f19ec, type: 3}
+  weaponPrefab: {fileID: 3155210799366605875, guid: 65fc2ee0a6b7f754ebd0ceac167dcefe, type: 3}
   bulletPrefab: {fileID: 6681766636307311056, guid: d86ac54c80bc64d4da120230a87a4110, type: 3}
-  weaponImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  weaponName: "\u0421\u041C\u0413"
-  cost: 200
+  weaponImage: {fileID: 21300000, guid: b73d157cee687a54dba1f506b28e2eb8, type: 3}
+  weaponName: "\u0423\u0417\u0418"
+  cost: 100
   isBought: 1
-  fireRate: 0.2
-  bulletSpeed: 20
-  bulletDamage: 10
-  bulletDistance: 12
-  magazineSize: 30
+  fireRate: 0.1
+  bulletSpeed: 30
+  bulletDamage: 2
+  bulletDistance: 20
+  magazineSize: 28
   maxTotalAmmo: 2147483647
-  reloadTime: 1.5
+  reloadTime: 1
   hitEffect: {fileID: 166404, guid: 78e1c8c5b281b8b439229473779ac9aa, type: 3}
   fireEffect: {fileID: 157586, guid: 2574ca206a571a342a7fab69fdfb87aa, type: 3}
   shootingBehaviourConfig: {fileID: 11400000, guid: 10d1825596b023a4da90eeba12294bcc, type: 2}
-  bulletSpread: 30
+  bulletSpread: 0.1
   fireSoundName: 9mm_shoot
   reloadSoundName: 9mm_reload
